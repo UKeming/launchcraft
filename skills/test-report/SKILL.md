@@ -137,6 +137,14 @@ Output path: [the file you just saved]
 
 The validator will check for actual metrics, proper US-NNN mapping, and justified recommendations. Do NOT proceed to launch until the validator returns PASS. If it returns FAIL, fix the violations and re-validate.
 
+## Auto-Memory
+
+Save to CLAUDE.md immediately when you learn:
+- Known test gaps or areas with low coverage
+- Flaky tests and their root causes
+- Test execution quirks (slow tests, order dependencies)
+- Quality issues that should be tracked across releases
+
 ## Rationalization Prevention
 
 | Thought | Reality |

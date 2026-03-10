@@ -110,6 +110,13 @@ else
     stage_detail="No pipeline artifacts detected. Run /user-story to begin the LaunchCraft pipeline."
 fi
 
+# --- Read existing project memory (CLAUDE.md) ---
+project_memory=""
+if [ -f "${PROJECT_DIR}/CLAUDE.md" ]; then
+    # Read up to 200 lines to keep context manageable
+    project_memory=$(head -200 "${PROJECT_DIR}/CLAUDE.md" 2>/dev/null || true)
+fi
+
 # --- Build available skills list ---
 skills_list="Available LaunchCraft skills (invoke with /skill-name):\\n"
 skills_list+="  - /user-story    : Capture user needs as structured user stories\\n"
@@ -131,6 +138,39 @@ escape_for_json() {
     printf '%s' "$s"
 }
 
+# --- Build memory instructions ---
+memory_instructions="\\n## Auto-Memory: CLAUDE.md\\n\\n"
+memory_instructions+="You MUST update the project's CLAUDE.md file when encountering important information during any pipeline stage.\\n\\n"
+memory_instructions+="**When to save (immediately, not at end of session):**\\n"
+memory_instructions+="- Architecture decisions and rationale\\n"
+memory_instructions+="- Tech stack choices (framework, database, hosting config)\\n"
+memory_instructions+="- User preferences discovered during clarifying questions\\n"
+memory_instructions+="- Gotchas, bugs, and workarounds encountered\\n"
+memory_instructions+="- Environment setup details (env vars, API keys needed, CLI tools)\\n"
+memory_instructions+="- Contract violations that required upstream fixes\\n"
+memory_instructions+="- Deployment configuration (subdomain, Cloudflare settings)\\n"
+memory_instructions+="- Anything a future session would need to continue this work\\n\\n"
+memory_instructions+="**CLAUDE.md structure:**\\n"
+memory_instructions+="\`\`\`markdown\\n"
+memory_instructions+="# [Project Name]\\n\\n"
+memory_instructions+="## Pipeline Status\\n"
+memory_instructions+="Current stage: [stage]\\n"
+memory_instructions+="Last updated: [date]\\n\\n"
+memory_instructions+="## Key Decisions\\n"
+memory_instructions+="- [decision]: [rationale]\\n\\n"
+memory_instructions+="## Tech Stack\\n"
+memory_instructions+="- [tech]: [why chosen]\\n\\n"
+memory_instructions+="## Gotchas\\n"
+memory_instructions+="- [issue]: [workaround]\\n\\n"
+memory_instructions+="## Environment\\n"
+memory_instructions+="- [setup detail]\\n"
+memory_instructions+="\`\`\`\\n\\n"
+memory_instructions+="**Rules:**\\n"
+memory_instructions+="- Update CLAUDE.md incrementally — don't rewrite the whole file, append or edit sections\\n"
+memory_instructions+="- Save IMMEDIATELY when you learn something important, not at end of session\\n"
+memory_instructions+="- Keep it concise — facts, not narratives\\n"
+memory_instructions+="- Do NOT store secrets or API keys in CLAUDE.md\\n"
+
 # --- Build context ---
 context="<EXTREMELY_IMPORTANT>\\nLaunchCraft Pipeline Status\\n\\n"
 context+="**Current stage:** ${stage}\\n"
@@ -138,6 +178,14 @@ context+="**Detail:** ${stage_detail}\\n\\n"
 context+="${skills_list}\\n\\n"
 context+="The LaunchCraft pipeline follows this order: user-story -> design-doc -> tdd-testing -> impl -> test-report -> launch\\n"
 context+="Always follow the pipeline order. Each skill validates its inputs against upstream contracts before proceeding.\\n"
+context+="${memory_instructions}\\n"
+
+# Inject existing project memory if present
+if [ -n "$project_memory" ]; then
+    escaped_memory=$(escape_for_json "$project_memory")
+    context+="## Existing Project Memory\\n\\nThe following is the current CLAUDE.md content — use it as context and update it as you work:\\n\\n${escaped_memory}\\n"
+fi
+
 context+="</EXTREMELY_IMPORTANT>"
 
 session_context=$(escape_for_json "$context")

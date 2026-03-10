@@ -130,6 +130,16 @@ Output path: [the launch record file]
 
 The validator will verify the URL is accessible, deployment details are real, and rollback instructions are present. If it returns FAIL, fix the violations and re-validate.
 
+## Auto-Memory
+
+Save to CLAUDE.md immediately when you learn:
+- Subdomain assigned and Cloudflare project name
+- Deployment configuration (wrangler.toml settings, build commands)
+- Environment variables needed in production
+- DNS configuration details
+- Rollback procedure specifics for this project
+- Post-launch monitoring endpoints
+
 ## Rationalization Prevention
 
 | Thought | Reality |

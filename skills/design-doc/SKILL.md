@@ -101,6 +101,15 @@ Output path: [the file you just saved]
 
 Do NOT proceed to the next pipeline stage until the validator returns PASS. If it returns FAIL, fix the violations and re-validate.
 
+## Auto-Memory
+
+Save to CLAUDE.md immediately when you learn:
+- Architecture choice and why alternatives were rejected
+- Tech stack decisions (framework, database, hosting, key libraries)
+- Important trade-offs made during design
+- External service dependencies and their configuration
+- Known limitations or constraints that affect implementation
+
 ## Rationalization Prevention
 
 | Thought | Reality |
