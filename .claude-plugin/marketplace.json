@@ -1,0 +1,14 @@
+{
+  "name": "launchcraft",
+  "owner": {
+    "name": "UKeming"
+  },
+  "plugins": [
+    {
+      "name": "launchcraft",
+      "source": "./",
+      "description": "End-to-end product development pipeline: need discovery, user stories, design, TDD, implementation, testing, and launch",
+      "version": "0.1.0"
+    }
+  ]
+}

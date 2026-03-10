@@ -13,8 +13,11 @@ Each stage validates its input from the previous stage, produces verified output
 ## Install
 
 ```bash
-claude plugin add UKeming/launchcraft
+claude plugin marketplace add UKeming/launchcraft
+claude plugin install launchcraft
 ```
+
+Restart Claude Code after installing.
 
 ## Usage
 
@@ -72,7 +75,9 @@ Claude: [reads user stories → proposes architecture options → writes design 
 
 ```
 launchcraft/
-├── .claude-plugin/plugin.json    # Plugin manifest
+├── .claude-plugin/
+│   ├── plugin.json               # Plugin manifest
+│   └── marketplace.json          # Marketplace catalog
 ├── skills/                       # Pipeline skills
 │   ├── user-story/SKILL.md
 │   ├── design-doc/SKILL.md
