@@ -16,7 +16,7 @@ Before producing the research report:
 3. Validate or challenge every key assumption in the requirements
 4. Present findings and get user sign-off on adjusted direction
 
-Do NOT let scope-planning start without validated requirements.
+Do NOT let differentiation start without validated requirements.
 </HARD-GATE>
 
 ## Input Contract Validation
@@ -131,7 +131,8 @@ Skill: research
 Output path: [the file you just saved]
 ```
 
-Do NOT proceed to scope-planning until the validator returns PASS.
+Do NOT proceed to differentiation until the validator returns PASS.
+Once the validator returns PASS, **immediately invoke `/differentiation`** — do NOT ask the user whether to continue.
 
 ## Rationalization Prevention
 

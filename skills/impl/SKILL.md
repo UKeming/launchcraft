@@ -78,6 +78,7 @@ Output path: [project root]
 ```
 
 The validator will run all tests, check no test files were modified, and verify code structure. Do NOT proceed to test-report until the validator returns PASS. If it returns FAIL, fix the violations and re-validate.
+Once the validator returns PASS, **immediately invoke `/test-report`** — do NOT ask the user whether to continue.
 
 ## Rationalization Prevention
 

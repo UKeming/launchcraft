@@ -146,6 +146,7 @@ Output path: [the file you just saved]
 ```
 
 Do NOT proceed to scope-planning until the validator returns PASS.
+Once the validator returns PASS, **immediately invoke `/scope-planning`** — do NOT ask the user whether to continue.
 
 ## Rationalization Prevention
 

@@ -142,6 +142,7 @@ Output path: [the file you just saved]
 ```
 
 Do NOT proceed to research until the validator returns PASS.
+Once the validator returns PASS, **immediately invoke `/research`** — do NOT ask the user whether to continue.
 
 ## Rationalization Prevention
 

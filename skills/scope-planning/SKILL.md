@@ -1,6 +1,6 @@
 ---
 name: scope-planning
-description: "Use after spark to determine product scope, story count, and design doc breakdown. Triggers on: scoping a product, planning how many stories to write, deciding design doc structure."
+description: "Use after differentiation to determine product scope, story count, and design doc breakdown. Triggers on: scoping a product, planning how many stories to write, deciding design doc structure."
 ---
 
 # Scope Planning
@@ -177,6 +177,7 @@ Output path: [the file you just saved]
 ```
 
 Do NOT proceed to user-story until the validator returns PASS.
+Once the validator returns PASS, **immediately invoke `/user-story`** — do NOT ask the user whether to continue.
 
 ## Rationalization Prevention
 

@@ -120,6 +120,7 @@ Output path: [test plan file and test directory]
 ```
 
 The validator will run all tests and confirm they FAIL. Do NOT proceed to impl until the validator returns PASS. If it returns FAIL, fix the violations and re-validate.
+Once the validator returns PASS, **immediately invoke `/impl`** — do NOT ask the user whether to continue.
 
 ## Rationalization Prevention
 

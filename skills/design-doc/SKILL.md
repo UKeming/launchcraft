@@ -128,7 +128,8 @@ Skill: design-doc
 Output path: [the file you just saved]
 ```
 
-Do NOT proceed to the next pipeline stage until the validator returns PASS. If it returns FAIL, fix the violations and re-validate.
+Do NOT proceed to tdd-testing until the validator returns PASS. If it returns FAIL, fix the violations and re-validate.
+Once the validator returns PASS, **immediately invoke `/tdd-testing`** — do NOT ask the user whether to continue.
 
 ## Rationalization Prevention
 
