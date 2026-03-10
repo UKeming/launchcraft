@@ -67,7 +67,37 @@ Use web search to gather real data on:
 
 For each finding, cite the source.
 
-### 3. Technical Landscape
+### 3. Business Model Validation
+
+Research the monetization landscape:
+
+- What revenue models do competitors use? (subscription tiers, freemium, ads, usage-based)
+- What do users actually pay? (search pricing pages, compare tiers)
+- Is there willingness to pay for this? (Reddit, forums — "I'd pay for X if it did Y")
+- What's the average revenue per user in this space? (analyst reports, funding data)
+- Are there successful open-source alternatives? (affects willingness to pay)
+
+### 4. Growth Channel Research
+
+Research how products in this space acquire users:
+
+- Where do target users hang out? (communities, forums, Slack/Discord groups, conferences)
+- What content/SEO strategies do competitors use? (blog, YouTube, social media)
+- Are there marketplace/platform distribution opportunities? (app stores, plugin ecosystems, integrations)
+- What's the typical customer acquisition cost in this space?
+- Is there evidence of organic/viral growth in competitor products?
+
+### 5. Regulatory & Compliance Landscape
+
+Research regulatory requirements:
+
+- What data protection regulations apply? (GDPR, CCPA, HIPAA)
+- Are there industry-specific compliance requirements?
+- What accessibility standards must be met? (WCAG 2.1, Section 508)
+- Are there content moderation or liability considerations?
+- How do competitors handle compliance? (privacy policies, data residency)
+
+### 6. Technical Landscape
 
 Research available tools, APIs, and infrastructure:
 
@@ -76,7 +106,7 @@ Research available tools, APIs, and infrastructure:
 - What are the technical constraints or risks?
 - What tech stack choices do competitors make? (check job postings, tech blogs)
 
-### 4. Validate Assumptions
+### 7. Validate Assumptions
 
 For each assumption from Step 1, present evidence:
 
@@ -88,7 +118,7 @@ For each assumption from Step 1, present evidence:
 | 1 | [assumption] | ✅ Confirmed / ⚠️ Partially / ❌ Challenged | [what you found + source] |
 ```
 
-### 5. Synthesize Findings
+### 8. Synthesize Findings
 
 Produce actionable insights:
 
@@ -96,6 +126,20 @@ Produce actionable insights:
 - Is there real demand for this? (evidence-based answer)
 - What's the unique angle that existing solutions miss?
 - What's the realistic target audience size?
+
+**Business model assessment:**
+- Is the proposed revenue model validated? (evidence-based answer)
+- What pricing tier/structure makes sense based on competitor pricing?
+- Willingness to pay evidence (quotes, survey data, competitor pricing)
+
+**Growth strategy assessment:**
+- What acquisition channels have evidence of working in this space?
+- Is viral/organic growth realistic? (evidence)
+- What's the estimated cost of user acquisition?
+
+**Compliance assessment:**
+- What regulations apply and what's the compliance burden?
+- Are there compliance gaps competitors exploit?
 
 **Requirement adjustments:**
 - Which requirements are validated by research?
@@ -107,8 +151,10 @@ Produce actionable insights:
 - Market risks (competitors, timing, demand)
 - Technical risks (complexity, dependencies, feasibility)
 - User adoption risks (switching costs, behavior change needed)
+- Regulatory risks (compliance burden, data protection)
+- Business model risks (pricing sensitivity, willingness to pay)
 
-### 6. Review with User
+### 9. Review with User
 
 Present the full research report. Ask:
 - Do these findings change your vision?
@@ -117,7 +163,7 @@ Present the full research report. Ask:
 
 Iterate until the user approves the research and any requirement adjustments.
 
-### 7. Save
+### 10. Save
 
 Save to `docs/research/YYYY-MM-DD-[product-name]-research.md`.
 
@@ -154,7 +200,10 @@ Before claiming this skill is complete, you must have:
 - [ ] Validated each assumption with evidence (show validation table)
 - [ ] Assessed product-market fit with evidence (show assessment)
 - [ ] Identified requirement adjustments based on findings (show adjustments)
-- [ ] Listed risk factors (show risks)
+- [ ] Validated business model with competitor pricing data (show analysis)
+- [ ] Researched growth channels with evidence (show findings)
+- [ ] Assessed regulatory/compliance landscape (show assessment)
+- [ ] Listed risk factors including business model and regulatory risks (show risks)
 - [ ] Received user sign-off on research findings (show confirmation)
 - [ ] Saved the file (show path)
 - [ ] Dispatched contract-validator and received PASS (show result)

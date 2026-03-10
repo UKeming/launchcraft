@@ -63,6 +63,10 @@ Explore multiple dimensions of differentiation — don't default to "more featur
 - **Speed/Performance** — measurably faster
 - **Design** — aesthetically superior
 - **Workflow** — fits into existing habits vs. requiring behavior change
+- **Business model** — fundamentally different monetization (e.g., community-funded, marketplace cut, data-as-a-service)
+- **Growth engine** — built-in virality, network effects, community-driven (e.g., shareable outputs, collaborative features, referral loops)
+- **Ecosystem/Platform** — become a platform others build on (plugin system, API-first, marketplace)
+- **Compliance/Trust** — strongest privacy, security, or regulatory posture in the space
 
 For each axis, assess:
 - How strong is this advantage?
@@ -145,8 +149,11 @@ Skill: differentiation
 Output path: [the file you just saved]
 ```
 
-Do NOT proceed to scope-planning until the validator returns PASS.
-Once the validator returns PASS, **immediately invoke `/scope-planning`** — do NOT ask the user whether to continue.
+Do NOT proceed until the validator returns PASS.
+Once the validator returns PASS:
+- If NO enhance record exists in `docs/enhanced/`, **immediately invoke `/enhance`** — requirements need expansion.
+- If an enhance record ALREADY exists in `docs/enhanced/`, **immediately invoke `/scope-planning`** — requirements are already enhanced.
+Do NOT ask the user whether to continue.
 
 ## Rationalization Prevention
 

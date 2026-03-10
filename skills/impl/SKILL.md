@@ -77,8 +77,20 @@ Skill: impl
 Output path: [project root]
 ```
 
-The validator will run all tests, check no test files were modified, and verify code structure. Do NOT proceed to test-report until the validator returns PASS. If it returns FAIL, fix the violations and re-validate.
-Once the validator returns PASS, **immediately invoke `/test-report`** — do NOT ask the user whether to continue.
+The validator will run all tests, check no test files were modified, and verify code structure. Do NOT proceed until the validator returns PASS. If it returns FAIL, fix the violations and re-validate.
+
+After contract-validator PASS, dispatch the **code-reviewer** agent to review implementation quality:
+
+```
+Agent: code-reviewer
+Skill: impl
+Code paths: [source code directories]
+Design doc: docs/designs/[filename].md
+```
+
+The code-reviewer will check design adherence, security, and code quality, then auto-fix any issues. All tests must still PASS after fixes.
+
+Once the code-reviewer completes, **immediately invoke `/test-report`** — do NOT ask the user whether to continue.
 
 ## Rationalization Prevention
 

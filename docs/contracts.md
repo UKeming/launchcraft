@@ -14,6 +14,9 @@ Each skill validates its input on start and self-validates its output before sav
 - Core Value Proposition (one sentence)
 - Functional Requirements with Must Have / Should Have / Nice to Have tiers
 - Non-Functional Requirements (performance, security, accessibility, platform)
+- Business Model section (revenue model, paying customer, pricing reference)
+- Growth & Distribution Strategy section (acquisition channel, viral/network effects, switching cost)
+- Technical Architecture Indicators section (data entities, real-time needs, integrations, compliance)
 - Competitive Landscape table with at least 3 entries
 - Success Criteria (measurable)
 - Out of Scope section
@@ -28,9 +31,12 @@ Each skill validates its input on start and self-validates its output before sav
 - Market research with cited sources (at least 3 real sources)
 - Expanded competitive analysis beyond spark's initial scan (pricing, reviews, gaps)
 - Assumption validation table with verdict and evidence per assumption
+- Business model validation with competitor pricing data
+- Growth channel research with evidence
+- Regulatory & compliance landscape assessment
 - Product-market fit assessment with evidence
 - Requirement adjustments section (validated, added, deprioritized, or removed)
-- Risk factors (market, technical, adoption)
+- Risk factors (market, technical, adoption, business model, regulatory)
 
 ### differentiation
 
@@ -38,10 +44,40 @@ Each skill validates its input on start and self-validates its output before sav
 **Output:** `docs/strategy/YYYY-MM-DD-[product-name]-differentiation.md`
 **Output must contain:**
 - Competitive feature matrix (capabilities vs competitors with gap analysis)
-- Differentiation axes analysis (at least 3 axes explored)
+- Differentiation axes analysis (at least 4 axes explored, must include business model and growth)
 - Positioning statement (For/Who/Our product/That/Unlike/We format)
 - Strategic bets table (2-3 bets with rationale, risk, and validation signal)
 - Requirement adjustments (elevate, add, deprioritize, keep-as-is sections)
+
+### enhance
+
+**Input:** Requirements doc (`docs/requirements/*.md`) + Research report (`docs/research/*.md`) + Differentiation strategy (`docs/strategy/*.md`)
+**Output:** `docs/enhanced/YYYY-MM-DD-[product-name]-enhanced.md`
+**Output must contain:**
+- Enhancement record header with Date, Requirements Doc path, Research Report path, Differentiation Strategy path, Status
+- Features Added table with feature name, tier (Must/Should/Nice), source, and rationale
+- Differentiation Angles Added table
+- User Story Opportunities Identified table with persona and journey stage
+- Competitor Deep-Dive section with 3+ competitors' feature analysis
+- Enhancement Metrics (features before/after, net additions)
+- Updated requirements doc at `docs/requirements/*.md` with approved features added
+
+### frontend-design
+
+**Input:** Design doc (`docs/designs/*.md`) + User stories (`docs/user-stories/*.md`)
+**Output:**
+- Frontend code files (HTML/CSS/JS or framework components)
+- `docs/frontend-design/YYYY-MM-DD-[product-name]-frontend-design.md`
+**Output must contain:**
+- Frontend design doc header with Date, Related Design Doc, Aesthetic Direction, Status
+- Visual Direction section with aesthetic rationale
+- Typography section with display + body font choices (NOT Inter, Roboto, or Arial)
+- Color Palette section with primary, secondary, accent, background, text colors
+- Page Inventory table matching design doc's UI/UX section
+- Component Library listing reusable components
+- Responsive Strategy section
+- Pages Ready for Testing section with dev server command, base URL, and full page list
+- Frontend-tester agent must have tested all pages and returned PASS
 
 ### scope-planning
 

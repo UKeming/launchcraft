@@ -49,6 +49,22 @@ Record exactly what the user said. Then ask probing questions **one at a time**:
 - What's their current workflow without this product?
 - What would make them switch to this product?
 
+**Business model:**
+- How will this make money? (subscription, freemium, ads, usage-based, one-time, open-core?)
+- Who is the paying customer? (end user, business, platform?)
+- What's the price sensitivity? Are alternatives free or paid?
+
+**Growth & distribution:**
+- How will users discover this product? (organic search, word-of-mouth, community, paid ads, partnerships?)
+- Is there a viral or network effect built into the product?
+- What's the switching cost from existing solutions?
+
+**Technical complexity indicators:**
+- What are the core data entities and their relationships?
+- Are there real-time requirements (live updates, collaboration, chat)?
+- What third-party integrations are needed?
+- Are there regulatory or compliance requirements (GDPR, HIPAA, SOC2)?
+
 **Success:**
 - How do you measure success? (users, revenue, engagement, other?)
 - What's the minimum bar for "this was worth building"?
@@ -103,6 +119,22 @@ Organize findings into a requirements document:
 - **Security:** [auth, data protection needs]
 - **Accessibility:** [standards to meet]
 - **Platform:** [web, mobile, desktop, API]
+
+## Business Model
+- **Revenue model:** [subscription, freemium, ads, usage-based, etc.]
+- **Paying customer:** [end user, business, enterprise]
+- **Pricing reference:** [what do alternatives charge? free/paid?]
+
+## Growth & Distribution Strategy
+- **Primary acquisition channel:** [how users find this]
+- **Viral/network effects:** [built-in growth loops, if any]
+- **Switching cost analysis:** [what makes users stay or leave]
+
+## Technical Architecture Indicators
+- **Core data entities:** [list with relationships]
+- **Real-time needs:** [live updates, collaboration, notifications]
+- **Third-party integrations:** [APIs, services, platforms]
+- **Compliance:** [GDPR, HIPAA, accessibility standards, etc.]
 
 ## Competitive Landscape
 [table from step 2]
@@ -162,6 +194,9 @@ Before claiming this skill is complete, you must have:
 - [ ] Asked at least 3 probing questions and received answers (show Q&A)
 - [ ] Presented competitive analysis with 3+ entries (show table)
 - [ ] Structured requirements with Must/Should/Nice-to-Have tiers (show document)
+- [ ] Defined business model and revenue strategy (show section)
+- [ ] Defined growth & distribution strategy (show section)
+- [ ] Identified technical architecture indicators (show section)
 - [ ] Defined measurable success criteria (show them)
 - [ ] Received user sign-off (show confirmation)
 - [ ] Saved the file (show path)

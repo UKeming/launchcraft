@@ -1,0 +1,141 @@
+#!/usr/bin/env bash
+# Stop hook: auto-advance the LaunchCraft pipeline.
+# When a skill completes and there's a next stage, block the stop and
+# instruct the agent to invoke the next skill automatically.
+
+set -euo pipefail
+
+PROJECT_DIR="${PWD}"
+
+# Quick exit: no docs/ directory means no pipeline in progress
+if [ ! -d "${PROJECT_DIR}/docs" ]; then
+    exit 0
+fi
+
+# Check if any pipeline artifact was modified recently (within last 10 minutes)
+# This ensures we only auto-advance when a skill just completed, not on random stops
+recent_change=$(find "${PROJECT_DIR}/docs" -name "*.md" -mmin -10 2>/dev/null | head -1)
+if [ -z "$recent_change" ]; then
+    exit 0
+fi
+
+# --- Pipeline stage detection (mirrors session-start logic) ---
+has_requirements=false
+has_research=false
+has_differentiation=false
+has_enhance=false
+has_scope_plan=false
+has_user_stories=false
+has_designs=false
+has_frontend_design=false
+has_test_files=false
+tests_pass=false
+has_test_report=false
+test_report_ready=false
+has_launch=false
+
+if [ -d "${PROJECT_DIR}/docs/requirements" ] && ls "${PROJECT_DIR}/docs/requirements/"*.md &>/dev/null; then
+    has_requirements=true
+fi
+
+if [ -d "${PROJECT_DIR}/docs/research" ] && ls "${PROJECT_DIR}/docs/research/"*.md &>/dev/null; then
+    has_research=true
+fi
+
+if [ -d "${PROJECT_DIR}/docs/strategy" ] && ls "${PROJECT_DIR}/docs/strategy/"*-differentiation.md &>/dev/null; then
+    has_differentiation=true
+fi
+
+if [ -d "${PROJECT_DIR}/docs/enhanced" ] && ls "${PROJECT_DIR}/docs/enhanced/"*.md &>/dev/null; then
+    has_enhance=true
+fi
+
+if ls "${PROJECT_DIR}/docs/plans/"*-scope-plan.md &>/dev/null 2>&1; then
+    has_scope_plan=true
+fi
+
+if [ -d "${PROJECT_DIR}/docs/user-stories" ] && ls "${PROJECT_DIR}/docs/user-stories/"*.md &>/dev/null; then
+    has_user_stories=true
+fi
+
+if [ -d "${PROJECT_DIR}/docs/designs" ] && ls "${PROJECT_DIR}/docs/designs/"*.md &>/dev/null; then
+    has_designs=true
+fi
+
+if [ -d "${PROJECT_DIR}/docs/frontend-design" ] && ls "${PROJECT_DIR}/docs/frontend-design/"*.md &>/dev/null; then
+    has_frontend_design=true
+fi
+
+if [ -d "${PROJECT_DIR}/tests" ]; then
+    test_file_count=$(find "${PROJECT_DIR}/tests" -type f \( -name "*.test.*" -o -name "*.spec.*" -o -name "test_*" -o -name "*_test.*" \) 2>/dev/null | head -20 | wc -l | tr -d ' ')
+    if [ "$test_file_count" -gt 0 ]; then
+        has_test_files=true
+    fi
+fi
+
+if [ "$has_test_files" = true ]; then
+    if [ -f "${PROJECT_DIR}/package.json" ]; then
+        if cd "${PROJECT_DIR}" && npm test --silent &>/dev/null 2>&1; then
+            tests_pass=true
+        fi
+    elif [ -f "${PROJECT_DIR}/pyproject.toml" ] || [ -f "${PROJECT_DIR}/setup.py" ]; then
+        if cd "${PROJECT_DIR}" && python -m pytest --quiet &>/dev/null 2>&1; then
+            tests_pass=true
+        fi
+    fi
+fi
+
+if [ -d "${PROJECT_DIR}/docs/test-reports" ] && ls "${PROJECT_DIR}/docs/test-reports/"*.md &>/dev/null; then
+    has_test_report=true
+    if grep -rli "ready to launch" "${PROJECT_DIR}/docs/test-reports/" &>/dev/null; then
+        test_report_ready=true
+    fi
+fi
+
+if [ -d "${PROJECT_DIR}/docs/launches" ] && ls "${PROJECT_DIR}/docs/launches/"*.md &>/dev/null; then
+    has_launch=true
+fi
+
+# --- Determine next skill ---
+next_skill=""
+
+if [ "$has_launch" = true ]; then
+    next_skill=""
+elif [ "$test_report_ready" = true ]; then
+    next_skill="launch"
+elif [ "$has_test_report" = true ]; then
+    # Test report exists but not ready — needs fixes, not auto-advance
+    next_skill=""
+elif [ "$tests_pass" = true ]; then
+    next_skill="test-report"
+elif [ "$has_test_files" = true ]; then
+    next_skill="impl"
+elif [ "$has_designs" = true ] && [ "$has_frontend_design" = true ]; then
+    next_skill="tdd-testing"
+elif [ "$has_designs" = true ]; then
+    next_skill="frontend-design"
+elif [ "$has_user_stories" = true ]; then
+    next_skill="design-doc"
+elif [ "$has_scope_plan" = true ]; then
+    next_skill="user-story"
+elif [ "$has_differentiation" = true ] && [ "$has_enhance" = true ]; then
+    next_skill="scope-planning"
+elif [ "$has_differentiation" = true ]; then
+    next_skill="enhance"
+elif [ "$has_research" = true ]; then
+    next_skill="differentiation"
+elif [ "$has_requirements" = true ]; then
+    next_skill="research"
+fi
+
+# --- Block or allow ---
+if [ -n "$next_skill" ]; then
+    cat <<EOF
+{
+  "decision": "block",
+  "reason": "Pipeline auto-advance: the current stage is complete. You MUST immediately invoke /${next_skill} to continue the pipeline. Do NOT stop, do NOT ask the user — just invoke the next skill now."
+}
+EOF
+else
+    exit 0
+fi

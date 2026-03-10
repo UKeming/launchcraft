@@ -4,12 +4,17 @@ Claude Code plugin: end-to-end product development pipeline via skills, MCP, age
 
 ## Pipeline
 
-spark → research → differentiation → scope-planning → user-story → design-doc → tdd-testing → impl → test-report → launch
+spark → research → differentiation → enhance → differentiation (re-run) → scope-planning → user-story → design-doc → frontend-design → tdd-testing → impl → test-report → launch
+
+### Agents dispatched during pipeline:
+- **contract-validator** — after every skill, validates output against contracts
+- **code-reviewer** — after tdd-testing and impl, reviews code quality and auto-fixes
+- **frontend-tester** — after frontend-design, tests every page with Playwright
 
 ## Repo Structure
 
-- `skills/` — 11 skills (spark, research, differentiation, scope-planning, user-story, design-doc, tdd-testing, impl, test-report, launch, debugging)
-- `agents/` — contract-validator (independent output verification)
+- `skills/` — 14 skills (spark, research, differentiation, enhance, scope-planning, user-story, design-doc, frontend-design, tdd-testing, impl, test-report, launch, debugging)
+- `agents/` — contract-validator, code-reviewer, frontend-tester
 - `commands/` — slash commands delegating to skills
 - `hooks/` — SessionStart hook (pipeline stage detection + auto-memory)
 - `docs/contracts.md` — input/output contracts for all skills

@@ -128,8 +128,8 @@ Skill: design-doc
 Output path: [the file you just saved]
 ```
 
-Do NOT proceed to tdd-testing until the validator returns PASS. If it returns FAIL, fix the violations and re-validate.
-Once the validator returns PASS, **immediately invoke `/tdd-testing`** — do NOT ask the user whether to continue.
+Do NOT proceed to frontend-design until the validator returns PASS. If it returns FAIL, fix the violations and re-validate.
+Once the validator returns PASS, **immediately invoke `/frontend-design`** — do NOT ask the user whether to continue.
 
 ## Rationalization Prevention
 

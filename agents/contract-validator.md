@@ -44,6 +44,30 @@ You will receive:
 - [ ] Has measurable Success Criteria
 - [ ] Has Out of Scope section
 
+### enhance
+- [ ] File exists at the specified path
+- [ ] Has header: Date, Requirements Doc path, Research Report path, Differentiation Strategy path, Status
+- [ ] Has Features Added table with at least 3 features
+- [ ] Each feature has: tier, source, rationale
+- [ ] Has Differentiation Angles Added table
+- [ ] Has User Story Opportunities table with persona and journey stage
+- [ ] Has Competitor Deep-Dive section with 3+ competitors
+- [ ] Has Enhancement Metrics with before/after counts
+- [ ] Requirements doc at `docs/requirements/*.md` has been updated with new features (verify by reading)
+
+### frontend-design
+- [ ] Frontend design doc exists at the specified path
+- [ ] Has header: Date, Related Design Doc, Aesthetic Direction, Status
+- [ ] Has Visual Direction section (not empty)
+- [ ] Has Typography section with fonts that are NOT Inter, Roboto, Arial, or system-ui
+- [ ] Has Color Palette section with at least 4 named colors
+- [ ] Has Page Inventory table
+- [ ] Has Component Library section
+- [ ] Has Responsive Strategy section
+- [ ] Has Pages Ready for Testing section with dev server command and page list
+- [ ] At least one frontend code file exists (HTML, JSX, TSX, Vue, Svelte, etc.)
+- [ ] Frontend-tester agent has tested all pages (check for test report)
+
 ### scope-planning
 - [ ] File exists at the specified path
 - [ ] Has Complexity Analysis table with score per factor (Personas, Features, Integrations, Entities, Auth, Real-time)

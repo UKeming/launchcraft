@@ -20,9 +20,11 @@ stage_detail=""
 has_requirements=false
 has_research=false
 has_differentiation=false
+has_enhance=false
 has_scope_plan=false
 has_user_stories=false
 has_designs=false
+has_frontend_design=false
 has_test_files=false
 tests_pass=false
 has_test_report=false
@@ -44,7 +46,12 @@ if [ -d "${PROJECT_DIR}/docs/strategy" ] && ls "${PROJECT_DIR}/docs/strategy/"*-
     has_differentiation=true
 fi
 
-# 4. Check for scope plan
+# 4. Check for enhancement record
+if [ -d "${PROJECT_DIR}/docs/enhanced" ] && ls "${PROJECT_DIR}/docs/enhanced/"*.md &>/dev/null; then
+    has_enhance=true
+fi
+
+# 5. Check for scope plan
 if ls "${PROJECT_DIR}/docs/plans/"*-scope-plan.md &>/dev/null 2>&1; then
     has_scope_plan=true
 fi
@@ -59,7 +66,12 @@ if [ -d "${PROJECT_DIR}/docs/designs" ] && ls "${PROJECT_DIR}/docs/designs/"*.md
     has_designs=true
 fi
 
-# 7. Check for test files (any file matching common test patterns in tests/)
+# 8. Check for frontend design
+if [ -d "${PROJECT_DIR}/docs/frontend-design" ] && ls "${PROJECT_DIR}/docs/frontend-design/"*.md &>/dev/null; then
+    has_frontend_design=true
+fi
+
+# 9. Check for test files (any file matching common test patterns in tests/)
 if [ -d "${PROJECT_DIR}/tests" ]; then
     # Look for files that are actual test files (not just markdown plans)
     test_file_count=$(find "${PROJECT_DIR}/tests" -type f \( -name "*.test.*" -o -name "*.spec.*" -o -name "test_*" -o -name "*_test.*" -o -name "*.test.js" -o -name "*.test.ts" -o -name "*.test.py" -o -name "*.spec.js" -o -name "*.spec.ts" \) 2>/dev/null | head -20 | wc -l | tr -d ' ')
@@ -123,18 +135,24 @@ elif [ "$tests_pass" = true ]; then
 elif [ "$has_test_files" = true ]; then
     stage="Next: impl"
     stage_detail="Test files exist but tests are not passing yet. Run /impl to implement the code (TDD green phase)."
-elif [ "$has_designs" = true ]; then
+elif [ "$has_designs" = true ] && [ "$has_frontend_design" = true ]; then
     stage="Next: tdd-testing"
-    stage_detail="Design docs found. Run /tdd-testing to write failing tests (TDD red phase)."
+    stage_detail="Frontend design complete. Run /tdd-testing to write failing tests (TDD red phase)."
+elif [ "$has_designs" = true ]; then
+    stage="Next: frontend-design"
+    stage_detail="Design docs found. Run /frontend-design to create the frontend UI before writing tests."
 elif [ "$has_user_stories" = true ]; then
     stage="Next: design-doc"
     stage_detail="User stories found. Run /design-doc to create the design document."
 elif [ "$has_scope_plan" = true ]; then
     stage="Next: user-story"
     stage_detail="Scope plan found. Run /user-story to generate user stories per the scope plan."
-elif [ "$has_differentiation" = true ]; then
+elif [ "$has_differentiation" = true ] && [ "$has_enhance" = true ]; then
     stage="Next: scope-planning"
-    stage_detail="Differentiation strategy found. Run /scope-planning to determine story count and design doc breakdown."
+    stage_detail="Requirements enhanced and differentiation updated. Run /scope-planning to determine story count and design doc breakdown."
+elif [ "$has_differentiation" = true ]; then
+    stage="Next: enhance"
+    stage_detail="Differentiation strategy found. Run /enhance to expand requirements with more features and differentiation."
 elif [ "$has_research" = true ]; then
     stage="Next: differentiation"
     stage_detail="Research report found. Run /differentiation to define product positioning and strategic bets."
@@ -158,9 +176,11 @@ skills_list="Available LaunchCraft skills (invoke with /skill-name):\\n"
 skills_list+="  - /spark         : Capture and analyze requirements with competitive analysis\\n"
 skills_list+="  - /research     : Validate requirements against real market data and user research\\n"
 skills_list+="  - /differentiation: Define product positioning and strategic bets\\n"
+skills_list+="  - /enhance       : Expand requirements with more features and differentiation\\n"
 skills_list+="  - /scope-planning: Determine story count, design doc split, impl modules\\n"
 skills_list+="  - /user-story    : Generate comprehensive user stories per scope plan\\n"
 skills_list+="  - /design-doc    : Create a design document from user stories\\n"
+skills_list+="  - /frontend-design: Create distinctive frontend UI with Playwright testing\\n"
 skills_list+="  - /tdd-testing   : Write failing tests from the design (TDD red phase)\\n"
 skills_list+="  - /impl          : Implement code to make tests pass (TDD green phase)\\n"
 skills_list+="  - /test-report   : Generate a test report from test results\\n"
@@ -216,7 +236,7 @@ context="<EXTREMELY_IMPORTANT>\\nLaunchCraft Pipeline Status\\n\\n"
 context+="**Current stage:** ${stage}\\n"
 context+="**Detail:** ${stage_detail}\\n\\n"
 context+="${skills_list}\\n\\n"
-context+="The LaunchCraft pipeline follows this order: spark -> research -> differentiation -> scope-planning -> user-story -> design-doc -> tdd-testing -> impl -> test-report -> launch\\n"
+context+="The LaunchCraft pipeline follows this order: spark -> research -> differentiation -> enhance -> differentiation (re-run) -> scope-planning -> user-story -> design-doc -> frontend-design -> tdd-testing -> impl -> test-report -> launch\\n"
 context+="Always follow the pipeline order. Each skill validates its inputs against upstream contracts before proceeding.\\n"
 context+="${memory_instructions}\\n"
 

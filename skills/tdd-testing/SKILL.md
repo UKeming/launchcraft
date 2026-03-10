@@ -119,8 +119,20 @@ Skill: tdd-testing
 Output path: [test plan file and test directory]
 ```
 
-The validator will run all tests and confirm they FAIL. Do NOT proceed to impl until the validator returns PASS. If it returns FAIL, fix the violations and re-validate.
-Once the validator returns PASS, **immediately invoke `/impl`** — do NOT ask the user whether to continue.
+The validator will run all tests and confirm they FAIL. Do NOT proceed until the validator returns PASS. If it returns FAIL, fix the violations and re-validate.
+
+After contract-validator PASS, dispatch the **code-reviewer** agent to review test code quality:
+
+```
+Agent: code-reviewer
+Skill: tdd-testing
+Code paths: tests/
+Design doc: docs/designs/[filename].md
+```
+
+The code-reviewer will check test quality, coverage completeness, and auto-fix any issues. All tests must still FAIL after fixes.
+
+Once the code-reviewer completes, **immediately invoke `/impl`** — do NOT ask the user whether to continue.
 
 ## Rationalization Prevention
 
