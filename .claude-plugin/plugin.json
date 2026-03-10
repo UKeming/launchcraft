@@ -1,0 +1,12 @@
+{
+  "name": "launchcraft",
+  "description": "End-to-end product development pipeline: need discovery, user stories, design, TDD, implementation, testing, and launch",
+  "version": "0.1.0",
+  "author": {
+    "name": "UKeming"
+  },
+  "homepage": "https://github.com/UKeming/launchcraft",
+  "repository": "https://github.com/UKeming/launchcraft",
+  "license": "MIT",
+  "keywords": ["pipeline", "product-development", "skills", "launch", "tdd"]
+}
