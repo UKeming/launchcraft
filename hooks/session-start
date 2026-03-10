@@ -1,0 +1,159 @@
+#!/usr/bin/env bash
+# SessionStart hook for LaunchCraft plugin
+# Detects the current pipeline stage and injects context for Claude Code.
+
+set -euo pipefail
+
+# Determine plugin root directory
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
+PLUGIN_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+
+# Detect the current project directory (where the user is working)
+PROJECT_DIR="${PWD}"
+
+# --- Pipeline stage detection ---
+# Walk the LaunchCraft pipeline by checking which artifacts exist.
+
+stage=""
+stage_detail=""
+
+has_user_stories=false
+has_designs=false
+has_test_files=false
+tests_pass=false
+has_test_report=false
+test_report_ready=false
+has_launch=false
+
+# 1. Check for user stories
+if [ -d "${PROJECT_DIR}/docs/user-stories" ] && ls "${PROJECT_DIR}/docs/user-stories/"*.md &>/dev/null; then
+    has_user_stories=true
+fi
+
+# 2. Check for design docs
+if [ -d "${PROJECT_DIR}/docs/designs" ] && ls "${PROJECT_DIR}/docs/designs/"*.md &>/dev/null; then
+    has_designs=true
+fi
+
+# 3. Check for test files (any file matching common test patterns in tests/)
+if [ -d "${PROJECT_DIR}/tests" ]; then
+    # Look for files that are actual test files (not just markdown plans)
+    test_file_count=$(find "${PROJECT_DIR}/tests" -type f \( -name "*.test.*" -o -name "*.spec.*" -o -name "test_*" -o -name "*_test.*" -o -name "*.test.js" -o -name "*.test.ts" -o -name "*.test.py" -o -name "*.spec.js" -o -name "*.spec.ts" \) 2>/dev/null | head -20 | wc -l | tr -d ' ')
+    if [ "$test_file_count" -gt 0 ]; then
+        has_test_files=true
+    fi
+fi
+
+# 4. Check if tests pass (try common test runners, best-effort)
+if [ "$has_test_files" = true ]; then
+    if [ -f "${PROJECT_DIR}/package.json" ]; then
+        # Node.js project - try npm test
+        if cd "${PROJECT_DIR}" && npm test --silent &>/dev/null 2>&1; then
+            tests_pass=true
+        fi
+    elif [ -f "${PROJECT_DIR}/pyproject.toml" ] || [ -f "${PROJECT_DIR}/setup.py" ]; then
+        # Python project - try pytest
+        if cd "${PROJECT_DIR}" && python -m pytest --quiet &>/dev/null 2>&1; then
+            tests_pass=true
+        fi
+    elif [ -f "${PROJECT_DIR}/Cargo.toml" ]; then
+        # Rust project
+        if cd "${PROJECT_DIR}" && cargo test --quiet &>/dev/null 2>&1; then
+            tests_pass=true
+        fi
+    elif [ -f "${PROJECT_DIR}/go.mod" ]; then
+        # Go project
+        if cd "${PROJECT_DIR}" && go test ./... &>/dev/null 2>&1; then
+            tests_pass=true
+        fi
+    fi
+fi
+
+# 5. Check for test reports
+if [ -d "${PROJECT_DIR}/docs/test-reports" ] && ls "${PROJECT_DIR}/docs/test-reports/"*.md &>/dev/null; then
+    has_test_report=true
+    # Check if any test report says "Ready to Launch" (case-insensitive)
+    if grep -rli "ready to launch" "${PROJECT_DIR}/docs/test-reports/" &>/dev/null; then
+        test_report_ready=true
+    fi
+fi
+
+# 6. Check for launch docs
+if [ -d "${PROJECT_DIR}/docs/launches" ] && ls "${PROJECT_DIR}/docs/launches/"*.md &>/dev/null; then
+    has_launch=true
+fi
+
+# --- Determine stage ---
+if [ "$has_launch" = true ]; then
+    stage="Pipeline complete"
+    stage_detail="All pipeline stages done. Launch docs found in docs/launches/."
+elif [ "$test_report_ready" = true ]; then
+    stage="Next: launch"
+    stage_detail="Test report shows 'Ready to Launch'. Run /launch to deploy."
+elif [ "$has_test_report" = true ]; then
+    stage="Next: launch (fix issues first)"
+    stage_detail="Test report exists but does not show 'Ready to Launch'. Review test report and fix issues, then regenerate."
+elif [ "$tests_pass" = true ]; then
+    stage="Next: test-report"
+    stage_detail="All tests pass. Run /test-report to generate the test report."
+elif [ "$has_test_files" = true ]; then
+    stage="Next: impl"
+    stage_detail="Test files exist but tests are not passing yet. Run /impl to implement the code (TDD green phase)."
+elif [ "$has_designs" = true ]; then
+    stage="Next: tdd-testing"
+    stage_detail="Design docs found. Run /tdd-testing to write failing tests (TDD red phase)."
+elif [ "$has_user_stories" = true ]; then
+    stage="Next: design-doc"
+    stage_detail="User stories found. Run /design-doc to create the design document."
+else
+    stage="Start with user-story"
+    stage_detail="No pipeline artifacts detected. Run /user-story to begin the LaunchCraft pipeline."
+fi
+
+# --- Build available skills list ---
+skills_list="Available LaunchCraft skills (invoke with /skill-name):\\n"
+skills_list+="  - /user-story    : Capture user needs as structured user stories\\n"
+skills_list+="  - /design-doc    : Create a design document from user stories\\n"
+skills_list+="  - /tdd-testing   : Write failing tests from the design (TDD red phase)\\n"
+skills_list+="  - /impl          : Implement code to make tests pass (TDD green phase)\\n"
+skills_list+="  - /test-report   : Generate a test report from test results\\n"
+skills_list+="  - /launch        : Deploy the application and create launch docs\\n"
+skills_list+="  - /debugging     : Debug issues at any stage"
+
+# --- Escape helper ---
+escape_for_json() {
+    local s="$1"
+    s="${s//\\/\\\\}"
+    s="${s//\"/\\\"}"
+    s="${s//$'\n'/\\n}"
+    s="${s//$'\r'/\\r}"
+    s="${s//$'\t'/\\t}"
+    printf '%s' "$s"
+}
+
+# --- Build context ---
+context="<EXTREMELY_IMPORTANT>\\nLaunchCraft Pipeline Status\\n\\n"
+context+="**Current stage:** ${stage}\\n"
+context+="**Detail:** ${stage_detail}\\n\\n"
+context+="${skills_list}\\n\\n"
+context+="The LaunchCraft pipeline follows this order: user-story -> design-doc -> tdd-testing -> impl -> test-report -> launch\\n"
+context+="Always follow the pipeline order. Each skill validates its inputs against upstream contracts before proceeding.\\n"
+context+="</EXTREMELY_IMPORTANT>"
+
+session_context=$(escape_for_json "$context")
+
+# Output context injection as JSON.
+# Keep both shapes for compatibility:
+# - Cursor hooks expect additional_context.
+# - Claude hooks expect hookSpecificOutput.additionalContext.
+cat <<EOF
+{
+  "additional_context": "${session_context}",
+  "hookSpecificOutput": {
+    "hookEventName": "SessionStart",
+    "additionalContext": "${session_context}"
+  }
+}
+EOF
+
+exit 0

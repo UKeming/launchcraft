@@ -137,6 +137,28 @@ Output path: [the file you just saved]
 
 The validator will check for actual metrics, proper US-NNN mapping, and justified recommendations. Do NOT proceed to launch until the validator returns PASS. If it returns FAIL, fix the violations and re-validate.
 
+## Rationalization Prevention
+
+| Thought | Reality |
+|---------|---------|
+| "Tests passed last time, no need to rerun" | Rerun NOW. State changes between runs. |
+| "Coverage tool isn't set up, skip coverage" | Set it up or document why it's unavailable. Don't silently skip. |
+| "These 2 failures are minor, recommend launch anyway" | Report the failures. Let the USER decide if they're minor. |
+| "The metrics are approximately right" | Approximate metrics are fabricated metrics. Use exact numbers from test output. |
+| "Nobody reads test reports" | The launch skill reads it. The contract-validator reads it. Write it properly. |
+
+## Evidence Gate
+
+Before claiming this skill is complete, you must have:
+- [ ] Shown input contract validation results (all checks passed)
+- [ ] Run the full test suite FRESH (show the exact command and full output)
+- [ ] Report contains actual numbers from that run (not copied from memory)
+- [ ] Every failure has reproduction steps (show them)
+- [ ] Saved the file (show the file path)
+- [ ] Dispatched contract-validator and received PASS (show the result)
+
+No evidence = not complete. Period.
+
 ## Anti-Patterns
 
 | Bad | Good |

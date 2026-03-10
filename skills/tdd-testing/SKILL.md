@@ -121,6 +121,29 @@ Output path: [test plan file and test directory]
 
 The validator will run all tests and confirm they FAIL. Do NOT proceed to impl until the validator returns PASS. If it returns FAIL, fix the violations and re-validate.
 
+## Rationalization Prevention
+
+| Thought | Reality |
+|---------|---------|
+| "I'll write tests and implementation together, faster" | TDD means RED first. Write ALL tests before ANY implementation. |
+| "This test is too trivial to write" | Trivial tests catch trivial bugs that waste hours. Write it. |
+| "I know the tests will fail, no need to run them" | Run them. A test that passes when it shouldn't is a bad test. |
+| "Edge cases can be tested later" | Edge cases found in production cost 10x more. Test now. |
+| "The design doc's testing strategy is enough" | Strategy ≠ executable tests. Write real test code. |
+| "Mocking everything makes tests faster" | Mocking everything makes tests useless. Mock boundaries only. |
+
+## Evidence Gate
+
+Before claiming this skill is complete, you must have:
+- [ ] Shown input contract validation results (all checks passed)
+- [ ] Presented test plan and received user approval (show approval)
+- [ ] Created executable test files (show file paths)
+- [ ] Run all tests and shown they ALL FAIL (show test output with failure count)
+- [ ] Saved test plan (show the file path)
+- [ ] Dispatched contract-validator and received PASS (show the result)
+
+No evidence = not complete. Period.
+
 ## Anti-Patterns
 
 | Bad | Good |

@@ -79,6 +79,29 @@ Output path: [project root]
 
 The validator will run all tests, check no test files were modified, and verify code structure. Do NOT proceed to test-report until the validator returns PASS. If it returns FAIL, fix the violations and re-validate.
 
+## Rationalization Prevention
+
+| Thought | Reality |
+|---------|---------|
+| "This test is wrong, I need to fix it" | Tests are the spec. Fix your code, not the test. |
+| "I'll add this extra feature while I'm here" | YAGNI. Implement what the tests require. Nothing more. |
+| "One big commit is fine for a small change" | One commit per component. Always. |
+| "I don't need to run the full suite after each component" | One broken component can cascade. Run full suite every time. |
+| "I'll refactor as I go" | GREEN first, REFACTOR second. Separate concerns. |
+| "The tests pass locally, should be fine" | Show the output. Evidence beats assumptions. |
+
+## Evidence Gate
+
+Before claiming this skill is complete, you must have:
+- [ ] Shown input contract validation results (all checks passed)
+- [ ] Run tests before implementation and shown they ALL FAIL (show output)
+- [ ] Shown implementation order and received user approval
+- [ ] Run full test suite after ALL components and shown ALL PASS (show output)
+- [ ] Shown git log proving one commit per component
+- [ ] Dispatched contract-validator and received PASS (show the result)
+
+No evidence = not complete. Period.
+
 ## Anti-Patterns
 
 | Bad | Good |

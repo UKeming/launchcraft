@@ -130,6 +130,30 @@ Output path: [the launch record file]
 
 The validator will verify the URL is accessible, deployment details are real, and rollback instructions are present. If it returns FAIL, fix the violations and re-validate.
 
+## Rationalization Prevention
+
+| Thought | Reality |
+|---------|---------|
+| "Test report says pass, just deploy" | Verify the test report is CURRENT. Re-check recommendation field. |
+| "Smoke test is overkill for a simple app" | Simple apps break too. HTTP 200 check takes 5 seconds. |
+| "Rollback instructions are boilerplate" | When production is down, boilerplate saves you. Write real steps. |
+| "DNS will propagate eventually" | Verify DNS resolves NOW. Don't ship and hope. |
+| "I'll set up monitoring later" | Document how to check if the app is healthy. Now. |
+| "Environment variables are already set" | Verify them. A missing env var = a broken deploy. |
+
+## Evidence Gate
+
+Before claiming this skill is complete, you must have:
+- [ ] Shown test report recommendation is "Ready to Launch" (show the line)
+- [ ] Received user go/no-go for deployment (show confirmation)
+- [ ] Run production build successfully (show build output)
+- [ ] Deployed and shown the deploy output (show wrangler/API response)
+- [ ] Run smoke tests and shown results (show HTTP status codes)
+- [ ] Saved launch record (show the file path)
+- [ ] Dispatched contract-validator and received PASS (show the result)
+
+No evidence = not complete. Period.
+
 ## Anti-Patterns
 
 | Bad | Good |

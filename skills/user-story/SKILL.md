@@ -110,6 +110,29 @@ Output path: [the file you just saved]
 
 Do NOT proceed to the next pipeline stage until the validator returns PASS. If it returns FAIL, fix the violations and re-validate.
 
+## Rationalization Prevention
+
+If you catch yourself thinking any of these, STOP — you're about to skip a step:
+
+| Thought | Reality |
+|---------|---------|
+| "The need is clear enough, no questions needed" | You WILL miss edge cases. Ask anyway. |
+| "I already know the persona" | Confirm with the user. Your assumption may be wrong. |
+| "One big story covers it" | Big stories hide complexity. Split them. |
+| "Acceptance criteria are obvious" | If they're obvious, writing Given/When/Then takes 30 seconds. Do it. |
+| "The user seems impatient, skip clarifying" | Vague stories waste MORE time downstream. |
+| "This is just a small feature" | Small features have personas and acceptance criteria too. |
+
+## Evidence Gate
+
+Before claiming this skill is complete, you must have:
+- [ ] Asked at least one clarifying question (show the question and answer)
+- [ ] Presented personas and received user confirmation (show the confirmation)
+- [ ] Saved the file (show the file path)
+- [ ] Dispatched contract-validator and received PASS (show the result)
+
+No evidence = not complete. Period.
+
 ## Anti-Patterns
 
 | Bad | Good |

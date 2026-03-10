@@ -101,6 +101,28 @@ Output path: [the file you just saved]
 
 Do NOT proceed to the next pipeline stage until the validator returns PASS. If it returns FAIL, fix the violations and re-validate.
 
+## Rationalization Prevention
+
+| Thought | Reality |
+|---------|---------|
+| "The architecture is obvious, skip proposals" | Obvious to you ≠ obvious to the user. Present options. |
+| "Only one approach makes sense" | Present it as recommended, but show at least one alternative. |
+| "User stories are simple, no need to reference US-NNN" | Traceability is the whole point. Reference every story. |
+| "Error handling can be figured out during impl" | Error handling designed late = error handling done badly. |
+| "Security isn't relevant for this project" | Every project has security considerations. Even internal tools. |
+| "Testing strategy is TDD, nothing more to say" | Which components? What coverage? What approach per component? |
+
+## Evidence Gate
+
+Before claiming this skill is complete, you must have:
+- [ ] Shown input contract validation results (all checks passed)
+- [ ] Presented 2-3 approaches and received user choice (show the choice)
+- [ ] Presented design sections and received approval (show approval per section)
+- [ ] Saved the file (show the file path)
+- [ ] Dispatched contract-validator and received PASS (show the result)
+
+No evidence = not complete. Period.
+
 ## Anti-Patterns
 
 | Bad | Good |
