@@ -79,15 +79,6 @@ Output path: [project root]
 
 The validator will run all tests, check no test files were modified, and verify code structure. Do NOT proceed to test-report until the validator returns PASS. If it returns FAIL, fix the violations and re-validate.
 
-## Auto-Memory
-
-Save to CLAUDE.md immediately when you learn:
-- Implementation patterns and conventions used
-- Dependency versions that matter (pinned for a reason)
-- Gotchas and workarounds encountered during implementation
-- Environment setup needed (env vars, CLI tools, config files)
-- Build commands and their quirks
-
 ## Rationalization Prevention
 
 | Thought | Reality |

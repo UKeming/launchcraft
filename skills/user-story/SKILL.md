@@ -110,14 +110,6 @@ Output path: [the file you just saved]
 
 Do NOT proceed to the next pipeline stage until the validator returns PASS. If it returns FAIL, fix the violations and re-validate.
 
-## Auto-Memory
-
-Save to CLAUDE.md immediately when you learn:
-- Target personas and their key characteristics
-- Scope decisions (what's in/out)
-- User preferences about story format or priorities
-- Domain-specific terminology discovered during clarifying questions
-
 ## Rationalization Prevention
 
 If you catch yourself thinking any of these, STOP — you're about to skip a step:

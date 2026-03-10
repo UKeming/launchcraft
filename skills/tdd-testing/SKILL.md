@@ -121,14 +121,6 @@ Output path: [test plan file and test directory]
 
 The validator will run all tests and confirm they FAIL. Do NOT proceed to impl until the validator returns PASS. If it returns FAIL, fix the violations and re-validate.
 
-## Auto-Memory
-
-Save to CLAUDE.md immediately when you learn:
-- Test framework chosen and why
-- Test setup requirements (fixtures, mocks, env vars)
-- Testing patterns used (Given/When/Then structure, factory patterns)
-- Coverage goals and rationale
-
 ## Rationalization Prevention
 
 | Thought | Reality |
