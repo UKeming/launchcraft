@@ -19,9 +19,20 @@ Each skill validates its input on start and self-validates its output before sav
 - Out of Scope section
 - Open Questions section (can be empty if all resolved)
 
+### scope-planning
+
+**Input:** Requirements doc from need-input (`docs/requirements/*.md`)
+**Output:** `docs/plans/YYYY-MM-DD-[product-name]-scope-plan.md`
+**Output must contain:**
+- Complexity Analysis table with scores and rationale per factor
+- Complexity classification (Simple / Medium / Complex)
+- User Story Plan with target count per persona per journey stage
+- Design Doc Plan listing 1 system + N feature docs with scope
+- Implementation Modules with dependency order
+
 ### user-story
 
-**Input:** Requirements doc from need-input (`docs/requirements/*.md`) or raw need text
+**Input:** Scope plan (`docs/plans/*-scope-plan.md`) + Requirements doc (`docs/requirements/*.md`)
 **Output:** `docs/user-stories/YYYY-MM-DD-[topic].md`
 **Output must contain:**
 - File header with Title, Date, Source, Status

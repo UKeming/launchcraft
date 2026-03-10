@@ -18,15 +18,15 @@ Do NOT generate user stories until you have:
 All three steps must complete before generating any stories. Jumping straight to stories produces generic, unhelpful output.
 </HARD-GATE>
 
-## Input
+## Input Contract Validation
 
-Accepts:
-- Structured requirements from need-input skill (`docs/requirements/*.md`) — preferred
-- Raw text describing a need or pain point
-- Bug reports or user feedback
-- Feature requests
+On start, verify:
+- [ ] Scope plan exists at `docs/plans/*-scope-plan.md`
+- [ ] Requirements doc exists at `docs/requirements/*.md`
 
-If a requirements doc exists, read it first — it contains personas, competitive analysis, and success criteria that inform your stories.
+Read the scope plan first — it defines how many stories to write, for which personas, and across which journey stages. The requirements doc provides the detail.
+
+If no scope plan exists, stop and run `/scope-planning` first.
 
 ## Process
 

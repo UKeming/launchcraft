@@ -44,6 +44,16 @@ You will receive:
 - [ ] Has measurable Success Criteria
 - [ ] Has Out of Scope section
 
+### scope-planning
+- [ ] File exists at the specified path
+- [ ] Has Complexity Analysis table with score per factor (Personas, Features, Integrations, Entities, Auth, Real-time)
+- [ ] Has complexity classification (Simple, Medium, or Complex)
+- [ ] Has User Story Plan with target count per persona per journey stage
+- [ ] Total story count matches formula (not arbitrary)
+- [ ] Has Design Doc Plan with 1 system doc + N feature docs
+- [ ] Each feature doc has defined scope and related requirements
+- [ ] Has Implementation Modules with dependency order
+
 ### user-story
 - [ ] File exists at the specified path
 - [ ] Has file header: Title, Date, Source, Status

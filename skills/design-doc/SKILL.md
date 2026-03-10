@@ -24,9 +24,12 @@ On start, verify:
 - [ ] User stories file exists at `docs/user-stories/*.md`
 - [ ] File contains `## US-` story blocks
 - [ ] Each referenced story has Priority, Size, Persona, Acceptance Criteria
-- [ ] Requirements doc exists at `docs/requirements/*.md` (if available, use for deeper context)
+- [ ] Scope plan exists at `docs/plans/*-scope-plan.md`
+- [ ] Requirements doc exists at `docs/requirements/*.md`
 
-If validation fails, list specific violations and stop. Do NOT proceed with invalid input.
+Read the scope plan's **Design Doc Plan** — it defines how many design docs to produce and what each covers. Follow that breakdown (1 system design + N feature designs). Do NOT write one monolithic doc.
+
+If validation fails, list specific violations and stop.
 
 ## Process
 
