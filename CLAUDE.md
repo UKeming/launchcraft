@@ -45,3 +45,4 @@ spark → research → differentiation → enhance → differentiation (re-run) 
 - **SessionStart hook runs test suites**: The pipeline stage detection actually runs `npm test` / `pytest` etc. This can be slow on large projects. Keep it best-effort with timeouts.
 - **Hook output is JSON**: Must escape special characters properly. The `escape_for_json` helper handles newlines, quotes, backslashes.
 - **Cross-platform wrapper is required**: `run-hook.cmd` polyglot ensures hooks work on Windows (batch) and Unix (bash).
+- **Stop hook needs cooldown**: The pipeline-advance stop hook fires on EVERY stop attempt. Without a cooldown, it creates an infinite loop when the agent can't immediately advance (e.g., waiting for background agents). Fixed by writing `.launchcraft-advance-state` with the last directive — same directive within 5 minutes is suppressed.

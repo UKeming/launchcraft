@@ -6,6 +6,7 @@
 set -euo pipefail
 
 PROJECT_DIR="${PWD}"
+ADVANCE_STATE_FILE="${PROJECT_DIR}/.launchcraft-advance-state"
 
 # Quick exit: no docs/ directory means no pipeline in progress
 if [ ! -d "${PROJECT_DIR}/docs" ]; then
@@ -128,8 +129,22 @@ elif [ "$has_requirements" = true ]; then
     next_skill="research"
 fi
 
+# --- Cooldown: don't re-fire the same directive within 5 minutes ---
+if [ -n "$next_skill" ] && [ -f "$ADVANCE_STATE_FILE" ]; then
+    last_skill=$(head -1 "$ADVANCE_STATE_FILE" 2>/dev/null || echo "")
+    if [ "$last_skill" = "$next_skill" ]; then
+        # Same directive — check if state file is recent (within 5 minutes)
+        if [ "$(find "$ADVANCE_STATE_FILE" -mmin -5 2>/dev/null)" ]; then
+            # Already fired this directive recently — allow the stop
+            exit 0
+        fi
+    fi
+fi
+
 # --- Block or allow ---
 if [ -n "$next_skill" ]; then
+    # Record this directive so we don't re-fire it in a loop
+    echo "$next_skill" > "$ADVANCE_STATE_FILE"
     cat <<EOF
 {
   "decision": "block",
@@ -137,5 +152,7 @@ if [ -n "$next_skill" ]; then
 }
 EOF
 else
+    # Pipeline complete or no next step — clean up state file
+    rm -f "$ADVANCE_STATE_FILE"
     exit 0
 fi
