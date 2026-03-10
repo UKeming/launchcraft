@@ -18,6 +18,8 @@ stage=""
 stage_detail=""
 
 has_requirements=false
+has_research=false
+has_differentiation=false
 has_scope_plan=false
 has_user_stories=false
 has_designs=false
@@ -32,22 +34,32 @@ if [ -d "${PROJECT_DIR}/docs/requirements" ] && ls "${PROJECT_DIR}/docs/requirem
     has_requirements=true
 fi
 
-# 2. Check for scope plan
+# 2. Check for research report
+if [ -d "${PROJECT_DIR}/docs/research" ] && ls "${PROJECT_DIR}/docs/research/"*.md &>/dev/null; then
+    has_research=true
+fi
+
+# 3. Check for differentiation strategy
+if [ -d "${PROJECT_DIR}/docs/strategy" ] && ls "${PROJECT_DIR}/docs/strategy/"*-differentiation.md &>/dev/null; then
+    has_differentiation=true
+fi
+
+# 4. Check for scope plan
 if ls "${PROJECT_DIR}/docs/plans/"*-scope-plan.md &>/dev/null 2>&1; then
     has_scope_plan=true
 fi
 
-# 3. Check for user stories
+# 5. Check for user stories
 if [ -d "${PROJECT_DIR}/docs/user-stories" ] && ls "${PROJECT_DIR}/docs/user-stories/"*.md &>/dev/null; then
     has_user_stories=true
 fi
 
-# 2. Check for design docs
+# 6. Check for design docs
 if [ -d "${PROJECT_DIR}/docs/designs" ] && ls "${PROJECT_DIR}/docs/designs/"*.md &>/dev/null; then
     has_designs=true
 fi
 
-# 3. Check for test files (any file matching common test patterns in tests/)
+# 7. Check for test files (any file matching common test patterns in tests/)
 if [ -d "${PROJECT_DIR}/tests" ]; then
     # Look for files that are actual test files (not just markdown plans)
     test_file_count=$(find "${PROJECT_DIR}/tests" -type f \( -name "*.test.*" -o -name "*.spec.*" -o -name "test_*" -o -name "*_test.*" -o -name "*.test.js" -o -name "*.test.ts" -o -name "*.test.py" -o -name "*.spec.js" -o -name "*.spec.ts" \) 2>/dev/null | head -20 | wc -l | tr -d ' ')
@@ -56,7 +68,7 @@ if [ -d "${PROJECT_DIR}/tests" ]; then
     fi
 fi
 
-# 4. Check if tests pass (try common test runners, best-effort)
+# 8. Check if tests pass (try common test runners, best-effort)
 if [ "$has_test_files" = true ]; then
     if [ -f "${PROJECT_DIR}/package.json" ]; then
         # Node.js project - try npm test
@@ -81,7 +93,7 @@ if [ "$has_test_files" = true ]; then
     fi
 fi
 
-# 5. Check for test reports
+# 9. Check for test reports
 if [ -d "${PROJECT_DIR}/docs/test-reports" ] && ls "${PROJECT_DIR}/docs/test-reports/"*.md &>/dev/null; then
     has_test_report=true
     # Check if any test report says "Ready to Launch" (case-insensitive)
@@ -90,7 +102,7 @@ if [ -d "${PROJECT_DIR}/docs/test-reports" ] && ls "${PROJECT_DIR}/docs/test-rep
     fi
 fi
 
-# 6. Check for launch docs
+# 10. Check for launch docs
 if [ -d "${PROJECT_DIR}/docs/launches" ] && ls "${PROJECT_DIR}/docs/launches/"*.md &>/dev/null; then
     has_launch=true
 fi
@@ -120,9 +132,15 @@ elif [ "$has_user_stories" = true ]; then
 elif [ "$has_scope_plan" = true ]; then
     stage="Next: user-story"
     stage_detail="Scope plan found. Run /user-story to generate user stories per the scope plan."
-elif [ "$has_requirements" = true ]; then
+elif [ "$has_differentiation" = true ]; then
     stage="Next: scope-planning"
-    stage_detail="Requirements found. Run /scope-planning to determine story count and design doc breakdown."
+    stage_detail="Differentiation strategy found. Run /scope-planning to determine story count and design doc breakdown."
+elif [ "$has_research" = true ]; then
+    stage="Next: differentiation"
+    stage_detail="Research report found. Run /differentiation to define product positioning and strategic bets."
+elif [ "$has_requirements" = true ]; then
+    stage="Next: research"
+    stage_detail="Requirements found. Run /research to validate against real market data before scoping."
 else
     stage="Start with spark"
     stage_detail="No pipeline artifacts detected. Run /spark to capture and analyze requirements."
@@ -138,6 +156,8 @@ fi
 # --- Build available skills list ---
 skills_list="Available LaunchCraft skills (invoke with /skill-name):\\n"
 skills_list+="  - /spark         : Capture and analyze requirements with competitive analysis\\n"
+skills_list+="  - /research     : Validate requirements against real market data and user research\\n"
+skills_list+="  - /differentiation: Define product positioning and strategic bets\\n"
 skills_list+="  - /scope-planning: Determine story count, design doc split, impl modules\\n"
 skills_list+="  - /user-story    : Generate comprehensive user stories per scope plan\\n"
 skills_list+="  - /design-doc    : Create a design document from user stories\\n"
@@ -196,7 +216,7 @@ context="<EXTREMELY_IMPORTANT>\\nLaunchCraft Pipeline Status\\n\\n"
 context+="**Current stage:** ${stage}\\n"
 context+="**Detail:** ${stage_detail}\\n\\n"
 context+="${skills_list}\\n\\n"
-context+="The LaunchCraft pipeline follows this order: spark -> scope-planning -> user-story -> design-doc -> tdd-testing -> impl -> test-report -> launch\\n"
+context+="The LaunchCraft pipeline follows this order: spark -> research -> differentiation -> scope-planning -> user-story -> design-doc -> tdd-testing -> impl -> test-report -> launch\\n"
 context+="Always follow the pipeline order. Each skill validates its inputs against upstream contracts before proceeding.\\n"
 context+="${memory_instructions}\\n"
 

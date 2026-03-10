@@ -19,9 +19,33 @@ Each skill validates its input on start and self-validates its output before sav
 - Out of Scope section
 - Open Questions section (can be empty if all resolved)
 
-### scope-planning
+### research
 
 **Input:** Requirements doc from spark (`docs/requirements/*.md`)
+**Output:** `docs/research/YYYY-MM-DD-[product-name]-research.md`
+**Output must contain:**
+- Assumptions table extracted from requirements (at least 3 assumptions)
+- Market research with cited sources (at least 3 real sources)
+- Expanded competitive analysis beyond spark's initial scan (pricing, reviews, gaps)
+- Assumption validation table with verdict and evidence per assumption
+- Product-market fit assessment with evidence
+- Requirement adjustments section (validated, added, deprioritized, or removed)
+- Risk factors (market, technical, adoption)
+
+### differentiation
+
+**Input:** Requirements doc (`docs/requirements/*.md`) + Research report (`docs/research/*.md`)
+**Output:** `docs/strategy/YYYY-MM-DD-[product-name]-differentiation.md`
+**Output must contain:**
+- Competitive feature matrix (capabilities vs competitors with gap analysis)
+- Differentiation axes analysis (at least 3 axes explored)
+- Positioning statement (For/Who/Our product/That/Unlike/We format)
+- Strategic bets table (2-3 bets with rationale, risk, and validation signal)
+- Requirement adjustments (elevate, add, deprioritize, keep-as-is sections)
+
+### scope-planning
+
+**Input:** Requirements doc (`docs/requirements/*.md`) + Research report (`docs/research/*.md`) + Differentiation strategy (`docs/strategy/*.md`)
 **Output:** `docs/plans/YYYY-MM-DD-[product-name]-scope-plan.md`
 **Output must contain:**
 - Complexity Analysis table with scores and rationale per factor

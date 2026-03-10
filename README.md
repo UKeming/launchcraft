@@ -5,7 +5,7 @@ A Claude Code plugin that turns ideas into launched products through a structure
 ## Pipeline
 
 ```
-/spark → /scope-planning → /user-story → /design-doc → /tdd-testing → /impl → /test-report → /launch
+/spark → /research → /differentiation → /scope-planning → /user-story → /design-doc → /tdd-testing → /impl → /test-report → /launch
 ```
 
 Each stage validates its input from the previous stage, produces verified output, and saves important learnings to project memory (`CLAUDE.md`).
@@ -28,6 +28,8 @@ Start a new Claude Code session in your project directory. The plugin auto-detec
 | Command | What it does |
 |---------|-------------|
 | `/spark` | Capture, analyze, and structure requirements with competitive analysis and success criteria |
+| `/research` | Validate requirements against real market data, user pain points, and technical landscape |
+| `/differentiation` | Define product positioning, strategic bets, and competitive advantage |
 | `/scope-planning` | Analyze complexity, determine story count, plan design doc breakdown and impl modules |
 | `/user-story` | Generate comprehensive user stories per scope plan, covering full user journeys |
 | `/design-doc` | Create a technical design document from user stories |
@@ -47,6 +49,14 @@ Claude: [auto-detects: no pipeline artifacts → suggests /spark]
 You: /spark
 
 Claude: [probing questions → competitive analysis → structured requirements → saves to docs/requirements/ → contract-validator verifies]
+
+You: /research
+
+Claude: [web search → market data → competitor deep-dive → assumption validation → product-market fit assessment → saves to docs/research/ → contract-validator verifies]
+
+You: /differentiation
+
+Claude: [feature matrix → differentiation axes → positioning statement → strategic bets → requirement adjustments → saves to docs/strategy/ → contract-validator verifies]
 
 You: /scope-planning
 
@@ -79,6 +89,10 @@ launchcraft/
 │   ├── plugin.json               # Plugin manifest
 │   └── marketplace.json          # Marketplace catalog
 ├── skills/                       # Pipeline skills
+│   ├── spark/SKILL.md
+│   ├── research/SKILL.md
+│   ├── differentiation/SKILL.md
+│   ├── scope-planning/SKILL.md
 │   ├── user-story/SKILL.md
 │   ├── design-doc/SKILL.md
 │   ├── tdd-testing/SKILL.md

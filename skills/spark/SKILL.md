@@ -141,7 +141,7 @@ Skill: spark
 Output path: [the file you just saved]
 ```
 
-Do NOT proceed to user-story until the validator returns PASS.
+Do NOT proceed to research until the validator returns PASS.
 
 ## Rationalization Prevention
 

@@ -24,14 +24,18 @@ Do NOT let user-story or design-doc start without a scope plan.
 On start, verify:
 - [ ] Requirements doc exists at `docs/requirements/*.md`
 - [ ] Requirements doc has: Problem Statement, Target Users, Functional Requirements (Must/Should/Nice)
+- [ ] Research report exists at `docs/research/*.md`
+- [ ] Differentiation strategy exists at `docs/strategy/*-differentiation.md`
 
-If validation fails, stop and run `/spark` first.
+If requirements missing, run `/spark` first.
+If research missing, run `/research` first.
+If differentiation missing, run `/differentiation` first.
 
 ## Process
 
 ### 1. Analyze Complexity
 
-Read the requirements doc and score:
+Read the requirements doc, research report, and differentiation strategy. Score:
 
 | Factor | Simple (1) | Medium (2) | Complex (3) |
 |--------|-----------|------------|-------------|
