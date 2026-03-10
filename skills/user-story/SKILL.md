@@ -98,13 +98,17 @@ Save the final stories to `docs/user-stories/YYYY-MM-DD-[topic].md` in the targe
 [Stories go here]
 ```
 
-## Quality Checklist
+## Output Self-Validation
 
-Every story must have:
-- [ ] Specific persona (not "user")
-- [ ] Clear, measurable acceptance criteria using Given/When/Then
-- [ ] Priority and size estimate
+Before saving, verify every story against this checklist:
+- [ ] File header has Title, Date, Source, Status
+- [ ] At least one `## US-NNN:` block exists
+- [ ] Each story has a specific persona (not "user")
+- [ ] Each story has Priority and Size
+- [ ] Each story has `### Acceptance Criteria` with Given/When/Then items
 - [ ] No implementation details in the story itself (those go in design docs)
+
+If any check fails, fix before saving.
 
 ## Anti-Patterns
 

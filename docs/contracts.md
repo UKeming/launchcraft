@@ -1,0 +1,93 @@
+# LaunchCraft Pipeline Contracts
+
+Each skill validates its input on start and self-validates its output before saving.
+
+## Contract Definitions
+
+### user-story
+
+**Input:** Raw need text (free-form)
+**Output:** `docs/user-stories/YYYY-MM-DD-[topic].md`
+**Output must contain:**
+- File header with Title, Date, Source, Status
+- At least one `## US-NNN:` block
+- Each story has: Priority, Size, Persona, "As a..." statement
+- Each story has `### Acceptance Criteria` with Given/When/Then items
+
+### design-doc
+
+**Input:** `docs/user-stories/*.md` (must exist and pass user-story contract)
+**Output:** `docs/designs/YYYY-MM-DD-[topic]-design.md`
+**Output must contain:**
+- File header with Title, Date, Related User Stories, Status
+- Sections: Overview, Architecture, Components
+- At least one of: Data Model, API Design
+- Sections: Error Handling, Security Considerations, Testing Strategy
+
+### tdd-testing
+
+**Input:** `docs/designs/*.md` (must exist and pass design-doc contract)
+**Output:**
+- Test files in `tests/`
+- `docs/test-plans/YYYY-MM-DD-[topic]-test-plan.md`
+**Output must contain:**
+- Test plan header with Title, Date, Related Design Doc, Status
+- Test cases mapped to user stories (US-NNN references)
+- At least one executable test file created
+- All tests must FAIL (red phase — no implementation yet)
+
+### impl
+
+**Input:**
+- `docs/designs/*.md` (design doc)
+- Test files in `tests/` (from tdd-testing)
+**Output:** Implementation source code
+**Output must satisfy:**
+- All existing tests pass (green phase)
+- No test files modified (tests are the spec)
+- Code follows design doc architecture
+
+### test-report
+
+**Input:** Test execution results (after impl)
+**Output:** `docs/test-reports/YYYY-MM-DD-[topic]-test-report.md`
+**Output must contain:**
+- File header with Title, Date, Related Test Plan, Status
+- Summary: total tests, passed, failed, skipped
+- Coverage metrics (if available)
+- Per-test results with pass/fail status
+- Issues list (if any failures)
+- Recommendation: ready to launch / needs fixes
+
+### launch
+
+**Input:**
+- Passing test-report (recommendation must be "ready to launch")
+- Built application code
+**Output:**
+- Deployed to Cloudflare at `appX.keming.co`
+- `docs/launches/YYYY-MM-DD-[topic]-launch.md`
+**Output must contain:**
+- File header with Title, Date, URL, Status
+- Deployment details: platform, subdomain, timestamp
+- Smoke test results
+- Rollback instructions
+
+## Validation Protocol
+
+**On skill start:**
+1. Check input files exist
+2. Validate input matches upstream contract
+3. If validation fails: list specific violations, do NOT proceed
+
+**Before skill save:**
+1. Run output through contract checklist
+2. Every required field must be present
+3. If validation fails: show what's missing, fix before saving
+
+## Rollback Protocol
+
+If a downstream skill finds upstream issues:
+1. Log the issue with specific contract violation
+2. Notify the user: "[skill] found issues with [upstream skill] output: [details]"
+3. User decides: fix upstream and re-run, or override and continue
