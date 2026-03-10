@@ -125,16 +125,17 @@ Save to `docs/test-reports/YYYY-MM-DD-[topic]-test-report.md`:
 [1-2 sentences: overall quality assessment and launch readiness]
 ```
 
-## Output Self-Validation
+## Output Validation
 
-Before saving, verify:
-- [ ] Report header has Title, Date, Related Test Plan, Status, Recommendation
-- [ ] Summary table has actual numbers from test run (not placeholders)
-- [ ] Every failed test has error details and reproduction steps
-- [ ] Results map back to user stories
-- [ ] Recommendation is justified by the data
+After saving, dispatch the **contract-validator** agent to independently verify the output:
 
-If any check fails, fix before saving.
+```
+Agent: contract-validator
+Skill: test-report
+Output path: [the file you just saved]
+```
+
+The validator will check for actual metrics, proper US-NNN mapping, and justified recommendations. Do NOT proceed to launch until the validator returns PASS. If it returns FAIL, fix the violations and re-validate.
 
 ## Anti-Patterns
 

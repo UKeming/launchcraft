@@ -109,16 +109,17 @@ Save to `docs/test-plans/YYYY-MM-DD-[topic]-test-plan.md`:
 | T-NNN | [test name] | [scenario] | FAIL |
 ```
 
-## Output Self-Validation
+## Output Validation
 
-Before saving, verify:
-- [ ] Test plan header has Title, Date, Related Design Doc, Status
-- [ ] Every test case maps to a user story (US-NNN)
-- [ ] At least one executable test file exists in `tests/`
-- [ ] All tests FAIL (run them to confirm)
-- [ ] Test names clearly describe expected behavior
+After saving, dispatch the **contract-validator** agent to independently verify the output:
 
-If any check fails, fix before saving.
+```
+Agent: contract-validator
+Skill: tdd-testing
+Output path: [test plan file and test directory]
+```
+
+The validator will run all tests and confirm they FAIL. Do NOT proceed to impl until the validator returns PASS. If it returns FAIL, fix the violations and re-validate.
 
 ## Anti-Patterns
 

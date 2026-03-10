@@ -67,16 +67,17 @@ If the code works but could be cleaner:
 - Run tests after each refactor to ensure nothing breaks
 - Keep refactoring commits separate from feature commits
 
-## Output Self-Validation
+## Output Validation
 
-Before declaring implementation complete, verify:
-- [ ] All tests pass (run full suite, show output)
-- [ ] No test files were modified
-- [ ] Code follows the design doc architecture
-- [ ] Each component has its own commit
-- [ ] No dead code or unused imports
+After implementation is complete, dispatch the **contract-validator** agent to independently verify:
 
-If any check fails, fix before declaring complete.
+```
+Agent: contract-validator
+Skill: impl
+Output path: [project root]
+```
+
+The validator will run all tests, check no test files were modified, and verify code structure. Do NOT proceed to test-report until the validator returns PASS. If it returns FAIL, fix the violations and re-validate.
 
 ## Anti-Patterns
 

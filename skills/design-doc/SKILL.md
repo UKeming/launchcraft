@@ -89,19 +89,17 @@ Save to `docs/designs/YYYY-MM-DD-[topic]-design.md` with this file structure:
 [Design sections go here]
 ```
 
-## Output Self-Validation
+## Output Validation
 
-Before saving, verify:
-- [ ] File header has Title, Date, Related User Stories, Status
-- [ ] Overview references specific US-NNN numbers
-- [ ] Architecture section describes system structure
-- [ ] Components section lists each component with responsibilities
-- [ ] At least one of: Data Model, API Design is present (if applicable to the project)
-- [ ] Error Handling section exists
-- [ ] Security Considerations section exists
-- [ ] Testing Strategy section exists
+After saving, dispatch the **contract-validator** agent to independently verify the output:
 
-If any required item is missing, fix it before saving.
+```
+Agent: contract-validator
+Skill: design-doc
+Output path: [the file you just saved]
+```
+
+Do NOT proceed to the next pipeline stage until the validator returns PASS. If it returns FAIL, fix the violations and re-validate.
 
 ## Anti-Patterns
 

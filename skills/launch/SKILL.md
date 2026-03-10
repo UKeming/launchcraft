@@ -118,16 +118,17 @@ If issues are found after launch:
 4. Create issue in docs/issues/ describing the problem
 ```
 
-## Output Self-Validation
+## Output Validation
 
-Before saving, verify:
-- [ ] Launch record has Title, Date, URL, Platform, Status
-- [ ] Deployment details are filled with actual values (not placeholders)
-- [ ] Smoke test results reflect actual checks performed
-- [ ] Rollback instructions are present and specific
-- [ ] Related artifacts link to real files
+After saving, dispatch the **contract-validator** agent to independently verify the output:
 
-If any check fails, fix before saving.
+```
+Agent: contract-validator
+Skill: launch
+Output path: [the launch record file]
+```
+
+The validator will verify the URL is accessible, deployment details are real, and rollback instructions are present. If it returns FAIL, fix the violations and re-validate.
 
 ## Anti-Patterns
 
