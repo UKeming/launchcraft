@@ -10,7 +10,12 @@ description: "Use when converting raw needs, feature ideas, or pain points into 
 Convert raw needs into well-structured user stories through collaborative refinement. Always clarify before generating.
 
 <HARD-GATE>
-Do NOT generate user stories until you have asked at least one clarifying question and confirmed the target persona(s). Jumping straight to stories produces generic, unhelpful output.
+Do NOT generate user stories until you have:
+1. Asked at least one clarifying question about the need
+2. Identified persona(s) and presented them to the user
+3. Received explicit user confirmation on the persona(s)
+
+All three steps must complete before generating any stories. Jumping straight to stories produces generic, unhelpful output.
 </HARD-GATE>
 
 ## Input
@@ -48,13 +53,15 @@ Get user confirmation on personas before proceeding.
 
 ### 3. Generate User Stories
 
+Number stories sequentially starting at 001 within each topic file.
+
 For each story, use this format:
 
 ```markdown
 ## US-[NNN]: [Short Title]
 
-**Priority:** High | Medium | Low
-**Size:** S | M | L
+**Priority:** High (must have) | Medium (should have) | Low (nice to have)
+**Size:** S (< 1 day) | M (1-3 days) | L (3-5 days, consider splitting)
 **Persona:** [Persona name]
 
 > As a [persona], I want [goal/action], so that [benefit/value].
@@ -77,7 +84,19 @@ Present all stories to the user. Ask:
 
 ### 5. Save
 
-Save the final stories to `docs/user-stories/YYYY-MM-DD-[topic].md` in the target project.
+Save the final stories to `docs/user-stories/YYYY-MM-DD-[topic].md` in the target project with this file structure:
+
+```markdown
+# User Stories: [Topic]
+
+**Date:** YYYY-MM-DD
+**Source:** [Where the need came from]
+**Status:** Draft | Reviewed | Approved
+
+---
+
+[Stories go here]
+```
 
 ## Quality Checklist
 
