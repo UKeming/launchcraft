@@ -32,12 +32,26 @@ You will receive:
 
 ## Validation Rules
 
+### need-input
+- [ ] File exists at the specified path
+- [ ] Has Problem Statement (not a single sentence — 2-3 sentences minimum)
+- [ ] Has Target Users with Primary and Secondary personas
+- [ ] Has Core Value Proposition
+- [ ] Has Functional Requirements with Must Have / Should Have / Nice to Have tiers
+- [ ] Must Have has at least 3 items
+- [ ] Has Non-Functional Requirements (performance, security, accessibility, platform)
+- [ ] Has Competitive Landscape table with at least 3 entries
+- [ ] Has measurable Success Criteria
+- [ ] Has Out of Scope section
+
 ### user-story
 - [ ] File exists at the specified path
 - [ ] Has file header: Title, Date, Source, Status
-- [ ] Contains at least one `## US-` block
+- [ ] Contains at least 3 `## US-` blocks per persona
 - [ ] Every story has: Priority (High/Medium/Low), Size (S/M/L), Persona (not "user")
 - [ ] Every story has `### Acceptance Criteria` with at least one Given/When/Then
+- [ ] Stories cover happy paths AND failure/error paths
+- [ ] Onboarding, core usage, and settings stories exist
 - [ ] No implementation details in stories
 
 ### design-doc

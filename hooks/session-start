@@ -17,6 +17,7 @@ PROJECT_DIR="${PWD}"
 stage=""
 stage_detail=""
 
+has_requirements=false
 has_user_stories=false
 has_designs=false
 has_test_files=false
@@ -25,7 +26,12 @@ has_test_report=false
 test_report_ready=false
 has_launch=false
 
-# 1. Check for user stories
+# 1. Check for requirements
+if [ -d "${PROJECT_DIR}/docs/requirements" ] && ls "${PROJECT_DIR}/docs/requirements/"*.md &>/dev/null; then
+    has_requirements=true
+fi
+
+# 2. Check for user stories
 if [ -d "${PROJECT_DIR}/docs/user-stories" ] && ls "${PROJECT_DIR}/docs/user-stories/"*.md &>/dev/null; then
     has_user_stories=true
 fi
@@ -105,9 +111,12 @@ elif [ "$has_designs" = true ]; then
 elif [ "$has_user_stories" = true ]; then
     stage="Next: design-doc"
     stage_detail="User stories found. Run /design-doc to create the design document."
+elif [ "$has_requirements" = true ]; then
+    stage="Next: user-story"
+    stage_detail="Requirements found. Run /user-story to generate user stories from requirements."
 else
-    stage="Start with user-story"
-    stage_detail="No pipeline artifacts detected. Run /user-story to begin the LaunchCraft pipeline."
+    stage="Start with need-input"
+    stage_detail="No pipeline artifacts detected. Run /need-input to capture and analyze requirements."
 fi
 
 # --- Read existing project memory (CLAUDE.md) ---
@@ -119,7 +128,8 @@ fi
 
 # --- Build available skills list ---
 skills_list="Available LaunchCraft skills (invoke with /skill-name):\\n"
-skills_list+="  - /user-story    : Capture user needs as structured user stories\\n"
+skills_list+="  - /need-input    : Capture and analyze requirements with competitive analysis\\n"
+skills_list+="  - /user-story    : Generate comprehensive user stories from requirements\\n"
 skills_list+="  - /design-doc    : Create a design document from user stories\\n"
 skills_list+="  - /tdd-testing   : Write failing tests from the design (TDD red phase)\\n"
 skills_list+="  - /impl          : Implement code to make tests pass (TDD green phase)\\n"
@@ -176,7 +186,7 @@ context="<EXTREMELY_IMPORTANT>\\nLaunchCraft Pipeline Status\\n\\n"
 context+="**Current stage:** ${stage}\\n"
 context+="**Detail:** ${stage_detail}\\n\\n"
 context+="${skills_list}\\n\\n"
-context+="The LaunchCraft pipeline follows this order: user-story -> design-doc -> tdd-testing -> impl -> test-report -> launch\\n"
+context+="The LaunchCraft pipeline follows this order: need-input -> user-story -> design-doc -> tdd-testing -> impl -> test-report -> launch\\n"
 context+="Always follow the pipeline order. Each skill validates its inputs against upstream contracts before proceeding.\\n"
 context+="${memory_instructions}\\n"
 

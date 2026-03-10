@@ -20,11 +20,13 @@ All three steps must complete before generating any stories. Jumping straight to
 
 ## Input
 
-Accepts any of:
+Accepts:
+- Structured requirements from need-input skill (`docs/requirements/*.md`) — preferred
 - Raw text describing a need or pain point
-- Bullet points from need-discovery skill
 - Bug reports or user feedback
 - Feature requests
+
+If a requirements doc exists, read it first — it contains personas, competitive analysis, and success criteria that inform your stories.
 
 ## Process
 
@@ -51,7 +53,28 @@ Personas identified:
 
 Get user confirmation on personas before proceeding.
 
-### 3. Generate User Stories
+### 3. Map the Complete User Journey
+
+Before writing individual stories, map out the full user journey for each persona:
+
+```
+[Persona] journey:
+1. Discovery → How do they find the product?
+2. Onboarding → First-time setup and orientation
+3. Core usage → Primary tasks and workflows
+4. Edge cases → Error states, empty states, offline behavior
+5. Return usage → What brings them back?
+6. Administration → Settings, account management, data export
+```
+
+Every step in the journey should produce at least one user story. This ensures complete coverage — no orphan features, no missing flows.
+
+### 4. Generate User Stories
+
+**Minimum output:** A mature product requires comprehensive stories. Aim for:
+- At least 3-5 stories per persona
+- Stories covering: happy path, error handling, edge cases, onboarding, settings
+- Every acceptance criterion must be testable and specific
 
 Number stories sequentially starting at 001 within each topic file.
 
@@ -75,14 +98,28 @@ For each story, use this format:
 [Optional: edge cases, technical considerations, dependencies]
 ```
 
-### 4. Review and Refine
+### 5. Completeness Check
 
-Present all stories to the user. Ask:
+Before presenting to user, verify coverage:
+- [ ] Every persona has stories for: onboarding, core usage, error handling, settings
+- [ ] Happy paths AND failure paths are covered
+- [ ] Empty states are handled (first-time user, no data, no results)
+- [ ] Accessibility stories exist (keyboard navigation, screen reader, color contrast)
+- [ ] Security-related stories exist (authentication, authorization, data privacy)
+
+If any gaps exist, write the missing stories before presenting.
+
+### 6. Review and Refine
+
+Present all stories organized by persona and journey stage. Ask:
 - Are any stories missing?
 - Are priorities correct?
 - Should any story be split or merged?
+- Are there personas we haven't considered?
 
-### 5. Save
+Iterate until comprehensive.
+
+### 7. Save
 
 Save the final stories to `docs/user-stories/YYYY-MM-DD-[topic].md` in the target project with this file structure:
 

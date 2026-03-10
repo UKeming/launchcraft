@@ -24,6 +24,7 @@ On start, verify:
 - [ ] User stories file exists at `docs/user-stories/*.md`
 - [ ] File contains `## US-` story blocks
 - [ ] Each referenced story has Priority, Size, Persona, Acceptance Criteria
+- [ ] Requirements doc exists at `docs/requirements/*.md` (if available, use for deeper context)
 
 If validation fails, list specific violations and stop. Do NOT proceed with invalid input.
 
@@ -57,20 +58,45 @@ Lead with your recommendation and explain why.
 
 ### 3. Write Design Document
 
-After user approves an approach, write the full design covering these sections (scale each to its complexity — skip if genuinely not applicable):
+After user approves an approach, write a **production-grade** design. This is the blueprint for a mature app — not a prototype. Every section must be detailed enough that a developer with zero context can implement it.
 
-- **Overview** — What we're building and why (reference US-NNN)
-- **Architecture** — System structure, key decisions, diagrams if helpful
-- **Components** — Each component with responsibility, interfaces, dependencies
-- **Data Model** — Entities, relationships, storage (if applicable)
-- **API Design** — Endpoints, request/response formats (if applicable)
-- **Error Handling** — Failure modes, recovery strategies, user-facing errors
-- **Security Considerations** — Auth, input validation, data protection
-- **Testing Strategy** — What to test, approach per component, coverage goals
+**Required sections (never skip):**
+
+- **Overview** — What we're building, why, and for whom. Reference every US-NNN. Include success metrics from requirements doc.
+
+- **Architecture** — System structure with clear diagram (ASCII or mermaid). Layer responsibilities. Request/response flow. State management strategy. Deployment topology.
+
+- **Components** — For EACH component:
+  - Responsibility (single responsibility)
+  - Public interface (functions/methods with signatures)
+  - Dependencies (what it imports/calls)
+  - Internal behavior (key algorithms, state transitions)
+  - Error states (what can go wrong, how it recovers)
+
+- **Data Model** — Every entity with fields, types, constraints, relationships. Indexes for common queries. Migration strategy. Seed data for development.
+
+- **API Design** — Every endpoint with:
+  - Method, path, description
+  - Request format (headers, body, params) with examples
+  - Response format (success and error) with examples
+  - Authentication/authorization requirements
+  - Rate limiting
+
+- **UI/UX Design** — Page/screen inventory. Navigation flow. Key interaction patterns. Responsive behavior. Loading/empty/error states for EVERY view. Accessibility requirements.
+
+- **Error Handling** — Categorize errors (user error, system error, network error). Define error response format. User-facing messages. Logging strategy. Recovery procedures.
+
+- **Security** — Authentication flow. Authorization model (roles, permissions). Input validation rules. Data encryption (at rest, in transit). CORS policy. CSP headers. Dependency audit.
+
+- **Performance** — Target metrics (TTFB, LCP, CLS). Caching strategy. Lazy loading plan. Bundle size budget. Database query optimization.
+
+- **Testing Strategy** — Per component: what to test, approach, fixtures needed. Coverage targets. E2E test scenarios mapped to user journeys. Performance test plan.
+
+- **Deployment** — Cloudflare configuration. Environment variables list. Build pipeline. Rollback procedure. Monitoring and alerting.
 
 ### 4. Review
 
-Present the design section by section. Ask after each: "Does this look right?"
+Present the design section by section. Ask after each: "Does this look right?" Iterate until approved. The goal is a design so thorough that implementation has no ambiguity.
 
 ### 5. Save
 

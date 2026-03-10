@@ -4,15 +4,32 @@ Each skill validates its input on start and self-validates its output before sav
 
 ## Contract Definitions
 
+### need-input
+
+**Input:** Raw idea, problem statement, or pasted feedback (free-form)
+**Output:** `docs/requirements/YYYY-MM-DD-[product-name]-requirements.md`
+**Output must contain:**
+- Problem Statement (2-3 sentences)
+- Target Users with Primary and Secondary personas
+- Core Value Proposition (one sentence)
+- Functional Requirements with Must Have / Should Have / Nice to Have tiers
+- Non-Functional Requirements (performance, security, accessibility, platform)
+- Competitive Landscape table with at least 3 entries
+- Success Criteria (measurable)
+- Out of Scope section
+- Open Questions section (can be empty if all resolved)
+
 ### user-story
 
-**Input:** Raw need text (free-form)
+**Input:** Requirements doc from need-input (`docs/requirements/*.md`) or raw need text
 **Output:** `docs/user-stories/YYYY-MM-DD-[topic].md`
 **Output must contain:**
 - File header with Title, Date, Source, Status
-- At least one `## US-NNN:` block
+- At least 3 `## US-NNN:` blocks per persona
 - Each story has: Priority, Size, Persona, "As a..." statement
 - Each story has `### Acceptance Criteria` with Given/When/Then items
+- Stories cover: onboarding, core usage, error handling, settings
+- Happy paths AND failure paths represented
 
 ### design-doc
 
