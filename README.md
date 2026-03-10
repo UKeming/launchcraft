@@ -32,29 +32,6 @@ Start a new Claude Code session in your project directory. The plugin auto-detec
 | `/launch` | Deploy to Cloudflare and assign `appX.keming.co` subdomain |
 | `/debug` | Systematic debugging when any pipeline stage fails |
 
-### Inputting Requirements
-
-The pipeline starts with a raw need. You can provide it in any form:
-
-```
-# Direct description
-You: /user-story
-Claude: What need are we addressing?
-You: Users can't find the search bar on mobile
-
-# Paste user feedback
-You: /user-story
-Claude: What need are we addressing?
-You: Here are 3 support tickets about our checkout flow: [paste]
-
-# Idea from scratch
-You: /user-story
-Claude: What need are we addressing?
-You: I want to build a habit tracker app
-```
-
-The skill will ask clarifying questions to refine the need before generating stories. You don't need a formal spec — a sentence or a pasted complaint is enough.
-
 ### Example
 
 ```
