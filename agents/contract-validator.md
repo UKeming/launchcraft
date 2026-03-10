@@ -68,38 +68,37 @@ You will receive:
 - [ ] At least one frontend code file exists (HTML, JSX, TSX, Vue, Svelte, etc.)
 - [ ] Frontend-tester agent has tested all pages (check for test report)
 
-### scope-planning
-- [ ] File exists at the specified path
-- [ ] Has Complexity Analysis table with score per factor (Personas, Features, Integrations, Entities, Auth, Real-time)
-- [ ] Has complexity classification (Simple, Medium, or Complex)
-- [ ] Has User Story Plan with target count per persona per journey stage
-- [ ] Total story count matches formula (not arbitrary)
-- [ ] Has Design Doc Plan with 1 system doc + N feature docs
-- [ ] Each feature doc has defined scope and related requirements
-- [ ] Has Implementation Modules with dependency order
-
 ### user-story
 - [ ] File exists at the specified path
-- [ ] Has file header: Title, Date, Source, Status
-- [ ] Contains at least 3 `## US-` blocks per persona
-- [ ] Every story has: Priority (High/Medium/Low), Size (S/M/L), Persona (not "user")
+- [ ] Has file header: Title, Date, Source, Status, Total Stories, Feature Coverage
+- [ ] Has Feature Inventory section listing ALL features from requirements doc
+- [ ] Contains `## US-` blocks — count must be ≥ number of Must-Have + Should-Have features
+- [ ] Every story has: Priority (High/Medium/Low), Size (S/M/L), Persona (not "user"), Features (F-NNN references)
 - [ ] Every story has `### Acceptance Criteria` with at least one Given/When/Then
+- [ ] Has Feature Coverage Matrix section
+- [ ] **Cross-check: read requirements doc, extract all Must-Have features, verify each one appears in the coverage matrix with at least one US-NNN mapped to it. Must-Have coverage must be 100%.**
+- [ ] **Cross-check: same for Should-Have features. Coverage must be 100%.**
 - [ ] Stories cover happy paths AND failure/error paths
 - [ ] Onboarding, core usage, and settings stories exist
 - [ ] No implementation details in stories
 
 ### design-doc
-- [ ] File exists at the specified path
-- [ ] Has file header: Title, Date, Related User Stories, Status
-- [ ] Overview references specific US-NNN numbers
-- [ ] Has sections: Architecture, Components
-- [ ] Has at least one of: Data Model, API Design (if applicable)
-- [ ] Has sections: Error Handling, Security Considerations, Testing Strategy
+- [ ] Design doc files exist at the specified paths (1 system + N feature docs)
+- [ ] Each doc has file header: Title, Date, Related User Stories, Status
+- [ ] Each doc's Overview references specific US-NNN numbers
+- [ ] Each doc has sections: Architecture, Components
+- [ ] Each doc has at least one of: Data Model, API Design (if applicable)
+- [ ] Each doc has sections: Error Handling, Security Considerations, Testing Strategy
+- [ ] Story Coverage Matrix file exists at `docs/designs/*-story-coverage.md`
+- [ ] **Cross-check: read user stories file, extract all US-NNN, verify EVERY one appears in the Story Coverage Matrix with a design doc assigned. Coverage must be 100%.**
 
 ### tdd-testing
 - [ ] Test plan file exists at the specified path
-- [ ] Has file header: Title, Date, Related Design Doc, Status
-- [ ] Every test case maps to a user story (US-NNN)
+- [ ] Has file header: Title, Date, Related Design Docs, Related User Stories, Status, Story Coverage
+- [ ] Has Story Test Inventory listing all US-NNN
+- [ ] Has Story → Test Coverage Matrix mapping every US-NNN to T-NNN
+- [ ] **Cross-check: read user stories file, extract all US-NNN, verify EVERY one appears in the Story → Test Coverage Matrix with at least one T-NNN. Coverage must be 100%.**
+- [ ] Every test case maps to a user story (US-NNN) in the test plan
 - [ ] At least one executable test file exists in `tests/`
 - [ ] **Run all tests** — every test must FAIL
 - [ ] If any test passes, report as VIOLATION
@@ -114,9 +113,35 @@ You will receive:
 - [ ] File exists at the specified path
 - [ ] Has file header: Title, Date, Related Test Plan, Status, Recommendation
 - [ ] Summary table has actual numbers (not N or placeholders)
+- [ ] Has Results by User Story table with per-story pass/fail
+- [ ] Has Requirements Traceability Matrix (RTM) section with: US-NNN, Design Doc, Page/Route, Test Cases, Pass/Fail
+- [ ] RTM Summary shows full traceability percentage
+- [ ] **Cross-check: verify RTM covers all US-NNN from user stories file**
 - [ ] Every failed test has error details and reproduction steps
-- [ ] Results map back to user stories (US-NNN)
 - [ ] Recommendation is justified by the data (no "Ready to Launch" with failures)
+
+### accountant (pre-planning)
+- [ ] File exists at the specified path
+- [ ] Has Business Model section with pricing tiers table
+- [ ] All prices are actual dollar amounts (no "$X" or "[N]" placeholders anywhere in the file)
+- [ ] Has Cost Structure with itemized infrastructure costs
+- [ ] Has Revenue Projections table with month 1, 3, 6, 12 rows — all numbers filled in
+- [ ] Has Break-Even Analysis with calculated break-even users and timeline
+- [ ] Has Risk Assessment table with at least 3 risks
+- [ ] Has Go/No-Go Recommendation section with verdict (GO / CONDITIONAL GO / NO-GO)
+- [ ] Recommendation includes rationale (not just the word)
+
+### accountant (post-launch)
+- [ ] File exists at the specified path
+- [ ] Has Actual Cost Breakdown section referencing real services from implementation
+- [ ] Has cost scaling table at 4 user tiers (100, 1K, 10K, 100K)
+- [ ] Has Feature-to-Tier mapping table with actual features (not placeholders)
+- [ ] Has 12-month projection table with all numbers filled in
+- [ ] Has Unit Economics section (LTV, CAC, LTV:CAC, payback period, gross margin)
+- [ ] Has Monetization Roadmap with immediate, short-term, medium-term sections
+- [ ] Has Financial Summary table with all metrics filled in
+- [ ] Has Verdict (PROFITABLE / VIABLE / NEEDS WORK / NOT VIABLE) with executive summary
+- [ ] No placeholder values ("$X", "[N]", "TBD") anywhere in the file
 
 ### launch
 - [ ] Launch record file exists at the specified path

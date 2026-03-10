@@ -5,6 +5,23 @@ description: "Use when starting a new product or feature from scratch. Triggers 
 
 # Spark — Idea Capture & Analysis
 
+## FULL PIPELINE AUTO-RUN
+
+**This is a BLOCKING instruction.** After spark completes and the contract-validator passes, you MUST continue running the entire pipeline to completion **without stopping or asking the user for permission between stages**:
+
+```
+spark → research → differentiation → enhance → differentiation (re-run) → accountant (pre-planning) → user-story → design-doc → frontend-design → tdd-testing → impl → test-report → launch → accountant (post-launch)
+```
+
+Each stage invokes the next via its `/skill-name` command. Do NOT pause between stages. Do NOT ask "should we continue?" Do NOT summarize and wait. The pipeline runs as one continuous flow from spark to launch.
+
+The ONLY time you stop is:
+1. During spark itself — to ask the user clarifying questions and get sign-off on requirements
+2. If a contract-validator returns FAIL — fix and re-validate, then continue
+3. If an unrecoverable error occurs — report it and invoke `/debugging`
+
+**Every other transition is automatic. No exceptions.**
+
 ## Overview
 
 Capture, structure, and deeply analyze raw requirements before they enter the pipeline. A vague idea in = vague product out. This skill ensures the input is rich enough to produce a mature product.

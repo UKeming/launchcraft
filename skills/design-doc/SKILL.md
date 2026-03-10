@@ -7,15 +7,17 @@ description: "Use when creating technical design documents from user stories. Tr
 
 ## Overview
 
-Transform user stories into actionable technical design documents through collaborative architecture exploration. Always validate input, explore options, and get approval before writing.
+Transform user stories into actionable technical design documents. Every user story MUST be covered by a design doc. No story left undesigned.
 
 <HARD-GATE>
 Before writing any design:
-1. Read and reference the user stories file — cite specific US-NNN numbers
-2. Propose 2-3 architecture approaches with trade-offs
-3. Get explicit user approval on the chosen approach
+1. Extract ALL US-NNN from user stories → build Story Inventory
+2. Group stories by domain → determine design doc split
+3. Propose 2-3 architecture approaches with trade-offs
+4. Get explicit user approval on the chosen approach
+5. Write design docs ensuring 100% story coverage
 
-All three steps must complete before writing the detailed design.
+All steps must complete. No story may be left without a design doc.
 </HARD-GATE>
 
 ## Input Contract Validation
@@ -24,24 +26,38 @@ On start, verify:
 - [ ] User stories file exists at `docs/user-stories/*.md`
 - [ ] File contains `## US-` story blocks
 - [ ] Each referenced story has Priority, Size, Persona, Acceptance Criteria
-- [ ] Scope plan exists at `docs/plans/*-scope-plan.md`
 - [ ] Requirements doc exists at `docs/requirements/*.md`
-
-Read the scope plan's **Design Doc Plan** — it defines how many design docs to produce and what each covers. Follow that breakdown (1 system design + N feature designs). Do NOT write one monolithic doc.
 
 If validation fails, list specific violations and stop.
 
 ## Process
 
-### 1. Analyze User Stories
+### 1. Story Inventory & Design Doc Split
 
-Read the user stories file. For each story, identify:
-- Technical implications
-- Shared components across stories
-- Dependencies between stories
-- Complexity drivers
+Extract EVERY US-NNN from the user stories file. Then group by domain to determine design doc split:
 
-Present a summary: "These N stories require [high-level technical summary]."
+```markdown
+## Story Inventory
+
+**Total stories:** [N]
+
+### Domain Grouping
+
+| Domain | Stories | Design Doc |
+|--------|---------|------------|
+| System (architecture, auth, shared) | US-001, US-002, ... | system-design.md |
+| [Feature A] | US-010, US-011, ... | [feature-a]-design.md |
+| [Feature B] | US-020, US-021, ... | [feature-b]-design.md |
+| ... | ... | ... |
+
+### Ungrouped Stories (MUST be zero)
+[Any US-NNN not assigned to a design doc — fix before proceeding]
+```
+
+**Rules:**
+- Every US-NNN must appear in exactly one design doc group
+- The number of feature docs is driven by the number of distinct domains — no artificial cap
+- Present the split to the user. Do NOT ask if they want to proceed — just show the plan and start writing.
 
 ### 2. Propose Architecture Approaches
 
@@ -59,15 +75,15 @@ Present 2-3 approaches. For each:
 
 Lead with your recommendation and explain why.
 
-### 3. Write Design Document
+### 3. Write Design Documents
 
-After user approves an approach, write a **production-grade** design. This is the blueprint for a mature app — not a prototype. Every section must be detailed enough that a developer with zero context can implement it.
+After user approves an approach, write **all design docs** (1 system + N feature). Each is a production-grade blueprint — detailed enough that a developer with zero context can implement it.
 
-**Required sections (never skip):**
+**Required sections per design doc (never skip):**
 
-- **Overview** — What we're building, why, and for whom. Reference every US-NNN. Include success metrics from requirements doc.
+- **Overview** — What this doc covers. List every US-NNN covered. Include success metrics from requirements.
 
-- **Architecture** — System structure with clear diagram (ASCII or mermaid). Layer responsibilities. Request/response flow. State management strategy. Deployment topology.
+- **Architecture** — System structure with clear diagram (ASCII or mermaid). Layer responsibilities. Request/response flow. State management. Deployment topology. *(System design doc only for global architecture; feature docs reference it.)*
 
 - **Components** — For EACH component:
   - Responsibility (single responsibility)
@@ -85,7 +101,7 @@ After user approves an approach, write a **production-grade** design. This is th
   - Authentication/authorization requirements
   - Rate limiting
 
-- **UI/UX Design** — Page/screen inventory. Navigation flow. Key interaction patterns. Responsive behavior. Loading/empty/error states for EVERY view. Accessibility requirements.
+- **UI/UX Design** — Page/screen inventory with US-NNN mapping. Navigation flow. Key interaction patterns. Responsive behavior. Loading/empty/error states for EVERY view. Accessibility requirements.
 
 - **Error Handling** — Categorize errors (user error, system error, network error). Define error response format. User-facing messages. Logging strategy. Recovery procedures.
 
@@ -97,36 +113,47 @@ After user approves an approach, write a **production-grade** design. This is th
 
 - **Deployment** — Cloudflare configuration. Environment variables list. Build pipeline. Rollback procedure. Monitoring and alerting.
 
-### 4. Review
+### 4. Story Coverage Matrix
 
-Present the design section by section. Ask after each: "Does this look right?" Iterate until approved. The goal is a design so thorough that implementation has no ambiguity.
+**After writing ALL design docs**, verify coverage:
+
+```markdown
+## Story Coverage Matrix
+
+| US-NNN | Story Title | Priority | Design Doc | Covered? |
+|--------|------------|----------|------------|----------|
+| US-001 | User registration | High | system-design.md | YES |
+| US-002 | OAuth login | High | system-design.md | YES |
+| US-010 | Create dashboard | High | dashboard-design.md | YES |
+| US-025 | Export CSV | Medium | data-design.md | YES |
+| ... | ... | ... | ... | ... |
+
+### Coverage Summary
+- **High priority:** [X]/[Y] (must be 100%)
+- **Medium priority:** [X]/[Y] (must be 100%)
+- **Low priority:** [X]/[Y] (must be 100%)
+- **Total:** [X]/[Y] ([Z]%)
+```
+
+**HARD RULE: 100% story coverage.** Every US-NNN must map to a design doc. If any story shows "NO", write or extend the relevant design doc NOW.
 
 ### 5. Save
 
-Save to `docs/designs/YYYY-MM-DD-[topic]-design.md` with this file structure:
+Save each design doc to `docs/designs/YYYY-MM-DD-[topic]-design.md`.
 
-```markdown
-# Design: [Topic]
-
-**Date:** YYYY-MM-DD
-**Related User Stories:** docs/user-stories/[filename].md
-**Status:** Draft | Reviewed | Approved
-**Approach:** [Chosen approach name]
-
----
-
-[Design sections go here]
-```
+Save the Story Coverage Matrix to `docs/designs/YYYY-MM-DD-[product]-story-coverage.md`.
 
 ## Output Validation
 
-After saving, dispatch the **contract-validator** agent to independently verify the output:
+After saving, dispatch the **contract-validator** agent to independently verify:
 
 ```
 Agent: contract-validator
 Skill: design-doc
-Output path: [the file you just saved]
+Output path: [all design doc files + story coverage matrix]
 ```
+
+The validator will cross-check: read the user stories file, extract all US-NNN, and verify each one appears in the Story Coverage Matrix with a design doc assigned.
 
 Do NOT proceed to frontend-design until the validator returns PASS. If it returns FAIL, fix the violations and re-validate.
 Once the validator returns PASS, **immediately invoke `/frontend-design`** — do NOT ask the user whether to continue.
@@ -138,17 +165,20 @@ Once the validator returns PASS, **immediately invoke `/frontend-design`** — d
 | "The architecture is obvious, skip proposals" | Obvious to you ≠ obvious to the user. Present options. |
 | "Only one approach makes sense" | Present it as recommended, but show at least one alternative. |
 | "User stories are simple, no need to reference US-NNN" | Traceability is the whole point. Reference every story. |
+| "Some stories don't need design" | Every story needs at least a mention in a design doc. No exceptions. |
 | "Error handling can be figured out during impl" | Error handling designed late = error handling done badly. |
-| "Security isn't relevant for this project" | Every project has security considerations. Even internal tools. |
-| "Testing strategy is TDD, nothing more to say" | Which components? What coverage? What approach per component? |
+| "One big design doc is fine" | Split by domain. A 100-page doc is unreadable. |
+| "100% coverage is overkill" | In regulated industries it's the law. For us it's the standard. |
 
 ## Evidence Gate
 
 Before claiming this skill is complete, you must have:
-- [ ] Shown input contract validation results (all checks passed)
+- [ ] Extracted Story Inventory with ALL US-NNN (show count)
+- [ ] Grouped stories into design doc domains (show grouping)
 - [ ] Presented 2-3 approaches and received user choice (show the choice)
-- [ ] Presented design sections and received approval (show approval per section)
-- [ ] Saved the file (show the file path)
+- [ ] Written all design docs — 1 system + N feature (show file paths)
+- [ ] Built Story Coverage Matrix with 100% coverage (show matrix)
+- [ ] Saved all files (show paths)
 - [ ] Dispatched contract-validator and received PASS (show the result)
 
 No evidence = not complete. Period.
@@ -160,3 +190,5 @@ No evidence = not complete. Period.
 | "We'll use a modern architecture" | "Next.js app with Cloudflare Workers API, D1 database, R2 for assets" |
 | "Components will communicate" | "OrderService calls InventoryService via REST; events via Cloudflare Queue" |
 | "Handle errors appropriately" | "On payment failure: retry 3x with exponential backoff, then notify user and preserve cart" |
+| One massive design doc | 1 system + N feature docs, split by domain |
+| "20 of 30 stories covered" | "30/30 stories covered, 100% traceability" |

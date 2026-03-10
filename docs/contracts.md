@@ -79,48 +79,49 @@ Each skill validates its input on start and self-validates its output before sav
 - Pages Ready for Testing section with dev server command, base URL, and full page list
 - Frontend-tester agent must have tested all pages and returned PASS
 
-### scope-planning
-
-**Input:** Requirements doc (`docs/requirements/*.md`) + Research report (`docs/research/*.md`) + Differentiation strategy (`docs/strategy/*.md`)
-**Output:** `docs/plans/YYYY-MM-DD-[product-name]-scope-plan.md`
-**Output must contain:**
-- Complexity Analysis table with scores and rationale per factor
-- Complexity classification (Simple / Medium / Complex)
-- User Story Plan with target count per persona per journey stage
-- Design Doc Plan listing 1 system + N feature docs with scope
-- Implementation Modules with dependency order
-
 ### user-story
 
-**Input:** Scope plan (`docs/plans/*-scope-plan.md`) + Requirements doc (`docs/requirements/*.md`)
+**Input:** Requirements doc (`docs/requirements/*.md`) + Research report (`docs/research/*.md`) + Differentiation strategy (`docs/strategy/*.md`) + Enhancement record (`docs/enhanced/*.md`)
 **Output:** `docs/user-stories/YYYY-MM-DD-[topic].md`
 **Output must contain:**
-- File header with Title, Date, Source, Status
-- At least 3 `## US-NNN:` blocks per persona
-- Each story has: Priority, Size, Persona, "As a..." statement
+- File header with Title, Date, Source, Status, Total Stories, Feature Coverage percentage
+- Feature Inventory section listing ALL features extracted from requirements (F-NNN numbered)
+- `## US-NNN:` story blocks — count must be ≥ total Must-Have + Should-Have features
+- Each story has: Priority, Size, Persona, Features (F-NNN references), "As a..." statement
 - Each story has `### Acceptance Criteria` with Given/When/Then items
+- Feature Coverage Matrix mapping every F-NNN to its US-NNN stories
+- Must-Have feature coverage = 100% (every Must-Have feature mapped to ≥1 story)
+- Should-Have feature coverage = 100%
+- Nice-to-Have feature coverage ≥ 90%
 - Stories cover: onboarding, core usage, error handling, settings
 - Happy paths AND failure paths represented
 
 ### design-doc
 
-**Input:** `docs/user-stories/*.md` (must exist and pass user-story contract)
-**Output:** `docs/designs/YYYY-MM-DD-[topic]-design.md`
+**Input:** `docs/user-stories/*.md` (must exist and pass user-story contract) + `docs/requirements/*.md`
+**Output:**
+- `docs/designs/YYYY-MM-DD-[topic]-design.md` (1 system design + N feature designs)
+- `docs/designs/YYYY-MM-DD-[product]-story-coverage.md` (Story Coverage Matrix)
 **Output must contain:**
 - File header with Title, Date, Related User Stories, Status
 - Sections: Overview, Architecture, Components
 - At least one of: Data Model, API Design
 - Sections: Error Handling, Security Considerations, Testing Strategy
+- Story Coverage Matrix mapping every US-NNN to a design doc
+- 100% story coverage (every US-NNN assigned to a design doc)
 
 ### tdd-testing
 
-**Input:** `docs/designs/*.md` (must exist and pass design-doc contract)
+**Input:** `docs/designs/*.md` (must exist and pass design-doc contract) + `docs/user-stories/*.md`
 **Output:**
 - Test files in `tests/`
 - `docs/test-plans/YYYY-MM-DD-[topic]-test-plan.md`
 **Output must contain:**
-- Test plan header with Title, Date, Related Design Doc, Status
-- Test cases mapped to user stories (US-NNN references)
+- Test plan header with Title, Date, Related Design Docs, Related User Stories, Status, Story Coverage percentage
+- Story Test Inventory listing every US-NNN with test type needed
+- Test cases mapped to user stories (US-NNN references) and design docs
+- Story → Test Coverage Matrix mapping every US-NNN to T-NNN test cases
+- 100% story coverage (every US-NNN has at least one test)
 - At least one executable test file created
 - All tests must FAIL (red phase — no implementation yet)
 
@@ -137,13 +138,15 @@ Each skill validates its input on start and self-validates its output before sav
 
 ### test-report
 
-**Input:** Test execution results (after impl)
+**Input:** Test execution results (after impl) + user stories + design docs + test plan
 **Output:** `docs/test-reports/YYYY-MM-DD-[topic]-test-report.md`
 **Output must contain:**
 - File header with Title, Date, Related Test Plan, Status
 - Summary: total tests, passed, failed, skipped
 - Coverage metrics (if available)
-- Per-test results with pass/fail status
+- Results by User Story table (per-story pass/fail)
+- Requirements Traceability Matrix (RTM): US-NNN → Design Doc → Page/Route → Test Cases → Pass/Fail
+- RTM Summary with full traceability percentage
 - Issues list (if any failures)
 - Recommendation: ready to launch / needs fixes
 
@@ -160,6 +163,34 @@ Each skill validates its input on start and self-validates its output before sav
 - Deployment details: platform, subdomain, timestamp
 - Smoke test results
 - Rollback instructions
+
+### accountant (pre-planning)
+
+**Input:** Requirements doc + Research report + Differentiation strategy + Enhancement record
+**Output:** `docs/financials/YYYY-MM-DD-[product-name]-business-assessment.md`
+**Output must contain:**
+- Business Model section with pricing tiers table (actual prices, not placeholders)
+- Cost Structure with itemized infrastructure costs (actual dollar amounts)
+- Revenue Projections table with month 1, 3, 6, 12 (actual numbers)
+- Break-Even Analysis with calculated break-even users and timeline
+- Risk Assessment table with at least 3 risks
+- Go/No-Go Recommendation (GO, CONDITIONAL GO, or NO-GO) with rationale
+- All numbers must be filled in — no "$X" or "[N]" placeholders
+
+### accountant (post-launch)
+
+**Input:** All project docs + actual implementation (package.json, wrangler.toml, code)
+**Output:** `docs/financials/YYYY-MM-DD-[product-name]-financial-report.md`
+**Output must contain:**
+- Actual Cost Breakdown based on real services used in code (not estimated — verified from implementation)
+- Cost scaling table at 100, 1K, 10K, 100K users
+- Feature-to-Tier mapping based on actual features built
+- Updated 12-month projection with concrete numbers
+- Unit Economics (LTV, CAC, LTV:CAC ratio, payback period, gross margin)
+- Monetization Roadmap (immediate, short-term, medium-term)
+- Financial Summary table with all key metrics filled in
+- Verdict (PROFITABLE, VIABLE, NEEDS WORK, NOT VIABLE)
+- All numbers must be filled in — no placeholders
 
 ## Validation Protocol
 

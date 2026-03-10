@@ -100,6 +100,21 @@ Save to `docs/test-reports/YYYY-MM-DD-[topic]-test-report.md`:
 |------------|-------|--------|--------|--------|
 | US-NNN | N | N | N | PASS/FAIL |
 
+## Requirements Traceability Matrix (RTM)
+
+The full audit trail from requirement to test result:
+
+| US-NNN | Story Title | Design Doc | Page/Route | Test Cases | All Pass? |
+|--------|------------|------------|------------|-----------|-----------|
+| US-001 | [title] | system-design.md | /register | T-001, T-002 | YES |
+| US-002 | [title] | system-design.md | /login | T-003, T-004 | YES |
+| ... | ... | ... | ... | ... | ... |
+
+### RTM Summary
+- **Stories with full traceability (design → test → pass):** [X]/[Y] ([Z]%)
+- **Stories with test failures:** [list US-NNN]
+- **Stories missing from any stage:** [list or NONE]
+
 ## Failed Tests (if any)
 
 ### T-NNN: [test name]

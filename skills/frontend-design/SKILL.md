@@ -5,6 +5,17 @@ description: "Use after design-doc to create distinctive, production-grade front
 
 # Frontend Design
 
+## EXECUTION MODE: CONTINUOUS BUILD
+
+**Do NOT create TodoWrite tasks, TaskCreate items, or any task-tracking artifacts for this skill.** The checklist in the Evidence Gate is for final self-verification ONLY — not a task list to be created and tracked.
+
+Build all pages in one continuous flow:
+1. Read design doc → inventory pages → get aesthetic approval
+2. Build ALL pages sequentially without stopping between them
+3. Save frontend design doc → dispatch agents → continue pipeline
+
+No task creation. No per-page todos. No stopping to update task status. Just build.
+
 ## Overview
 
 Create distinctive, production-grade frontend interfaces from design docs. This is the visual implementation phase — turning architecture into actual working UI code. Every page must be visually tested via the frontend-tester agent before proceeding.
@@ -32,9 +43,9 @@ If validation fails, list specific violations and stop.
 
 ## Process
 
-### 1. Inventory All Pages
+### 1. Story-to-Page Inventory
 
-From the design doc's UI/UX section, list every page/route:
+Read the design doc's UI/UX section AND the user stories file. Build a page inventory that maps every UI-related story to a page:
 
 ```markdown
 ## Page Inventory
@@ -44,7 +55,20 @@ From the design doc's UI/UX section, list every page/route:
 | 1 | / | Home | Hero, nav, CTA, features | US-001, US-002 |
 | 2 | /login | Login | Form, OAuth, forgot link | US-003 |
 | 3 | /dashboard | Dashboard | Sidebar, cards, charts | US-005, US-006 |
+
+## UI Story Coverage
+
+| US-NNN | Story Title | Page(s) | Covered? |
+|--------|------------|---------|----------|
+| US-001 | Landing page hero | / | YES |
+| US-003 | User login | /login | YES |
+| US-005 | Dashboard overview | /dashboard | YES |
+| ... | ... | ... | ... |
+
+**UI stories covered:** [X]/[Y] ([Z]%)
 ```
+
+**Note:** Not all stories have UI (e.g., API-only, background jobs). Only stories with UI implications need page coverage. But every story WITH a UI component must map to at least one page.
 
 Present to user: "These are all the pages I'll build. Missing anything?"
 

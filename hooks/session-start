@@ -51,12 +51,13 @@ if [ -d "${PROJECT_DIR}/docs/enhanced" ] && ls "${PROJECT_DIR}/docs/enhanced/"*.
     has_enhance=true
 fi
 
-# 5. Check for scope plan
-if ls "${PROJECT_DIR}/docs/plans/"*-scope-plan.md &>/dev/null 2>&1; then
-    has_scope_plan=true
+# 5. Check for business assessment (accountant pre-planning)
+has_business_assessment=false
+if [ -d "${PROJECT_DIR}/docs/financials" ] && ls "${PROJECT_DIR}/docs/financials/"*-business-assessment.md &>/dev/null; then
+    has_business_assessment=true
 fi
 
-# 5. Check for user stories
+# 6. Check for user stories
 if [ -d "${PROJECT_DIR}/docs/user-stories" ] && ls "${PROJECT_DIR}/docs/user-stories/"*.md &>/dev/null; then
     has_user_stories=true
 fi
@@ -144,12 +145,12 @@ elif [ "$has_designs" = true ]; then
 elif [ "$has_user_stories" = true ]; then
     stage="Next: design-doc"
     stage_detail="User stories found. Run /design-doc to create the design document."
-elif [ "$has_scope_plan" = true ]; then
+elif [ "$has_business_assessment" = true ]; then
     stage="Next: user-story"
-    stage_detail="Scope plan found. Run /user-story to generate user stories per the scope plan."
+    stage_detail="Business assessment complete. Run /user-story to generate user stories from enhanced requirements."
 elif [ "$has_differentiation" = true ] && [ "$has_enhance" = true ]; then
-    stage="Next: scope-planning"
-    stage_detail="Requirements enhanced and differentiation updated. Run /scope-planning to determine story count and design doc breakdown."
+    stage="Next: accountant (pre-planning)"
+    stage_detail="Requirements enhanced and differentiation updated. The accountant agent will evaluate commercial viability, then proceed to /user-story."
 elif [ "$has_differentiation" = true ]; then
     stage="Next: enhance"
     stage_detail="Differentiation strategy found. Run /enhance to expand requirements with more features and differentiation."
@@ -177,8 +178,7 @@ skills_list+="  - /spark         : Capture and analyze requirements with competi
 skills_list+="  - /research     : Validate requirements against real market data and user research\\n"
 skills_list+="  - /differentiation: Define product positioning and strategic bets\\n"
 skills_list+="  - /enhance       : Expand requirements with more features and differentiation\\n"
-skills_list+="  - /scope-planning: Determine story count, design doc split, impl modules\\n"
-skills_list+="  - /user-story    : Generate comprehensive user stories per scope plan\\n"
+skills_list+="  - /user-story    : Generate comprehensive user stories from enhanced requirements\\n"
 skills_list+="  - /design-doc    : Create a design document from user stories\\n"
 skills_list+="  - /frontend-design: Create distinctive frontend UI with Playwright testing\\n"
 skills_list+="  - /tdd-testing   : Write failing tests from the design (TDD red phase)\\n"
@@ -236,7 +236,7 @@ context="<EXTREMELY_IMPORTANT>\\nLaunchCraft Pipeline Status\\n\\n"
 context+="**Current stage:** ${stage}\\n"
 context+="**Detail:** ${stage_detail}\\n\\n"
 context+="${skills_list}\\n\\n"
-context+="The LaunchCraft pipeline follows this order: spark -> research -> differentiation -> enhance -> differentiation (re-run) -> scope-planning -> user-story -> design-doc -> frontend-design -> tdd-testing -> impl -> test-report -> launch\\n"
+context+="The LaunchCraft pipeline follows this order: spark -> research -> differentiation -> enhance -> differentiation (re-run) -> accountant (pre-planning) -> user-story -> design-doc -> frontend-design -> tdd-testing -> impl -> test-report -> launch -> accountant (post-launch)\\n"
 context+="Always follow the pipeline order. Each skill validates its inputs against upstream contracts before proceeding.\\n"
 context+="${memory_instructions}\\n"
 

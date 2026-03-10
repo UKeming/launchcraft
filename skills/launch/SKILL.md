@@ -130,6 +130,17 @@ Output path: [the launch record file]
 
 The validator will verify the URL is accessible, deployment details are real, and rollback instructions are present. If it returns FAIL, fix the violations and re-validate.
 
+Once the validator returns PASS, dispatch the **accountant** agent for a post-launch financial report:
+
+```
+Agent: accountant
+Phase: post-launch
+Product name: [product name]
+Project root: [project root]
+```
+
+The accountant will produce a detailed financial report with concrete costs based on actual services used, revenue projections based on actual features built, and a monetization roadmap. This is the final pipeline deliverable — present the financial report to the user alongside the launch confirmation.
+
 ## Rationalization Prevention
 
 | Thought | Reality |
