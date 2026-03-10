@@ -124,8 +124,8 @@ elif [ "$has_requirements" = true ]; then
     stage="Next: scope-planning"
     stage_detail="Requirements found. Run /scope-planning to determine story count and design doc breakdown."
 else
-    stage="Start with need-input"
-    stage_detail="No pipeline artifacts detected. Run /need-input to capture and analyze requirements."
+    stage="Start with spark"
+    stage_detail="No pipeline artifacts detected. Run /spark to capture and analyze requirements."
 fi
 
 # --- Read existing project memory (CLAUDE.md) ---
@@ -137,7 +137,7 @@ fi
 
 # --- Build available skills list ---
 skills_list="Available LaunchCraft skills (invoke with /skill-name):\\n"
-skills_list+="  - /need-input    : Capture and analyze requirements with competitive analysis\\n"
+skills_list+="  - /spark         : Capture and analyze requirements with competitive analysis\\n"
 skills_list+="  - /scope-planning: Determine story count, design doc split, impl modules\\n"
 skills_list+="  - /user-story    : Generate comprehensive user stories per scope plan\\n"
 skills_list+="  - /design-doc    : Create a design document from user stories\\n"
@@ -196,7 +196,7 @@ context="<EXTREMELY_IMPORTANT>\\nLaunchCraft Pipeline Status\\n\\n"
 context+="**Current stage:** ${stage}\\n"
 context+="**Detail:** ${stage_detail}\\n\\n"
 context+="${skills_list}\\n\\n"
-context+="The LaunchCraft pipeline follows this order: need-input -> scope-planning -> user-story -> design-doc -> tdd-testing -> impl -> test-report -> launch\\n"
+context+="The LaunchCraft pipeline follows this order: spark -> scope-planning -> user-story -> design-doc -> tdd-testing -> impl -> test-report -> launch\\n"
 context+="Always follow the pipeline order. Each skill validates its inputs against upstream contracts before proceeding.\\n"
 context+="${memory_instructions}\\n"
 

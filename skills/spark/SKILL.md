@@ -1,9 +1,9 @@
 ---
-name: need-input
+name: spark
 description: "Use when starting a new product or feature from scratch. Triggers on: new product idea, feature request, requirement gathering, need analysis, market research input."
 ---
 
-# Need Input & Analysis
+# Spark — Idea Capture & Analysis
 
 ## Overview
 
@@ -137,7 +137,7 @@ After saving, dispatch the **contract-validator** agent to independently verify 
 
 ```
 Agent: contract-validator
-Skill: need-input
+Skill: spark
 Output path: [the file you just saved]
 ```
 

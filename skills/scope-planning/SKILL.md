@@ -1,6 +1,6 @@
 ---
 name: scope-planning
-description: "Use after need-input to determine product scope, story count, and design doc breakdown. Triggers on: scoping a product, planning how many stories to write, deciding design doc structure."
+description: "Use after spark to determine product scope, story count, and design doc breakdown. Triggers on: scoping a product, planning how many stories to write, deciding design doc structure."
 ---
 
 # Scope Planning
@@ -25,7 +25,7 @@ On start, verify:
 - [ ] Requirements doc exists at `docs/requirements/*.md`
 - [ ] Requirements doc has: Problem Statement, Target Users, Functional Requirements (Must/Should/Nice)
 
-If validation fails, stop and run `/need-input` first.
+If validation fails, stop and run `/spark` first.
 
 ## Process
 

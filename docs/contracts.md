@@ -4,7 +4,7 @@ Each skill validates its input on start and self-validates its output before sav
 
 ## Contract Definitions
 
-### need-input
+### spark
 
 **Input:** Raw idea, problem statement, or pasted feedback (free-form)
 **Output:** `docs/requirements/YYYY-MM-DD-[product-name]-requirements.md`
@@ -21,7 +21,7 @@ Each skill validates its input on start and self-validates its output before sav
 
 ### scope-planning
 
-**Input:** Requirements doc from need-input (`docs/requirements/*.md`)
+**Input:** Requirements doc from spark (`docs/requirements/*.md`)
 **Output:** `docs/plans/YYYY-MM-DD-[product-name]-scope-plan.md`
 **Output must contain:**
 - Complexity Analysis table with scores and rationale per factor

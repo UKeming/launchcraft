@@ -5,7 +5,7 @@ A Claude Code plugin that turns ideas into launched products through a structure
 ## Pipeline
 
 ```
-/need-input → /scope-planning → /user-story → /design-doc → /tdd-testing → /impl → /test-report → /launch
+/spark → /scope-planning → /user-story → /design-doc → /tdd-testing → /impl → /test-report → /launch
 ```
 
 Each stage validates its input from the previous stage, produces verified output, and saves important learnings to project memory (`CLAUDE.md`).
@@ -27,7 +27,7 @@ Start a new Claude Code session in your project directory. The plugin auto-detec
 
 | Command | What it does |
 |---------|-------------|
-| `/need-input` | Capture, analyze, and structure requirements with competitive analysis and success criteria |
+| `/spark` | Capture, analyze, and structure requirements with competitive analysis and success criteria |
 | `/scope-planning` | Analyze complexity, determine story count, plan design doc breakdown and impl modules |
 | `/user-story` | Generate comprehensive user stories per scope plan, covering full user journeys |
 | `/design-doc` | Create a technical design document from user stories |
@@ -42,9 +42,9 @@ Start a new Claude Code session in your project directory. The plugin auto-detec
 ```
 You: I want to build a bookmark manager app
 
-Claude: [auto-detects: no pipeline artifacts → suggests /need-input]
+Claude: [auto-detects: no pipeline artifacts → suggests /spark]
 
-You: /need-input
+You: /spark
 
 Claude: [probing questions → competitive analysis → structured requirements → saves to docs/requirements/ → contract-validator verifies]
 

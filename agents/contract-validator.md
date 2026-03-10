@@ -32,7 +32,7 @@ You will receive:
 
 ## Validation Rules
 
-### need-input
+### spark
 - [ ] File exists at the specified path
 - [ ] Has Problem Statement (not a single sentence — 2-3 sentences minimum)
 - [ ] Has Target Users with Primary and Secondary personas
