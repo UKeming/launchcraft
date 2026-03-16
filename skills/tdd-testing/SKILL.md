@@ -10,6 +10,7 @@ description: "Use when writing tests before implementation based on a design doc
 Write tests (parallel by domain) → save test plan → dispatch contract-validator + code-reviewer → on PASS immediately invoke `/impl`.
 This is a continuous pipeline — you do NOT stop between stages.
 **ALL .md files → `.launchcraft/` directory. NEVER save to `docs/` or project root.**
+**ALL questions to user → `AskUserQuestion` tool. NEVER output questions as plain text.**
 </PIPELINE-AUTO-RUN>
 
 ## Overview

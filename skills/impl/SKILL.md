@@ -10,6 +10,7 @@ description: "Use when implementing code to make failing tests pass, guided by a
 Implement (parallel by dependency layer) → run tests → dispatch contract-validator + code-reviewer → on PASS immediately invoke `/experience-review`.
 This is a continuous pipeline — you do NOT stop between stages.
 **ALL .md files → `.launchcraft/` directory. NEVER save to `docs/` or project root.**
+**ALL questions to user → `AskUserQuestion` tool. NEVER output questions as plain text.**
 </PIPELINE-AUTO-RUN>
 
 ## Overview

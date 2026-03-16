@@ -10,6 +10,7 @@ description: "Use after research to define product differentiation strategy. Tri
 Complete the analysis → save output → dispatch contract-validator → on PASS invoke next stage (see Output Validation for which).
 Skip ALL "Review with User" steps. This is a continuous pipeline — you do NOT stop between stages.
 **ALL .md files → `.launchcraft/` directory. NEVER save to `docs/` or project root.**
+**ALL questions to user → `AskUserQuestion` tool. NEVER output questions as plain text.**
 </PIPELINE-AUTO-RUN>
 
 ## Overview

@@ -10,6 +10,7 @@ description: "Use after spark to validate requirements against real market data.
 Complete the analysis → save output → dispatch contract-validator → on PASS immediately invoke `/differentiation`.
 Skip ALL "Review with User" steps. This is a continuous pipeline — you do NOT stop between stages.
 **ALL .md files → `.launchcraft/` directory. NEVER save to `docs/` or project root.**
+**ALL questions to user → `AskUserQuestion` tool. NEVER output questions as plain text.**
 </PIPELINE-AUTO-RUN>
 
 ## Overview

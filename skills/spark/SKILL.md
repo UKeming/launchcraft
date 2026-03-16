@@ -36,6 +36,17 @@ Do NOT write everything sequentially when parallel is possible. Use `Agent(subag
 ### 3. Auto-run: do NOT stop between stages
 
 After each skill completes + contract-validator PASS → immediately invoke the next skill. No asking, no waiting, no summarizing.
+
+### 4. ALL questions to the user MUST use the AskUserQuestion tool
+
+**NEVER output a question as plain text.** Every question, clarification, choice, or approval request MUST use the `AskUserQuestion` tool with structured options. This includes:
+- Spark's probing questions about requirements
+- Architecture approach selection (design-doc)
+- Aesthetic direction choices (frontend-design)
+- Review/sign-off steps (any skill)
+- Any "should we...?" or "which do you prefer...?" question
+
+Plain text questions are invisible to the user in some UI modes. AskUserQuestion renders as interactive buttons. If you write a question without AskUserQuestion, the user cannot answer it.
 </MANDATORY-RULES>
 
 ## FULL PIPELINE AUTO-RUN
