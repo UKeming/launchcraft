@@ -38,6 +38,9 @@ spark → research → differentiation → enhance → differentiation (re-run) 
 
 ## Gotchas
 
+### Plugin Updates
+- **`claude plugin update` doesn't git pull**: Known Claude Code bug. The marketplace local clone at `~/.claude/plugins/marketplaces/launchcraft/` doesn't auto-fetch from remote. Users must run `/update` (our custom command) or manually `cd ~/.claude/plugins/marketplaces/launchcraft && git pull origin main` then `claude plugin update launchcraft@launchcraft`.
+
 ### Git/GitHub
 - **Account switching breaks push**: `gh auth switch` changes the CLI account but git push still uses old credentials. MUST run `gh auth setup-git --hostname github.com` after switching.
 - **Empty repo can't use `--push`**: `gh repo create --push` fails with no commits. Create at least one commit first.
