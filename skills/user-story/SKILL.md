@@ -9,6 +9,7 @@ description: "Use when converting raw needs, feature ideas, or pain points into 
 **MANDATORY: Do NOT ask user questions. Do NOT wait for approval. Do NOT stop after saving.**
 Complete the analysis → save individual story files + index → dispatch contract-validator → on PASS immediately invoke `/design-doc`.
 Skip ALL user review steps. This is a continuous pipeline — you do NOT stop between stages.
+**ALL .md files → `.launchcraft/` directory. NEVER save to `docs/` or project root.**
 </PIPELINE-AUTO-RUN>
 
 <CRITICAL-OUTPUT-RULES>

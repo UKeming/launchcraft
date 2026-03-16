@@ -9,6 +9,7 @@ description: "Use after differentiation to expand requirements with additional f
 **MANDATORY: Do NOT ask user questions. Do NOT wait for approval. Do NOT stop after saving.**
 Auto-approve ALL proposed enhancements. Complete the analysis → save output → dispatch contract-validator → on PASS immediately invoke `/differentiation`.
 Skip ALL user approval steps. This is a continuous pipeline — you do NOT stop between stages.
+**ALL .md files → `.launchcraft/` directory. NEVER save to `docs/` or project root.**
 </PIPELINE-AUTO-RUN>
 
 ## Philosophy

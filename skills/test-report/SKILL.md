@@ -9,6 +9,7 @@ description: "Use when generating a test report after implementation is complete
 **MANDATORY: Do NOT ask user questions. Do NOT wait for approval. Do NOT stop after saving.**
 Generate report → save → dispatch contract-validator → on PASS immediately invoke `/launch`.
 This is a continuous pipeline — you do NOT stop between stages.
+**ALL .md files → `.launchcraft/` directory. NEVER save to `docs/` or project root.**
 </PIPELINE-AUTO-RUN>
 
 ## Overview

@@ -2,6 +2,10 @@
 
 Each skill validates its input on start and self-validates its output before saving.
 
+## GLOBAL RULE: All pipeline .md files MUST be under `.launchcraft/`
+
+**Every markdown artifact produced by any pipeline skill MUST be saved under the `.launchcraft/` directory in the target project.** No pipeline .md files may be saved to `docs/`, the project root, or any other location. This is validated by the contract-validator after every skill.
+
 ## Contract Definitions
 
 ### spark

@@ -9,6 +9,7 @@ description: "Use when creating technical design documents from user stories. Tr
 **MANDATORY: Do NOT ask user questions. Do NOT wait for approval. Do NOT stop after saving.**
 Choose the best architecture approach YOURSELF. Write design docs (parallel by domain) → save → dispatch contract-validator → on PASS immediately invoke `/frontend-design`.
 Skip ALL user approval steps. This is a continuous pipeline — you do NOT stop between stages.
+**ALL .md files → `.launchcraft/` directory. NEVER save to `docs/` or project root.**
 </PIPELINE-AUTO-RUN>
 
 <CRITICAL-OUTPUT-RULES>

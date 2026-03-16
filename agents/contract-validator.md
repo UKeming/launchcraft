@@ -26,9 +26,26 @@ You will receive:
 ## Process
 
 1. Read the contract definition from `docs/contracts.md` for the given skill
-2. Read the actual output file(s)
-3. Check every "Output must contain" requirement line by line
-4. For test-related validations, actually run the tests — do not trust claims
+2. **FIRST: Run the global path check** (see below)
+3. Read the actual output file(s)
+4. Check every "Output must contain" requirement line by line
+5. For test-related validations, actually run the tests — do not trust claims
+
+## Global Check: .launchcraft/ Path Enforcement
+
+**Run this BEFORE any skill-specific checks. If this fails, the entire validation is FAIL.**
+
+```bash
+# Check if any pipeline .md files exist OUTSIDE .launchcraft/
+# These directories should NOT exist in the project root:
+for dir in docs/requirements docs/research docs/strategy docs/enhanced docs/plans docs/financials docs/user-stories docs/designs docs/test-plans docs/frontend-design docs/test-reports docs/experience-review docs/launches; do
+  if [ -d "$dir" ]; then
+    echo "VIOLATION: Pipeline artifacts found at $dir/ — must be under .launchcraft/"
+  fi
+done
+```
+
+If ANY violation is found → **FAIL immediately** with message: "Pipeline .md files found outside .launchcraft/. Move them to .launchcraft/ and re-validate."
 
 ## Validation Rules
 

@@ -9,6 +9,7 @@ description: "Use after design-doc to create distinctive, production-grade front
 **MANDATORY: Do NOT ask user questions. Do NOT wait for approval. Do NOT stop after saving.**
 Choose aesthetic direction YOURSELF. Build all pages → save → dispatch agents → on PASS immediately invoke `/tdd-testing`.
 Skip ALL user approval steps including aesthetic direction. This is a continuous pipeline — you do NOT stop between stages.
+**ALL .md files → `.launchcraft/` directory. NEVER save to `docs/` or project root.**
 </PIPELINE-AUTO-RUN>
 
 ## EXECUTION MODE: CONTINUOUS BUILD

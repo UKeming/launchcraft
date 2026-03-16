@@ -9,6 +9,7 @@ description: "Use after impl to experience the actual running application via re
 **MANDATORY: Do NOT ask user questions. Do NOT wait for approval. Do NOT stop after saving.**
 Run the review → fix issues → loop until APPROVED → dispatch contract-validator → on PASS immediately invoke `/test-report`.
 This is a continuous pipeline — you do NOT stop between stages.
+**ALL .md files → `.launchcraft/` directory. NEVER save to `docs/` or project root.**
 </PIPELINE-AUTO-RUN>
 
 ## Overview
