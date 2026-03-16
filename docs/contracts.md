@@ -106,12 +106,16 @@ Each skill validates its input on start and self-validates its output before sav
 **Output:**
 - `.launchcraft/[domain]/design.md` — one design doc per domain, co-located with its stories
 - `.launchcraft/[domain]/assets/*` — generated image assets (if any IMAGE_REQUESTs)
+- `.launchcraft/api-contract.yaml` — global OpenAPI 3.0 spec (single source of truth for all endpoints)
+- `src/shared/api-types.ts` — shared TypeScript types for request/response (if TypeScript project)
 - `.launchcraft/story-coverage.md` — global Story Coverage Matrix
 **Output must contain:**
 - Each design doc has file header: Title, Date, Domain, Related User Stories (US-NNN list), Status
 - Each design doc has sections: Overview, Architecture, Components
 - Each design doc has at least one of: Data Model, API Design
 - Each design doc has sections: Error Handling, Security Considerations, Testing Strategy
+- **API contract** (`.launchcraft/api-contract.yaml`) with all endpoints from all domains, OpenAPI 3.0 format
+- Each domain's API Design section MUST be consistent with the global contract (same paths, same shapes)
 - Story Coverage Matrix mapping every US-NNN to its domain's design doc
 - 100% story coverage (every US-NNN assigned to a design doc)
 - All IMAGE_REQUEST placeholders resolved (no remaining `<!-- IMAGE_REQUEST` blocks)
@@ -138,10 +142,14 @@ Each skill validates its input on start and self-validates its output before sav
 
 **Input:**
 - `.launchcraft/*/design.md` (domain design docs)
+- `.launchcraft/api-contract.yaml` (API contract — single source of truth)
+- `src/shared/api-types.ts` (shared types, if TypeScript)
 - Test files in `tests/` (from tdd-testing)
 **Output:** Implementation source code
 **Output must satisfy:**
 - All existing tests pass (green phase)
+- Frontend API calls match `.launchcraft/api-contract.yaml` (same paths, same request/response shapes)
+- Backend API handlers match `.launchcraft/api-contract.yaml`
 - No test files modified (tests are the spec)
 - Code follows design doc architecture
 

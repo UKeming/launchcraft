@@ -18,6 +18,8 @@ You implement ONE component to make its tests pass. You will receive:
 - **Component name** and scope
 - **Test files** to make pass (T-NNN list)
 - **Design doc section** describing the architecture
+- **API contract** (`.launchcraft/api-contract.yaml`) — the single source of truth for all API interfaces
+- **Shared types** (`src/shared/api-types.ts` if TypeScript) — import these, do NOT redefine
 - **User stories** this component covers (US-NNN list)
 - **Dependencies** already implemented (available in the committed codebase)
 
@@ -25,14 +27,18 @@ You implement ONE component to make its tests pass. You will receive:
 
 1. Read the test files — understand what behavior is expected
 2. Read the design doc section — understand the architecture
-3. Write the MINIMUM code to make those tests pass
-4. Run the tests to verify they pass
-5. Commit your work before finishing
+3. **Read `.launchcraft/api-contract.yaml`** — all API calls and handlers MUST match this contract exactly
+4. **If `src/shared/api-types.ts` exists** — import types from it, do NOT create duplicate type definitions
+5. Write the MINIMUM code to make those tests pass
+6. Run the tests to verify they pass
+7. Commit your work before finishing
 
 ## Rules
 
 - **Do NOT modify test files.** Tests are the spec.
 - **Do NOT implement anything outside your component scope.**
+- **API endpoints and calls MUST match `.launchcraft/api-contract.yaml` exactly** — same paths, same request/response shapes, same field names. If you find a mismatch between the contract and the tests, follow the contract (tests may be generated from an earlier spec version).
+- **Import shared types** — do NOT redefine request/response types that exist in `src/shared/api-types.ts`.
 - Write minimal code — no premature abstraction, no extra features.
 - Follow the design doc architecture (naming, file structure, patterns).
 - Run tests after implementation: `npm test -- --grep "[component]"` or equivalent.

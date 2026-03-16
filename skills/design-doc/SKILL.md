@@ -127,6 +127,7 @@ After user approves an approach, write all design docs in parallel using worktre
   - Response format (success and error) with examples
   - Authentication/authorization requirements
   - Rate limiting
+  - **All endpoint definitions MUST match the global API contract** (`.launchcraft/api-contract.yaml`). If your domain adds new endpoints, add them to the contract first.
 
 - **UI/UX Design** — Page/screen inventory with US-NNN mapping. Navigation flow. Key interaction patterns. Responsive behavior. Loading/empty/error states for EVERY view. Accessibility requirements. **Where a visual asset is needed (illustrations, icons, hero images, diagrams), insert an IMAGE_REQUEST placeholder** (see format below).
 
@@ -166,7 +167,11 @@ After user approves an approach, write all design docs in parallel using worktre
      Image Asset Generation (Step 3.5)
 ```
 
-**System design doc first:** Write the system domain's `.launchcraft/system/design.md` directly (no worktree needed — it's the foundation). Commit it — this is the base for all worktree agents.
+**System design doc first:** Write the system domain's `.launchcraft/system/design.md` directly (no worktree needed — it's the foundation).
+
+**Then generate the global API contract** from the system design's API section. Save to `.launchcraft/api-contract.yaml` (OpenAPI 3.0 format). This is the **single source of truth** for all endpoints. For TypeScript projects, also generate `src/shared/api-types.ts` with request/response types that both frontend and backend will import.
+
+**Commit both** (system design + API contract) — this is the base for all worktree agents.
 
 **Feature domains in parallel:** Dispatch one **`design-doc-writer`** sub-agent per feature domain:
 
@@ -174,6 +179,7 @@ After user approves an approach, write all design docs in parallel using worktre
 Agent(subagent_type="design-doc-writer") per feature domain, ALL in one message:
   - prompt: "Domain: [domain], Stories: US-NNN to US-NNN,
              System design: .launchcraft/system/design.md,
+             API contract: .launchcraft/api-contract.yaml,
              Architecture: [chosen approach]"
   - run_in_background: true (except the last one)
 ```

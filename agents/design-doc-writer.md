@@ -27,9 +27,11 @@ You write the design doc for a SINGLE domain. You will receive:
 
 1. Read all story files in `.launchcraft/[domain]/stories/US-*.md`
 2. Read the system design doc at `.launchcraft/system/design.md` — reference it, don't duplicate
-3. Write `.launchcraft/[domain]/design.md` with ALL required sections
-4. Generate images if needed (see below)
-5. Commit your work before finishing
+3. Read the **global API contract** at `.launchcraft/api-contract.yaml` — your API Design section MUST match it exactly
+4. Write `.launchcraft/[domain]/design.md` with ALL required sections
+5. If this domain needs NEW endpoints not in the contract, add them to `.launchcraft/api-contract.yaml` too
+6. Generate images if needed (see below)
+7. Commit your work before finishing
 
 ## Required Sections
 

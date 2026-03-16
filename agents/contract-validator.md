@@ -112,6 +112,13 @@ If ANY violation is found → **FAIL immediately** with message: "Pipeline .md f
 - [ ] No remaining `<!-- IMAGE_REQUEST` blocks in any design doc (all resolved or removed)
 - [ ] If `.launchcraft/*/assets/` directories exist, verify referenced image files actually exist
 - [ ] If real images were used, `ATTRIBUTION.md` exists in the relevant `.launchcraft/*/assets/` folder with source, license, and URL
+- [ ] **API contract exists at `.launchcraft/api-contract.yaml`** (OpenAPI 3.0 format)
+- [ ] **Cross-check: for each domain design doc with an API Design section, verify every endpoint listed matches the global api-contract.yaml (same path, method, request/response schema)**
+
+### impl (additional API checks)
+- [ ] **If `.launchcraft/api-contract.yaml` exists: cross-check frontend API calls against the contract** — verify fetch/axios calls use the correct paths and send the correct request shapes
+- [ ] **Cross-check backend route handlers against the contract** — verify handler paths, accepted params, and response shapes match
+- [ ] If `src/shared/api-types.ts` exists, verify both frontend and backend import from it (not duplicate type definitions)
 
 ### tdd-testing
 - [ ] Test plan file exists at the specified path

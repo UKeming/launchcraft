@@ -121,6 +121,8 @@ Layer 2: Sequential (single component, no worktree needed)
    Agent(subagent_type="impl-worker") per component, ALL in one message:
      - prompt: "Component: [X], Tests: T-NNN to T-NNN,
                 Design doc: .launchcraft/[domain]/design.md,
+                API contract: .launchcraft/api-contract.yaml,
+                Shared types: src/shared/api-types.ts (if exists),
                 Stories: US-NNN"
      - run_in_background: true (except the last one)
    ```
