@@ -145,7 +145,7 @@ Each skill validates its input on start and self-validates its output before sav
 
 **Input:**
 - All upstream docs: requirements (`.launchcraft/requirements/*.md`), domain stories (`.launchcraft/*/stories/US-*.md`), domain designs (`.launchcraft/*/design.md`), frontend design (`.launchcraft/frontend-design/*.md`)
-- Running application (all tests must pass)
+- Locally deployed application (production build, NOT dev server — all tests must pass)
 - Pipeline context log (`.launchcraft/pipeline-context.md`)
 **Output:** `.launchcraft/experience-review/YYYY-MM-DD-[product-name]-experience-review.md`
 **Output must contain:**

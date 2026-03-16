@@ -107,23 +107,58 @@ For EACH required tool:
 - Same as Linux inside WSL
 - Native Windows: use `winget` or `choco` for system tools
 
-### 3. Start the Application
+### 3. Local Deploy (Build + Serve Production Build)
 
-Detect the startup command from project files:
+**The experience review MUST run against a production build, NOT a dev server.** Dev servers hide issues (missing assets, build errors, env var problems). Local deploy catches what `npm run dev` won't.
 
-**Web application:**
+#### a. Build the Application
+
+Detect and run the build command:
+
+| Project Type | Build Command | Detect From |
+|-------------|--------------|-------------|
+| Vite / React / Vue / Svelte | `npm run build` | `package.json` scripts.build |
+| Next.js | `npm run build` | `next.config.*` |
+| Cloudflare Workers/Pages | `npm run build` or `wrangler build` | `wrangler.toml` |
+| Python (Django/Flask) | `python manage.py collectstatic` | `manage.py` |
+| Go | `go build -o ./bin/app` | `go.mod` |
+| Static HTML/CSS/JS | No build needed | No framework detected |
+
 ```bash
-# Check package.json scripts, Makefile, docker-compose, etc.
-# Common: npm run dev, npm start, yarn dev, pnpm dev
-# Python: python manage.py runserver, flask run, uvicorn main:app
-# Ruby: rails server, bundle exec puma
+# Run the build
+npm run build   # (or equivalent)
+# Verify build succeeded — check exit code and output directory exists
 ```
+
+**If build fails:** fix the error and retry. Do NOT proceed to serve with a broken build.
+
+#### b. Serve the Production Build Locally
+
+Start a local server serving the BUILT output (not source):
+
+| Project Type | Serve Command | URL |
+|-------------|--------------|-----|
+| Vite | `npx vite preview` | http://localhost:4173 |
+| Next.js | `npm run start` (after build) | http://localhost:3000 |
+| Cloudflare Workers | `wrangler dev` | http://localhost:8787 |
+| Cloudflare Pages | `npx wrangler pages dev ./dist` | http://localhost:8788 |
+| Static site | `npx serve dist/` or `npx serve build/` | http://localhost:3000 |
+| Python | `gunicorn app:app` | http://localhost:8000 |
+| Go | `./bin/app` | http://localhost:8080 |
+
+```bash
+# Start in background
+npx vite preview &   # (or equivalent)
+# Poll until responsive (max 30 seconds)
+```
+
 - Start the server in the background
 - Poll the URL until it responds (max 30 seconds, check every 2 seconds)
 - If server fails to start: check logs, fix the issue, retry
+- **Verify it's serving the production build** (not dev mode — check for minified assets, no HMR websocket)
 
 **CLI tool:**
-- Build if needed (`npm run build`, `go build`, `cargo build`, etc.)
+- Build (`npm run build`, `go build`, `cargo build`, etc.)
 - Verify the binary/script exists and is executable
 
 **API service:**
