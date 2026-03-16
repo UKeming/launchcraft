@@ -11,6 +11,7 @@ spark → research → differentiation → enhance → differentiation (re-run) 
 - **design-doc-writer** — parallel per feature domain, writes design.md + generates images via nano-banana MCP (spawned by design-doc skill)
 - **tdd-test-writer** — parallel per domain, writes failing test files (spawned by tdd-testing skill)
 - **impl-worker** — parallel per component layer, implements code to pass tests (spawned by impl skill)
+- **experience-reviewer** — foreground agent, uses Playwright to interact with running app, fixes issues, loops until APPROVED. Has project memory.
 - **contract-validator** — after every skill, validates output against contracts
 - **accountant** — after 2nd differentiation (pre-planning: go/no-go) and after launch (post-launch: detailed financial report)
 - **code-reviewer** — after tdd-testing and impl, reviews code quality and auto-fixes
