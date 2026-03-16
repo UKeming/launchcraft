@@ -72,8 +72,10 @@ You will receive:
 - [ ] Global index exists at `.launchcraft/user-stories-index.md`
 - [ ] Index has: Feature Inventory, Feature Coverage Matrix, Domain Listing
 - [ ] Domain story folders exist (at least one `.launchcraft/*/stories/` with US-*.md files)
+- [ ] **CRITICAL: Each story is a SEPARATE file.** Run `find .launchcraft -path "*/stories/US-*.md" | wc -l` — count must match Total Stories in the index. If there is only 1 file containing all stories, this is a FAIL.
 - [ ] Each story file has frontmatter: id (US-NNN), title, priority, size, persona, features (F-NNN), domain
 - [ ] Each story file has "As a..." statement and `## Acceptance Criteria` with at least one Given/When/Then
+- [ ] Each story file contains exactly ONE story (not multiple US-NNN blocks in one file)
 - [ ] Total story files count ≥ number of Must-Have + Should-Have features
 - [ ] **Cross-check: read requirements doc, extract all Must-Have features, verify each one appears in the coverage matrix with at least one US-NNN mapped to it. Must-Have coverage must be 100%.**
 - [ ] **Cross-check: same for Should-Have features. Coverage must be 100%.**
