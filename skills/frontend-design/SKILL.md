@@ -36,10 +36,10 @@ After building, pass the complete page list to the frontend-tester agent for vis
 ## Input Contract Validation
 
 On start, verify:
-- [ ] Design doc exists at `docs/designs/*.md`
-- [ ] Design doc has UI/UX Design section with page inventory
-- [ ] Design doc has Architecture section (for tech stack context)
-- [ ] User stories exist at `docs/user-stories/*.md`
+- [ ] Domain design docs exist at `docs/*/design.md` (at least one domain)
+- [ ] At least one design doc has UI/UX Design section with page inventory
+- [ ] At least one design doc has Architecture section (for tech stack context)
+- [ ] Domain story files exist at `docs/*/stories/US-*.md`
 
 If validation fails, list specific violations and stop.
 
@@ -47,7 +47,7 @@ If validation fails, list specific violations and stop.
 
 ### 1. Story-to-Page Inventory
 
-Read the design doc's UI/UX section AND the user stories file. Build a page inventory that maps every UI-related story to a page:
+Read ALL domain design docs' UI/UX sections AND all domain story files. Build a page inventory that maps every UI-related story to a page:
 
 ```markdown
 ## Page Inventory
@@ -149,7 +149,7 @@ Save to `docs/frontend-design/YYYY-MM-DD-[product-name]-frontend-design.md`:
 # Frontend Design: [Product Name]
 
 **Date:** YYYY-MM-DD
-**Related Design Doc:** docs/designs/[filename].md
+**Related Design Docs:** docs/*/design.md
 **Aesthetic Direction:** [chosen direction]
 **Status:** Draft | Tested | Approved
 

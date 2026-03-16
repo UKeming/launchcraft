@@ -27,6 +27,25 @@ spark → research → differentiation → enhance → differentiation (re-run) 
 - `docs/contracts.md` — input/output contracts for all skills
 - `.mcp.json` — MCP server declarations for the plugin
 
+## Domain-Based Doc Structure
+
+User stories and design docs are organized by domain folders. Each domain co-locates its stories and design:
+
+```
+docs/
+  [domain]/                    # e.g., auth/, dashboard/, system/
+    stories/
+      US-NNN-[slug].md         # individual story file with frontmatter
+    design.md                  # domain's design doc
+  user-stories-index.md        # global feature inventory + coverage matrix
+  story-coverage.md            # global story → design doc mapping
+```
+
+- **user-story skill** creates domain folders + individual story files + global index
+- **design-doc skill** reads stories from domain folders, writes `design.md` into each domain folder
+- **tdd-testing** and **impl** read `docs/*/design.md` + `docs/*/stories/US-*.md`
+- Hooks detect both new (`docs/*/stories/`) and legacy (`docs/user-stories/`) paths
+
 ## MCP Servers
 
 - **nano-banana** — Image generation/editing via Google Gemini models. Tools: `generate_image`, `edit_image`, `list_models`. Requires `GEMINI_API_KEY` env var.
@@ -40,6 +59,7 @@ spark → research → differentiation → enhance → differentiation (re-run) 
 
 ### Plugin Updates
 - **`claude plugin update` doesn't git pull**: Known Claude Code bug. The marketplace local clone at `~/.claude/plugins/marketplaces/launchcraft/` doesn't auto-fetch from remote. Users must run `/update` (our custom command) or manually `cd ~/.claude/plugins/marketplaces/launchcraft && git pull origin main` then `claude plugin update launchcraft@launchcraft`.
+- **Must bump version on every push**: The plugin cache keys on version number. If you push changes without bumping `marketplace.json` + `plugin.json` version, `claude plugin update` says "already at latest" and the cache never refreshes. Always bump version before pushing.
 
 ### Git/GitHub
 - **Account switching breaks push**: `gh auth switch` changes the CLI account but git push still uses old credentials. MUST run `gh auth setup-git --hostname github.com` after switching.
@@ -61,6 +81,18 @@ spark → research → differentiation → enhance → differentiation (re-run) 
 - **Don't duplicate hook instructions in skills**: If the hook injects global instructions (like auto-memory), adding the same to each skill is redundant and bloats context. Keep skills focused on their domain. Exception: the "Pipeline auto-run mode" note in each skill is necessary because skill instructions override earlier context.
 - **Rationalization tables must be skill-specific**: Generic "don't skip steps" doesn't work. Each skill needs its own table targeting the specific shortcuts agents try for that stage.
 - **Evidence gates need concrete checkboxes**: Vague "verify before completing" gets ignored. Each skill needs explicit "show this output" requirements.
+
+### Image Assets (Generated + Real)
+- **Two pipelines**: `type: generated` uses nano-banana MCP (AI), `type: real` uses web search + download. Both run in parallel after design docs are merged.
+- **No transparent backgrounds**: nano-banana cannot generate transparent PNGs. Always design with solid or gradient backgrounds.
+- **Text in images is unreliable**: Generated images often have garbled/misspelled text. Default to `has_text: false`. If text is essential, use `nano-banana-pro` (best text rendering). If text is still garbled after retry, regenerate WITHOUT text using `nano-banana` (cheapest).
+- **Model selection by content**: `nano-banana` for no-text images (cheapest), `nano-banana-pro` for images that must contain readable text (best quality). `nano-banana-2` is the balanced default.
+- **Budget before generation**: Always show the user an image manifest with estimated costs BEFORE generating. Multiple images should be generated in parallel.
+- **Worktree agents can't call MCP**: Design doc worktree agents insert `IMAGE_REQUEST` placeholders. After merge, the main agent handles all image sourcing (MCP + web search), then dispatches verification agents.
+- **Verification loop**: After generation/download, a subagent reads each image to check quality. FAIL_TEXT → retry without text (cheaper model). FAIL_RESOLUTION → re-search or fall back to generated. Max 2 retries per image.
+- **Real images need resolution minimums**: Hero/banner = 1920×1080, inline = 1200×800, card = 800×600, icon = 512×512. Low-res images on retina displays look terrible.
+- **Real images need attribution**: Every `docs/[domain]/assets/` folder with real images must have `ATTRIBUTION.md` tracking source, license, and original URL.
+- **Use real for photos, generated for graphics**: AI-generated photos of people/places look uncanny. Use `type: real` for any real-world photography. Use `type: generated` for illustrations, icons, patterns, conceptual graphics.
 
 ### Contract System
 - **Contracts are the single source of truth**: Validation rules live in `docs/contracts.md`, not scattered across skills. The contract-validator agent reads from there.

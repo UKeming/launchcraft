@@ -64,7 +64,7 @@ Each skill validates its input on start and self-validates its output before sav
 
 ### frontend-design
 
-**Input:** Design doc (`docs/designs/*.md`) + User stories (`docs/user-stories/*.md`)
+**Input:** Domain design docs (`docs/*/design.md`) + Story files (`docs/*/stories/US-*.md`) + Index (`docs/user-stories-index.md`)
 **Output:**
 - Frontend code files (HTML/CSS/JS or framework components)
 - `docs/frontend-design/YYYY-MM-DD-[product-name]-frontend-design.md`
@@ -82,13 +82,13 @@ Each skill validates its input on start and self-validates its output before sav
 ### user-story
 
 **Input:** Requirements doc (`docs/requirements/*.md`) + Research report (`docs/research/*.md`) + Differentiation strategy (`docs/strategy/*.md`) + Enhancement record (`docs/enhanced/*.md`)
-**Output:** `docs/user-stories/YYYY-MM-DD-[topic].md`
+**Output:**
+- `docs/[domain]/stories/US-NNN-[slug].md` — one file per story, organized by domain folder
+- `docs/user-stories-index.md` — global feature inventory + coverage matrix + domain listing
 **Output must contain:**
-- File header with Title, Date, Source, Status, Total Stories, Feature Coverage percentage
-- Feature Inventory section listing ALL features extracted from requirements (F-NNN numbered)
-- `## US-NNN:` story blocks — count must be ≥ total Must-Have + Should-Have features
-- Each story has: Priority, Size, Persona, Features (F-NNN references), "As a..." statement
-- Each story has `### Acceptance Criteria` with Given/When/Then items
+- Each story file has frontmatter: US-NNN, Title, Priority, Size, Persona, Features (F-NNN), Domain
+- Each story file has: "As a..." statement, `## Acceptance Criteria` with Given/When/Then items
+- Index file has: Feature Inventory (F-NNN numbered), Feature Coverage Matrix, Domain Listing with story counts
 - Feature Coverage Matrix mapping every F-NNN to its US-NNN stories
 - Must-Have feature coverage = 100% (every Must-Have feature mapped to ≥1 story)
 - Should-Have feature coverage = 100%
@@ -98,21 +98,26 @@ Each skill validates its input on start and self-validates its output before sav
 
 ### design-doc
 
-**Input:** `docs/user-stories/*.md` (must exist and pass user-story contract) + `docs/requirements/*.md`
+**Input:** `docs/*/stories/US-*.md` (story files by domain) + `docs/user-stories-index.md` + `docs/requirements/*.md`
 **Output:**
-- `docs/designs/YYYY-MM-DD-[topic]-design.md` (1 system design + N feature designs)
-- `docs/designs/YYYY-MM-DD-[product]-story-coverage.md` (Story Coverage Matrix)
+- `docs/[domain]/design.md` — one design doc per domain, co-located with its stories
+- `docs/[domain]/assets/*` — generated image assets (if any IMAGE_REQUESTs)
+- `docs/story-coverage.md` — global Story Coverage Matrix
 **Output must contain:**
-- File header with Title, Date, Related User Stories, Status
-- Sections: Overview, Architecture, Components
-- At least one of: Data Model, API Design
-- Sections: Error Handling, Security Considerations, Testing Strategy
-- Story Coverage Matrix mapping every US-NNN to a design doc
+- Each design doc has file header: Title, Date, Domain, Related User Stories (US-NNN list), Status
+- Each design doc has sections: Overview, Architecture, Components
+- Each design doc has at least one of: Data Model, API Design
+- Each design doc has sections: Error Handling, Security Considerations, Testing Strategy
+- Story Coverage Matrix mapping every US-NNN to its domain's design doc
 - 100% story coverage (every US-NNN assigned to a design doc)
+- All IMAGE_REQUEST placeholders resolved (no remaining `<!-- IMAGE_REQUEST` blocks)
+- Generated images verified (no garbled text in final assets)
+- Real images meet `min_resolution` requirements
+- `ATTRIBUTION.md` exists in every domain `assets/` folder that contains real (non-generated) images
 
 ### tdd-testing
 
-**Input:** `docs/designs/*.md` (must exist and pass design-doc contract) + `docs/user-stories/*.md`
+**Input:** `docs/*/design.md` (domain design docs) + `docs/*/stories/US-*.md` (story files) + `docs/story-coverage.md`
 **Output:**
 - Test files in `tests/`
 - `docs/test-plans/YYYY-MM-DD-[topic]-test-plan.md`
@@ -128,7 +133,7 @@ Each skill validates its input on start and self-validates its output before sav
 ### impl
 
 **Input:**
-- `docs/designs/*.md` (design doc)
+- `docs/*/design.md` (domain design docs)
 - Test files in `tests/` (from tdd-testing)
 **Output:** Implementation source code
 **Output must satisfy:**
@@ -139,7 +144,7 @@ Each skill validates its input on start and self-validates its output before sav
 ### experience-review
 
 **Input:**
-- All upstream docs (requirements, user stories, design docs, frontend design)
+- All upstream docs: requirements (`docs/requirements/*.md`), domain stories (`docs/*/stories/US-*.md`), domain designs (`docs/*/design.md`), frontend design (`docs/frontend-design/*.md`)
 - Running application (all tests must pass)
 - Pipeline context log (`docs/pipeline-context.md`)
 **Output:** `docs/experience-review/YYYY-MM-DD-[product-name]-experience-review.md`
@@ -157,7 +162,7 @@ Each skill validates its input on start and self-validates its output before sav
 
 ### test-report
 
-**Input:** Test execution results (after experience-review) + user stories + design docs + test plan
+**Input:** Test execution results (after experience-review) + domain stories (`docs/*/stories/US-*.md`) + domain designs (`docs/*/design.md`) + test plan
 **Output:** `docs/test-reports/YYYY-MM-DD-[topic]-test-report.md`
 **Output must contain:**
 - File header with Title, Date, Related Test Plan, Status

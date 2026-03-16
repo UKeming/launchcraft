@@ -25,11 +25,11 @@ All tests must FAIL after this skill completes. If any test passes, something is
 ## Input Contract Validation
 
 On start, verify:
-- [ ] Design docs exist at `docs/designs/*.md`
-- [ ] Design docs have: Overview, Architecture, Components sections
-- [ ] Design docs reference user stories (US-NNN)
-- [ ] User stories file exists at `docs/user-stories/*.md`
-- [ ] Story Coverage Matrix exists at `docs/designs/*-story-coverage.md`
+- [ ] Domain design docs exist at `docs/*/design.md` (at least one domain)
+- [ ] Each design doc has: Overview, Architecture, Components sections
+- [ ] Each design doc references user stories (US-NNN)
+- [ ] Domain story files exist at `docs/*/stories/US-*.md`
+- [ ] Story Coverage Matrix exists at `docs/story-coverage.md`
 
 If validation fails, list specific violations and stop.
 
@@ -37,17 +37,17 @@ If validation fails, list specific violations and stop.
 
 ### 1. Story Inventory for Testing
 
-Extract EVERY US-NNN from the user stories file. For each story, identify what needs testing:
+Read ALL story files from `docs/*/stories/US-*.md` and the story coverage matrix from `docs/story-coverage.md`. For each story, identify what needs testing:
 
 ```markdown
 ## Story Test Inventory
 
-| US-NNN | Story Title | Priority | Test Type Needed | Design Doc |
-|--------|------------|----------|-----------------|------------|
-| US-001 | User registration | High | Unit + Integration | system-design.md |
-| US-002 | OAuth login | High | Unit + Integration + E2E | system-design.md |
-| US-010 | Create dashboard | High | Unit + E2E | dashboard-design.md |
-| ... | ... | ... | ... | ... |
+| US-NNN | Story Title | Priority | Test Type Needed | Domain | Design Doc |
+|--------|------------|----------|-----------------|--------|------------|
+| US-001 | User registration | High | Unit + Integration | system | docs/system/design.md |
+| US-002 | OAuth login | High | Unit + Integration + E2E | auth | docs/auth/design.md |
+| US-010 | Create dashboard | High | Unit + E2E | dashboard | docs/dashboard/design.md |
+| ... | ... | ... | ... | ... | ... |
 
 **Total stories:** [N]
 **Stories needing tests:** [N] (should be ALL of them)
@@ -114,8 +114,8 @@ First, set up the test framework and shared test infrastructure (config, helpers
 
 Then:
 
-1. **Group test cases by design doc** — each design doc covers an independent domain
-2. **Dispatch one Agent per design doc, each in its own worktree** (`isolation: "worktree"`)
+1. **Group test cases by domain** — each domain folder has its own design doc + stories
+2. **Dispatch one Agent per domain, each in its own worktree** (`isolation: "worktree"`)
 3. **Merge all worktree branches** into main, resolving any conflicts
 
 ```
@@ -155,8 +155,8 @@ Agent tool call (repeat for each design doc, ALL in one message):
 ```
 
 **Each worktree agent receives:**
-- The design doc it's responsible for
-- The user stories (US-NNN) mapped to that design doc
+- The domain's design doc (`docs/[domain]/design.md`)
+- The domain's story files (`docs/[domain]/stories/US-*.md`)
 - The test framework config and shared helpers (already committed)
 - Instructions to write executable failing tests with US-NNN + T-NNN references
 - **Must commit its work before finishing** (so the branch has the changes)
@@ -193,7 +193,7 @@ describe('User Registration', () => {
 5. After all branches merged: run full test suite → all tests must FAIL
 6. Clean up worktree branches: `git branch -d <worktree-branch>`
 
-**If there is only ONE design doc**, write tests directly without worktrees (overhead not worth it).
+**If there is only ONE domain**, write tests directly without worktrees (overhead not worth it).
 
 ### 5. Verify All Tests Fail
 
@@ -210,7 +210,7 @@ Save to `docs/test-plans/YYYY-MM-DD-[topic]-test-plan.md`:
 
 **Date:** YYYY-MM-DD
 **Related Design Docs:** [list all design doc paths]
-**Related User Stories:** docs/user-stories/[filename].md
+**Related User Stories:** docs/*/stories/US-*.md
 **Status:** Red (all tests failing)
 **Test Framework:** [framework name]
 **Total Test Cases:** [N]
@@ -247,7 +247,7 @@ Output path: [test plan file and test directory]
 Agent: code-reviewer (run_in_background: true)
 Skill: tdd-testing
 Code paths: tests/
-Design doc: docs/designs/[filename].md
+Design doc: docs/*/design.md
 ```
 
 Wait for both to complete. If code-reviewer made fixes, re-run tests to verify they still FAIL (no accidental implementation).
@@ -265,7 +265,7 @@ Once both complete, **immediately invoke `/impl`** — do NOT ask the user wheth
 | "Edge cases can be tested later" | Edge cases found in production cost 10x more. Test now. |
 | "80% coverage is good enough" | 100% story coverage. Non-negotiable. |
 | "Low-priority stories can skip tests" | Low-priority stories still have acceptance criteria. Test them. |
-| "I'll write all tests sequentially, it's simpler" | If there are 2+ design docs, dispatch parallel worktree agents. Speed matters. |
+| "I'll write all tests sequentially, it's simpler" | If there are 2+ domains, dispatch parallel worktree agents. Speed matters. |
 | "Parallel test writing will cause conflicts" | Each agent runs in its own worktree. Merge afterward — conflicts are rare for test files in different domains. |
 | "Worktrees are overkill for tests" | Agents might touch shared files (test config, fixtures, helpers). Worktrees make this safe. |
 | "Let me run contract-validator first, then code-reviewer" | Dispatch both in parallel. They don't depend on each other. |
@@ -294,6 +294,6 @@ No evidence = not complete. Period.
 | No assertion message | `assert result == expected, "Search should return 10 results for 'shoes'"` |
 | No US-NNN reference in tests | Every test file/block references the story it tests |
 | "20 of 30 stories have tests" | "30/30 stories covered, 100% traceability" |
-| Writing all tests in one long sequential pass | Parallel worktree agents per design doc, merge branches |
+| Writing all tests in one long sequential pass | Parallel worktree agents per domain, merge branches |
 | Running validators sequentially | Dispatch contract-validator + code-reviewer in parallel |
 | Parallel agents writing to same working directory | Each agent in `isolation: "worktree"`, merge after |

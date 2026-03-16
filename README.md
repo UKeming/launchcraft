@@ -64,11 +64,11 @@ Claude: [analyzes complexity → calculates story count → plans design doc spl
 
 You: /user-story
 
-Claude: [asks clarifying questions → identifies personas → generates user stories → saves to docs/user-stories/ → contract-validator verifies]
+Claude: [asks clarifying questions → identifies personas → generates user stories → saves per-domain story files (docs/[domain]/stories/US-NNN.md) → contract-validator verifies]
 
 You: /design-doc
 
-Claude: [reads user stories → proposes architecture options → writes design → saves to docs/designs/ → contract-validator verifies]
+Claude: [reads domain stories → proposes architecture → writes design per domain (docs/[domain]/design.md) → contract-validator verifies]
 
 ...continue through the pipeline...
 ```
@@ -111,7 +111,7 @@ launchcraft/
 
 ## How It Works
 
-1. **SessionStart hook** runs on every session — detects which pipeline stage you're in by checking for artifacts (`docs/user-stories/`, `docs/designs/`, `tests/`, etc.) and injects context
+1. **SessionStart hook** runs on every session — detects which pipeline stage you're in by checking for artifacts (`docs/*/stories/`, `docs/*/design.md`, `tests/`, etc.) and injects context
 2. **Each skill** validates its input contract, enforces a HARD-GATE before doing real work, then produces output
 3. **Contract-validator agent** independently checks the output against `docs/contracts.md`
 4. **Auto-memory** saves key decisions and gotchas to `CLAUDE.md` so future sessions have full context

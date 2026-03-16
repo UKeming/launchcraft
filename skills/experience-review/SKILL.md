@@ -28,8 +28,8 @@ You MUST interact with the RUNNING application. Reading code is NOT a substitute
 ## Input Contract Validation
 
 On start, verify:
-- [ ] Design docs exist at `docs/designs/*.md`
-- [ ] User stories exist at `docs/user-stories/*.md`
+- [ ] Domain design docs exist at `docs/*/design.md`
+- [ ] Domain story files exist at `docs/*/stories/US-*.md`
 - [ ] Requirements doc exists at `docs/requirements/*.md`
 - [ ] All tests pass (run the test suite and show output)
 - [ ] Pipeline context log exists at `docs/pipeline-context.md` (read it for full context)
@@ -58,7 +58,7 @@ If validation fails, stop and run the missing upstream skill.
 | Jupyter notebooks / data pipeline | **Data/ML Tool** | Run notebooks, verify output files |
 
 #### Fallback Rule
-If the app type is unclear, check `docs/designs/*.md` for architecture clues. If still unclear, default to Playwright for anything with a web interface.
+If the app type is unclear, check `docs/*/design.md` for architecture clues. If still unclear, default to Playwright for anything with a web interface.
 
 ### 2. Install Required Tools
 

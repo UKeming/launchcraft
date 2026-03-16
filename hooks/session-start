@@ -57,13 +57,20 @@ if [ -d "${PROJECT_DIR}/docs/financials" ] && ls "${PROJECT_DIR}/docs/financials
     has_business_assessment=true
 fi
 
-# 6. Check for user stories
-if [ -d "${PROJECT_DIR}/docs/user-stories" ] && ls "${PROJECT_DIR}/docs/user-stories/"*.md &>/dev/null; then
+# 6. Check for user stories (domain-based: docs/*/stories/US-*.md or legacy docs/user-stories/*.md)
+if [ -f "${PROJECT_DIR}/docs/user-stories-index.md" ] || ([ -d "${PROJECT_DIR}/docs/user-stories" ] && ls "${PROJECT_DIR}/docs/user-stories/"*.md &>/dev/null); then
     has_user_stories=true
+else
+    # Check for domain-based story files
+    story_count=$(find "${PROJECT_DIR}/docs" -path "*/stories/US-*.md" 2>/dev/null | head -5 | wc -l | tr -d ' ')
+    if [ "$story_count" -gt 0 ]; then
+        has_user_stories=true
+    fi
 fi
 
-# 6. Check for design docs
-if [ -d "${PROJECT_DIR}/docs/designs" ] && ls "${PROJECT_DIR}/docs/designs/"*.md &>/dev/null; then
+# 7. Check for design docs (domain-based: docs/*/design.md or legacy docs/designs/*.md)
+design_count=$(find "${PROJECT_DIR}/docs" -maxdepth 2 -name "design.md" 2>/dev/null | head -5 | wc -l | tr -d ' ')
+if [ "$design_count" -gt 0 ] || ([ -d "${PROJECT_DIR}/docs/designs" ] && ls "${PROJECT_DIR}/docs/designs/"*.md &>/dev/null); then
     has_designs=true
 fi
 

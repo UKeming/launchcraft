@@ -67,33 +67,40 @@ Complex: 3-5 stories/stage → total: N × 6 × 4   ≈ 40-70 stories
 
 Present the calculation to the user. Adjust based on their feedback.
 
-### 3. Plan Design Doc Breakdown
+### 3. Plan Domain Structure
 
-Every product gets:
-- **1 System Design** — overall architecture, tech stack, deployment, shared concerns (auth, error handling, security)
-
-Plus feature design docs, grouped by domain:
+Every product is organized into **domain folders**. Each domain co-locates its stories and design doc:
 
 ```
-Identify feature modules by:
-1. Group related Must-Have requirements
-2. Each group that has 3+ user stories = 1 feature design doc
-3. Smaller groups merge into the nearest related module
+docs/[domain]/
+  stories/       ← individual US-NNN-[slug].md files
+  design.md      ← domain's design doc
+```
+
+Every product gets a **system** domain plus feature domains:
+
+```
+Identify domains by:
+1. Group related Must-Have requirements by functional area
+2. Each group that has 3+ user stories = 1 domain
+3. Smaller groups merge into the nearest related domain
+4. System domain covers: overall architecture, DB, auth, deployment, shared infra
 ```
 
 Example for a bookmark manager:
 ```
-1. system-design.md         (architecture, DB, API framework, auth)
-2. bookmark-crud-design.md  (create, read, update, delete, organize)
-3. search-filter-design.md  (search, tags, filters, sort)
-4. sharing-design.md        (share links, permissions, public pages)
-5. import-export-design.md  (browser import, CSV export, API)
+docs/
+  system/          (architecture, DB, API framework, auth)
+  bookmark-crud/   (create, read, update, delete, organize)
+  search-filter/   (search, tags, filters, sort)
+  sharing/         (share links, permissions, public pages)
+  import-export/   (browser import, CSV export, API)
 ```
 
-**Target:**
-- Simple: 1 system + 2-3 feature docs
-- Medium: 1 system + 3-5 feature docs
-- Complex: 1 system + 5-8 feature docs
+**Target domain count:**
+- Simple: system + 2-3 feature domains
+- Medium: system + 3-5 feature domains
+- Complex: system + 5-8 feature domains
 
 ### 4. Produce Scope Plan
 
@@ -134,15 +141,15 @@ Present and save the scope plan:
 | [persona] | Admin/Settings | [N] |
 | **Total** | | **[N]** |
 
-## Design Doc Plan
+## Domain Structure
 
-**Total docs:** 1 system + [N] feature docs
+**Total domains:** system + [N] feature domains
 
-| Doc | Scope | Related Requirements |
-|-----|-------|---------------------|
-| system-design.md | Architecture, DB, auth, deployment | All |
-| [feature]-design.md | [scope] | [Must-Have items] |
-| [feature]-design.md | [scope] | [Must-Have items] |
+| Domain | Folder | Scope | Related Requirements |
+|--------|--------|-------|---------------------|
+| system | docs/system/ | Architecture, DB, auth, deployment | All |
+| [domain] | docs/[domain]/ | [scope] | [Must-Have items] |
+| [domain] | docs/[domain]/ | [scope] | [Must-Have items] |
 
 ## Implementation Modules
 
@@ -157,7 +164,7 @@ Suggested implementation order (by dependency):
 Ask the user:
 - Is the complexity classification correct?
 - Is the story count appropriate? Too many? Too few?
-- Does the design doc split make sense?
+- Does the domain structure make sense?
 - Is the implementation order right?
 
 Iterate until approved.
@@ -185,7 +192,7 @@ Once the validator returns PASS, **immediately invoke `/user-story`** — do NOT
 |---------|---------|
 | "This is clearly simple, skip the analysis" | Score it anyway. "Simple" projects that are actually Medium waste weeks. |
 | "3 stories per persona is enough" | Map the journey first. If 3 stories skip onboarding and error handling, the app is incomplete. |
-| "One big design doc is fine" | One 50-page doc is unreadable. Split by feature module. |
+| "One big design doc is fine" | One 50-page doc is unreadable. Split by domain folder. |
 | "Implementation order doesn't matter yet" | Dependencies discovered during impl = rework. Plan now. |
 | "The user just wants to start building" | 30 minutes of scoping saves days of rework. |
 

@@ -106,8 +106,8 @@ Save to `docs/launches/YYYY-MM-DD-[topic]-launch.md`:
 
 ## Related Artifacts
 
-- User Stories: docs/user-stories/[file].md
-- Design Doc: docs/designs/[file].md
+- User Stories: docs/*/stories/US-*.md
+- Design Docs: docs/*/design.md
 - Test Report: docs/test-reports/[file].md
 
 ## Rollback Instructions

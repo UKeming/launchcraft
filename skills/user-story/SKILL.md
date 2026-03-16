@@ -147,12 +147,42 @@ After the feature matrix passes, verify journey coverage:
 
 If any gaps exist, write the missing stories and update the coverage matrix.
 
-### 7. Save
+### 7. Save — Domain-Based Structure
 
-Save to `docs/user-stories/YYYY-MM-DD-[topic].md`:
+Save each story as an individual file, organized by domain folders.
+
+**Step 1: Determine domains.** Group stories by functional domain (e.g., auth, dashboard, search, settings). Each domain gets its own folder under `docs/`.
+
+**Step 2: Save individual story files.** For each story, save to `docs/[domain]/stories/US-NNN-[slug].md`:
 
 ```markdown
-# User Stories: [Topic]
+---
+id: US-NNN
+title: [Short Title]
+priority: High | Medium | Low
+size: S | M | L
+persona: [Persona name]
+features: [F-001, F-002]
+domain: [domain name]
+---
+
+# US-NNN: [Short Title]
+
+> As a [persona], I want [goal/action], so that [benefit/value].
+
+## Acceptance Criteria
+
+- [ ] Given [context], when [action], then [expected result]
+- [ ] Given [context], when [action], then [expected result]
+
+## Notes
+[Optional: edge cases, technical considerations, dependencies]
+```
+
+**Step 3: Save global index.** Save to `docs/user-stories-index.md`:
+
+```markdown
+# User Stories Index
 
 **Date:** YYYY-MM-DD
 **Source:** [requirements doc path]
@@ -168,7 +198,13 @@ Save to `docs/user-stories/YYYY-MM-DD-[topic].md`:
 
 ---
 
-[Stories organized by persona and journey stage]
+## Domain Listing
+
+| Domain | Folder | Stories | Count |
+|--------|--------|---------|-------|
+| Auth | docs/auth/stories/ | US-001, US-002, ... | [N] |
+| Dashboard | docs/dashboard/stories/ | US-010, US-011, ... | [N] |
+| ... | ... | ... | ... |
 
 ---
 
@@ -184,7 +220,7 @@ After saving, dispatch the **contract-validator** agent to independently verify 
 ```
 Agent: contract-validator
 Skill: user-story
-Output path: [the file you just saved]
+Output path: docs/user-stories-index.md + docs/*/stories/US-*.md
 ```
 
 Do NOT proceed to design-doc until the validator returns PASS. If it returns FAIL, fix the violations and re-validate.

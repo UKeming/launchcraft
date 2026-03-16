@@ -69,13 +69,12 @@ You will receive:
 - [ ] Frontend-tester agent has tested all pages (check for test report)
 
 ### user-story
-- [ ] File exists at the specified path
-- [ ] Has file header: Title, Date, Source, Status, Total Stories, Feature Coverage
-- [ ] Has Feature Inventory section listing ALL features from requirements doc
-- [ ] Contains `## US-` blocks — count must be ≥ number of Must-Have + Should-Have features
-- [ ] Every story has: Priority (High/Medium/Low), Size (S/M/L), Persona (not "user"), Features (F-NNN references)
-- [ ] Every story has `### Acceptance Criteria` with at least one Given/When/Then
-- [ ] Has Feature Coverage Matrix section
+- [ ] Global index exists at `docs/user-stories-index.md`
+- [ ] Index has: Feature Inventory, Feature Coverage Matrix, Domain Listing
+- [ ] Domain story folders exist (at least one `docs/*/stories/` with US-*.md files)
+- [ ] Each story file has frontmatter: id (US-NNN), title, priority, size, persona, features (F-NNN), domain
+- [ ] Each story file has "As a..." statement and `## Acceptance Criteria` with at least one Given/When/Then
+- [ ] Total story files count ≥ number of Must-Have + Should-Have features
 - [ ] **Cross-check: read requirements doc, extract all Must-Have features, verify each one appears in the coverage matrix with at least one US-NNN mapped to it. Must-Have coverage must be 100%.**
 - [ ] **Cross-check: same for Should-Have features. Coverage must be 100%.**
 - [ ] Stories cover happy paths AND failure/error paths
@@ -83,21 +82,24 @@ You will receive:
 - [ ] No implementation details in stories
 
 ### design-doc
-- [ ] Design doc files exist at the specified paths (1 system + N feature docs)
-- [ ] Each doc has file header: Title, Date, Related User Stories, Status
+- [ ] Domain design docs exist at `docs/*/design.md` (at least system + 1 feature domain)
+- [ ] Each doc has file header: Title, Date, Domain, Related User Stories (US-NNN list), Status
 - [ ] Each doc's Overview references specific US-NNN numbers
 - [ ] Each doc has sections: Architecture, Components
 - [ ] Each doc has at least one of: Data Model, API Design (if applicable)
 - [ ] Each doc has sections: Error Handling, Security Considerations, Testing Strategy
-- [ ] Story Coverage Matrix file exists at `docs/designs/*-story-coverage.md`
-- [ ] **Cross-check: read user stories file, extract all US-NNN, verify EVERY one appears in the Story Coverage Matrix with a design doc assigned. Coverage must be 100%.**
+- [ ] Global Story Coverage Matrix exists at `docs/story-coverage.md`
+- [ ] **Cross-check: read all story files from `docs/*/stories/US-*.md`, extract all US-NNN, verify EVERY one appears in the Story Coverage Matrix with a domain design doc assigned. Coverage must be 100%.**
+- [ ] No remaining `<!-- IMAGE_REQUEST` blocks in any design doc (all resolved or removed)
+- [ ] If `docs/*/assets/` directories exist, verify referenced image files actually exist
+- [ ] If real images were used, `ATTRIBUTION.md` exists in the relevant `docs/*/assets/` folder with source, license, and URL
 
 ### tdd-testing
 - [ ] Test plan file exists at the specified path
 - [ ] Has file header: Title, Date, Related Design Docs, Related User Stories, Status, Story Coverage
 - [ ] Has Story Test Inventory listing all US-NNN
 - [ ] Has Story → Test Coverage Matrix mapping every US-NNN to T-NNN
-- [ ] **Cross-check: read user stories file, extract all US-NNN, verify EVERY one appears in the Story → Test Coverage Matrix with at least one T-NNN. Coverage must be 100%.**
+- [ ] **Cross-check: read all story files from `docs/*/stories/US-*.md`, extract all US-NNN, verify EVERY one appears in the Story → Test Coverage Matrix with at least one T-NNN. Coverage must be 100%.**
 - [ ] Every test case maps to a user story (US-NNN) in the test plan
 - [ ] At least one executable test file exists in `tests/`
 - [ ] **Run all tests** — every test must FAIL
@@ -116,7 +118,7 @@ You will receive:
 - [ ] Has Results by User Story table with per-story pass/fail
 - [ ] Has Requirements Traceability Matrix (RTM) section with: US-NNN, Design Doc, Page/Route, Test Cases, Pass/Fail
 - [ ] RTM Summary shows full traceability percentage
-- [ ] **Cross-check: verify RTM covers all US-NNN from user stories file**
+- [ ] **Cross-check: verify RTM covers all US-NNN from `docs/*/stories/US-*.md`**
 - [ ] Every failed test has error details and reproduction steps
 - [ ] Recommendation is justified by the data (no "Ready to Launch" with failures)
 

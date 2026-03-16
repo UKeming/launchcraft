@@ -177,7 +177,7 @@ Triggered after launch completes. Read ALL project docs including implementation
 - Everything from Phase 1
 - `docs/launches/*.md` (actual deployment details)
 - `docs/test-reports/*.md` (quality metrics)
-- `docs/designs/*.md` (actual architecture — what services are actually used)
+- `docs/*/design.md` (actual architecture — what services are actually used)
 - `docs/frontend-design/*.md`
 - Actual `package.json`, `wrangler.toml`, etc. (real dependencies and services)
 

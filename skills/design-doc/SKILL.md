@@ -25,41 +25,45 @@ All steps must complete. No story may be left without a design doc.
 ## Input Contract Validation
 
 On start, verify:
-- [ ] User stories file exists at `docs/user-stories/*.md`
-- [ ] File contains `## US-` story blocks
-- [ ] Each referenced story has Priority, Size, Persona, Acceptance Criteria
+- [ ] Domain story folders exist at `docs/*/stories/US-*.md` (at least one domain with stories)
+- [ ] Global index exists at `docs/user-stories-index.md`
+- [ ] Each story file has frontmatter: id, title, priority, size, persona, features, domain
+- [ ] Each story file has Acceptance Criteria section
 - [ ] Requirements doc exists at `docs/requirements/*.md`
 
 If validation fails, list specific violations and stop.
 
 ## Process
 
-### 1. Story Inventory & Design Doc Split
+### 1. Story Inventory & Domain Verification
 
-Extract EVERY US-NNN from the user stories file. Then group by domain to determine design doc split:
+Stories are already organized by domain folders (from user-story skill). Read ALL story files from `docs/*/stories/US-*.md` and the global index at `docs/user-stories-index.md`.
+
+Verify the domain structure:
 
 ```markdown
-## Story Inventory
+## Story Inventory (from domain folders)
 
 **Total stories:** [N]
 
-### Domain Grouping
+### Domain Mapping
 
-| Domain | Stories | Design Doc |
-|--------|---------|------------|
-| System (architecture, auth, shared) | US-001, US-002, ... | system-design.md |
-| [Feature A] | US-010, US-011, ... | [feature-a]-design.md |
-| [Feature B] | US-020, US-021, ... | [feature-b]-design.md |
-| ... | ... | ... |
+| Domain | Folder | Stories | Design Doc |
+|--------|--------|---------|------------|
+| system | docs/system/stories/ | US-001, US-002, ... | docs/system/design.md |
+| [Domain A] | docs/[domain-a]/stories/ | US-010, US-011, ... | docs/[domain-a]/design.md |
+| [Domain B] | docs/[domain-b]/stories/ | US-020, US-021, ... | docs/[domain-b]/design.md |
+| ... | ... | ... | ... |
 
 ### Ungrouped Stories (MUST be zero)
-[Any US-NNN not assigned to a design doc — fix before proceeding]
+[Any US-NNN not in a domain folder — fix before proceeding]
 ```
 
 **Rules:**
-- Every US-NNN must appear in exactly one design doc group
-- The number of feature docs is driven by the number of distinct domains — no artificial cap
-- Present the split to the user. Do NOT ask if they want to proceed — just show the plan and start writing.
+- Every US-NNN must belong to exactly one domain folder
+- Each domain folder gets exactly one design doc (`design.md`) co-located with its stories
+- The domain structure is inherited from user-story output — do NOT reorganize domains
+- Present the inventory to the user. Do NOT ask if they want to proceed — just show the plan and start writing.
 
 ### 2. Propose Architecture Approaches
 
@@ -77,9 +81,9 @@ Present 2-3 approaches. For each:
 
 Lead with your recommendation and explain why.
 
-### 3. Write Design Documents
+### 3. Write Design Documents — PARALLELIZE BY DOMAIN (Worktree Isolation)
 
-After user approves an approach, write **all design docs** (1 system + N feature). Each is a production-grade blueprint — detailed enough that a developer with zero context can implement it.
+After user approves an approach, write all design docs in parallel using worktree agents.
 
 **Required sections per design doc (never skip):**
 
@@ -103,7 +107,7 @@ After user approves an approach, write **all design docs** (1 system + N feature
   - Authentication/authorization requirements
   - Rate limiting
 
-- **UI/UX Design** — Page/screen inventory with US-NNN mapping. Navigation flow. Key interaction patterns. Responsive behavior. Loading/empty/error states for EVERY view. Accessibility requirements.
+- **UI/UX Design** — Page/screen inventory with US-NNN mapping. Navigation flow. Key interaction patterns. Responsive behavior. Loading/empty/error states for EVERY view. Accessibility requirements. **Where a visual asset is needed (illustrations, icons, hero images, diagrams), insert an IMAGE_REQUEST placeholder** (see format below).
 
 - **Error Handling** — Categorize errors (user error, system error, network error). Define error response format. User-facing messages. Logging strategy. Recovery procedures.
 
@@ -115,6 +119,276 @@ After user approves an approach, write **all design docs** (1 system + N feature
 
 - **Deployment** — Cloudflare configuration. Environment variables list. Build pipeline. Rollback procedure. Monitoring and alerting.
 
+#### Parallelization Flow
+
+```
+┌──────────────────────────────────────────────────┐
+│  Write system domain design doc FIRST            │
+│  (architecture, shared infra, auth, deployment)  │
+│  git commit (base for all worktrees)             │
+└──────────────┬───────────────────────────────────┘
+               ▼
+    ┌──────────┼──────────┐
+    ▼          ▼          ▼
+┌────────┐ ┌────────┐ ┌────────┐
+│Worktree│ │Worktree│ │Worktree│
+│ Agent: │ │ Agent: │ │ Agent: │
+│ Domain │ │ Domain │ │ Domain │
+│ A      │ │ B      │ │ C      │
+│ design │ │ design │ │ design │
+│ .md    │ │ .md    │ │ .md    │
+└────┬───┘ └────┬───┘ └────┬───┘
+     └──────────┼──────────┘
+                ▼
+     Merge branches → resolve conflicts
+                ▼
+     Image Asset Generation (Step 3.5)
+```
+
+**System design doc first:** Write the system domain's `docs/system/design.md` directly (no worktree needed — it's the foundation). Commit it — this is the base for all worktree agents.
+
+**Feature domains in parallel:** Dispatch one worktree Agent per feature domain:
+
+```
+Agent tool call (for EACH feature domain, ALL in one message):
+  - prompt: "Write design doc for [domain] covering US-NNN, US-NNN...
+             System design is at docs/system/design.md — reference it.
+             Insert IMAGE_REQUEST placeholders where visual assets are needed."
+  - isolation: "worktree"
+  - run_in_background: true (except the last one)
+```
+
+**Each worktree agent receives:**
+- The system design doc (already committed)
+- The domain's story files (`docs/[domain]/stories/US-*.md`)
+- The requirements doc
+- The architecture approach chosen by the user
+- Instructions to write `docs/[domain]/design.md` with all required sections
+- **Must insert IMAGE_REQUEST placeholders** where visual assets are needed
+- **Must commit its work before finishing**
+
+**If there is only ONE feature domain**, write directly — no worktree overhead.
+
+**After all agents complete — Merge Protocol:**
+Same as tdd-testing/impl: merge each worktree branch, resolve conflicts (keep both sides for different domains), commit.
+
+#### IMAGE_REQUEST Placeholder Format
+
+When a design doc needs a visual asset, the agent inserts a placeholder. There are two types: **generated** (AI-created) and **real** (sourced from web search).
+
+```markdown
+<!-- IMAGE_REQUEST
+id: [unique-id, e.g., img-auth-flow]
+type: generated | real
+description: [detailed description of what the image should show]
+has_text: true | false          (generated only)
+aspect_ratio: [e.g., 16:9, 1:1, 4:3]
+min_resolution: [e.g., 1920x1080, 1200x800]  (real only — minimum acceptable resolution)
+purpose: [what this image is for in the design]
+search_terms: [comma-separated keywords]      (real only — web search terms)
+license: [e.g., free, CC0, commercial-ok]     (real only — acceptable license type)
+-->
+![Alt text](docs/[domain]/assets/[filename].png)
+```
+
+**When to use `type: generated`:**
+- Illustrations, icons, abstract visuals, custom graphics, conceptual diagrams
+- UI mockups, decorative patterns, branded assets
+- Anything that doesn't exist in the real world
+
+**When to use `type: real`:**
+- Product photos, real-world scenes, stock photography
+- Screenshots of real software/websites (for competitive reference)
+- Maps, satellite imagery, real data visualizations
+- Photos of people, objects, places, food, nature, etc.
+- Any image where AI-generated would look uncanny or fake
+
+**Rules for generated IMAGE_REQUESTs:**
+- `has_text: true` — only if the image MUST contain readable text (labels, button text, headings)
+- `has_text: false` — for illustrations, icons, abstract visuals, patterns
+- Prefer `has_text: false` — text in generated images is often unreliable
+- **No transparent backgrounds** — nano-banana cannot generate transparent PNGs. Design around this (use solid or gradient backgrounds).
+
+**Rules for real IMAGE_REQUESTs:**
+- `min_resolution` is required — specify the minimum width×height needed for the use case:
+  - Hero/banner images: `1920x1080` minimum
+  - Card thumbnails: `800x600` minimum
+  - Full-width section backgrounds: `2560x1440` minimum
+  - Inline content images: `1200x800` minimum
+  - Icons/avatars: `512x512` minimum
+- `search_terms` — provide 2-4 specific keywords for web search (e.g., "cozy coffee shop interior warm lighting")
+- `license` — specify acceptable license. Default to `free` (no attribution required). Use `CC0` for public domain. Use `commercial-ok` for commercial projects.
+- Always verify the found image actually matches the description — not just the search terms
+
+**General rules (both types):**
+- Keep descriptions detailed but focused on visual elements, not abstract concepts
+- One IMAGE_REQUEST per image — don't combine multiple distinct visuals
+
+### 3.5. Image Asset Generation
+
+**After all design docs are written and merged**, the main agent processes all image requests. There are two pipelines: **generated** (AI via nano-banana MCP) and **real** (web search + download). Both run in parallel.
+
+#### a. Collect & Classify Image Requests
+
+Scan ALL design docs (`docs/*/design.md`) for `<!-- IMAGE_REQUEST ... -->` blocks. Split into two lists:
+
+```markdown
+## Image Manifest
+
+### Generated Images (AI)
+
+| # | ID | Domain | Has Text | Model | Aspect | Est. Cost |
+|---|-----|--------|----------|-------|--------|-----------|
+| 1 | img-auth-flow | auth | no | nano-banana | 16:9 | ~$0.01 |
+| 2 | img-dashboard-hero | dashboard | yes | nano-banana-pro | 16:9 | ~$0.05 |
+
+### Real Images (Web Search)
+
+| # | ID | Domain | Min Resolution | Search Terms | License |
+|---|-----|--------|---------------|-------------|---------|
+| 3 | img-coffee-hero | landing | 1920x1080 | cozy coffee shop warm lighting | free |
+| 4 | img-team-photo | about | 1200x800 | diverse tech team office | CC0 |
+
+**Generated:** [X] images, estimated ~$[A.AA]
+**Real:** [Y] images, $0 (web search)
+**Total:** [N] images
+```
+
+#### b. Budget Notification
+
+**Before generating or searching**, notify the user:
+
+```
+"I found [N] image requests across [M] design docs.
+ Generated (AI):
+   - [X₁] without text → nano-banana (~$0.01 each)
+   - [X₂] with text → nano-banana-pro (~$0.05 each)
+ Real (web search):
+   - [Y] images → free (web search + download)
+ Estimated total: ~$[Z.ZZ]
+ Proceed?"
+```
+
+Wait for user confirmation before proceeding.
+
+#### c. Pipeline 1: Generated Images (AI)
+
+**Model Selection:**
+
+| Image Type | Model | Why |
+|-----------|-------|-----|
+| No text (illustrations, icons, patterns) | `nano-banana` | Cheapest, text quality irrelevant |
+| Contains text (UI mockups with labels) | `nano-banana-pro` | Best text rendering, fewer garbled characters |
+
+**Generate — Parallel:**
+
+Call the nano-banana MCP `generate_image` tool. **All generated images in parallel** (multiple MCP calls in one message):
+
+```
+For EACH generated image:
+  generate_image(
+    prompt: [description from IMAGE_REQUEST],
+    model: [selected model],
+    aspect_ratio: [from IMAGE_REQUEST],
+    output_dir: "docs/[domain]/assets",
+    filename: [id from IMAGE_REQUEST]
+  )
+```
+
+#### d. Pipeline 2: Real Images (Web Search)
+
+**The main agent handles real image sourcing directly** — this cannot be delegated to worktree agents because it requires WebSearch + WebFetch tools and visual judgment.
+
+For EACH real image request:
+
+1. **Search** — Use WebSearch with the `search_terms` from the IMAGE_REQUEST:
+   ```
+   WebSearch: "[search_terms] free high resolution photo"
+   ```
+   Look for results from known free image sources (Unsplash, Pexels, Pixabay, Wikimedia Commons, etc.) or any source matching the `license` requirement.
+
+2. **Evaluate candidates** — Check at least 3 results:
+   - Does the image match the `description`? (not just the search terms)
+   - Does the resolution meet `min_resolution`? **This is a hard requirement.** If the image is smaller than the minimum, skip it.
+   - Is the license compatible? (check the source site's license terms)
+
+3. **Download** — Use WebFetch or Bash (`curl`) to download the chosen image to `docs/[domain]/assets/[filename].[ext]`.
+
+4. **Record attribution** — Save a `docs/[domain]/assets/ATTRIBUTION.md` file:
+   ```markdown
+   # Image Attribution
+
+   | File | Source | License | Original URL |
+   |------|--------|---------|-------------|
+   | img-coffee-hero.jpg | Unsplash / @photographer | Unsplash License | https://... |
+   ```
+
+**Resolution requirements (hard minimums):**
+
+| Use Case | Min Resolution | Notes |
+|----------|---------------|-------|
+| Hero / banner / full-width background | 1920×1080 | 2560×1440 preferred for retina |
+| Section background | 1920×1080 | |
+| Inline content image | 1200×800 | |
+| Card thumbnail | 800×600 | |
+| Avatar / icon | 512×512 | |
+| Mobile-only image | 750×1334 | iPhone viewport |
+
+**If no suitable image is found** (wrong resolution, bad license, no good match):
+1. Note it in the manifest as UNFOUND
+2. Fall back to `type: generated` — generate an illustration instead using nano-banana
+3. Add a comment in the design doc: `<!-- NOTE: Real image not found, using generated illustration -->`
+
+**Real images can be searched in parallel** — dispatch multiple WebSearch calls in one message. But the evaluate + download steps are sequential per image (need to see results before downloading).
+
+#### e. Verify ALL Images — Parallel Agents
+
+After both pipelines complete, dispatch **one verification agent per image** (generated AND real) to check quality:
+
+```
+Agent tool call (parallel, one per image):
+  - prompt: "Read the image at [path]. Check:
+             1. Does it match this description: [description]?
+             2. For generated: any garbled/unreadable text?
+             3. For real: is resolution at least [min_resolution]? Is it the right subject?
+             4. Overall quality — is it usable in a production design?
+             Return: PASS, FAIL_TEXT (garbled text), FAIL_RESOLUTION (too small), or FAIL_QUALITY (bad image)"
+  - run_in_background: true (except last)
+```
+
+**Each verification agent:**
+1. Reads the image file (Claude Code can read images)
+2. Checks visual match against description
+3. **For generated images:** specifically checks for garbled text — misspelled words, illegible characters, nonsense strings
+4. **For real images:** verifies resolution meets minimum, subject matches description, no watermarks
+5. Returns a verdict: PASS, FAIL_TEXT, FAIL_RESOLUTION, or FAIL_QUALITY
+
+#### f. Handle Failures
+
+**FAIL_TEXT (generated, garbled text):**
+1. Regenerate with the SAME description + "DO NOT include any text, words, letters, or labels in the image"
+2. Switch model to `nano-banana` (cheaper — text no longer needed)
+3. Re-verify. Max 2 retries per image. If still failing, the no-text version is final.
+
+**FAIL_RESOLUTION (real, too small):**
+1. Search again with resolution-specific terms: `"[search_terms] high resolution 4K"`
+2. Try alternative sources (different stock photo sites)
+3. If no high-res version exists: fall back to `type: generated`
+
+**FAIL_QUALITY (either type):**
+1. For generated: regenerate with a more detailed prompt
+2. For real: search again with refined terms
+3. Max 2 retries. If still failing, note as placeholder in design doc.
+
+#### g. Update Design Docs
+
+After all images are verified (or retried):
+1. For each IMAGE_REQUEST block, replace the placeholder path with the actual image path
+2. Remove the `<!-- IMAGE_REQUEST ... -->` comment blocks
+3. If a generated image was retried without text, update the alt text
+4. If a real image was substituted with generated, note this in the alt text
+5. Ensure `ATTRIBUTION.md` exists in every domain's `assets/` folder that has real images
+
 ### 4. Story Coverage Matrix
 
 **After writing ALL design docs**, verify coverage:
@@ -124,10 +398,10 @@ After user approves an approach, write **all design docs** (1 system + N feature
 
 | US-NNN | Story Title | Priority | Design Doc | Covered? |
 |--------|------------|----------|------------|----------|
-| US-001 | User registration | High | system-design.md | YES |
-| US-002 | OAuth login | High | system-design.md | YES |
-| US-010 | Create dashboard | High | dashboard-design.md | YES |
-| US-025 | Export CSV | Medium | data-design.md | YES |
+| US-001 | User registration | High | docs/system/design.md | YES |
+| US-002 | OAuth login | High | docs/auth/design.md | YES |
+| US-010 | Create dashboard | High | docs/dashboard/design.md | YES |
+| US-025 | Export CSV | Medium | docs/data/design.md | YES |
 | ... | ... | ... | ... | ... |
 
 ### Coverage Summary
@@ -139,11 +413,15 @@ After user approves an approach, write **all design docs** (1 system + N feature
 
 **HARD RULE: 100% story coverage.** Every US-NNN must map to a design doc. If any story shows "NO", write or extend the relevant design doc NOW.
 
-### 5. Save
+### 5. Save — Co-located with Stories
 
-Save each design doc to `docs/designs/YYYY-MM-DD-[topic]-design.md`.
+Save each domain's design doc directly into its domain folder:
 
-Save the Story Coverage Matrix to `docs/designs/YYYY-MM-DD-[product]-story-coverage.md`.
+- `docs/[domain]/design.md` — one design doc per domain, co-located with `stories/`
+
+Save the global Story Coverage Matrix:
+
+- `docs/story-coverage.md` — maps every US-NNN to its domain's design doc
 
 ## Output Validation
 
@@ -171,6 +449,18 @@ Once the validator returns PASS, **immediately invoke `/frontend-design`** — d
 | "Error handling can be figured out during impl" | Error handling designed late = error handling done badly. |
 | "One big design doc is fine" | Split by domain. A 100-page doc is unreadable. |
 | "100% coverage is overkill" | In regulated industries it's the law. For us it's the standard. |
+| "I'll write all domains sequentially" | System first, then all feature domains in PARALLEL via worktree agents. |
+| "Images can be added later" | If the design needs a visual, request it now. Placeholders get forgotten. |
+| "I'll put text in the image, it'll be fine" | Text in generated images is often garbled. Default to `has_text: false` unless text is essential. |
+| "I'll generate images one at a time" | Generate all in parallel. Budget the user first, then batch. |
+| "The garbled text is close enough" | Garbled text is worse than no text. Regenerate without text. |
+| "I need transparent backgrounds" | Nano-banana cannot do transparent PNGs. Use solid/gradient backgrounds. Design around this. |
+| "I'll skip the budget notification" | The user must approve image spending before generation. Always notify. |
+| "AI-generated photos of people look fine" | They don't. Use `type: real` for photos of people, places, objects. AI is for illustrations and graphics. |
+| "Any resolution is fine for a hero image" | Hero images need 1920×1080 minimum. Low-res images look terrible on retina displays. Check `min_resolution`. |
+| "I'll just use the first search result" | Evaluate at least 3 candidates. Check resolution, license, and visual match. |
+| "Attribution isn't important" | Real images need attribution tracked in `ATTRIBUTION.md`. License violations are legal risk. |
+| "The real image is close enough to the description" | Close enough = wrong. If the image doesn't match, search again or fall back to generated. |
 
 ## Evidence Gate
 
@@ -178,7 +468,8 @@ Before claiming this skill is complete, you must have:
 - [ ] Extracted Story Inventory with ALL US-NNN (show count)
 - [ ] Grouped stories into design doc domains (show grouping)
 - [ ] Presented 2-3 approaches and received user choice (show the choice)
-- [ ] Written all design docs — 1 system + N feature (show file paths)
+- [ ] Written system design doc first, then feature domains in parallel (show file paths)
+- [ ] If IMAGE_REQUESTs exist: shown budget to user, generated images, verified each one (show manifest + results)
 - [ ] Built Story Coverage Matrix with 100% coverage (show matrix)
 - [ ] Saved all files (show paths)
 - [ ] Dispatched contract-validator and received PASS (show the result)
