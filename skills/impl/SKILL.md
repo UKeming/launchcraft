@@ -114,11 +114,12 @@ Layer 2: Sequential (single component, no worktree needed)
 **For each layer:**
 
 1. **Before dispatching:** commit current state — this is the base for worktree agents
-2. **If multiple components: dispatch parallel worktree Agents** — all in one message:
+2. **If multiple components: dispatch parallel `impl-worker` sub-agents** — all in one message:
    ```
-   Agent tool call (for EACH component in the layer):
-     - prompt: "Implement [Component X] to make tests T-NNN pass..."
-     - isolation: "worktree"
+   Agent(subagent_type="impl-worker") per component, ALL in one message:
+     - prompt: "Component: [X], Tests: T-NNN to T-NNN,
+                Design doc: .launchcraft/[domain]/design.md,
+                Stories: US-NNN"
      - run_in_background: true (except the last one)
    ```
 3. **If single component: implement directly** — no worktree overhead

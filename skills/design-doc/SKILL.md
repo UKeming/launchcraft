@@ -166,14 +166,13 @@ After user approves an approach, write all design docs in parallel using worktre
 
 **System design doc first:** Write the system domain's `.launchcraft/system/design.md` directly (no worktree needed — it's the foundation). Commit it — this is the base for all worktree agents.
 
-**Feature domains in parallel:** Dispatch one worktree Agent per feature domain:
+**Feature domains in parallel:** Dispatch one **`design-doc-writer`** sub-agent per feature domain:
 
 ```
-Agent tool call (for EACH feature domain, ALL in one message):
-  - prompt: "Write design doc for [domain] covering US-NNN, US-NNN...
-             System design is at .launchcraft/system/design.md — reference it.
-             Insert IMAGE_REQUEST placeholders where visual assets are needed."
-  - isolation: "worktree"
+Agent(subagent_type="design-doc-writer") per feature domain, ALL in one message:
+  - prompt: "Domain: [domain], Stories: US-NNN to US-NNN,
+             System design: .launchcraft/system/design.md,
+             Architecture: [chosen approach]"
   - run_in_background: true (except the last one)
 ```
 

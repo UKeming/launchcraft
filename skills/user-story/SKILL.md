@@ -12,17 +12,24 @@ Skip ALL user review steps. This is a continuous pipeline — you do NOT stop be
 </PIPELINE-AUTO-RUN>
 
 <CRITICAL-OUTPUT-RULES>
-## OUTPUT FORMAT — READ THIS FIRST
+## OUTPUT FORMAT & PARALLELIZATION — READ THIS FIRST
 
 **Each user story is saved as a SEPARATE .md file.** The output of this skill is NOT one big file. It is:
 - N individual story files: `.launchcraft/[domain]/stories/US-NNN-[slug].md`
 - 1 index file: `.launchcraft/user-stories-index.md`
 
-**You write each story file to disk AS YOU GO** (during Step 4). You do NOT compose all stories in your response and save at the end. The workflow is: write story → save file → next story → save file → repeat.
+**PARALLELIZATION:** After determining domains and assigning features + US-NNN ranges to each:
+1. Dispatch one **`user-story-writer`** sub-agent per domain (all in parallel, `run_in_background: true` except last)
+2. Each sub-agent writes its domain's story files and commits
+3. After all complete → merge branches → build global index + coverage matrix
 
-**Domain folders must be created first.** Before writing any story, run `mkdir -p .launchcraft/[domain]/stories/` for each domain.
+```
+Agent(subagent_type="user-story-writer") per domain:
+  - prompt: "Domain: auth, US range: US-001 to US-010, Features: F-001, F-002..."
+  - run_in_background: true
+```
 
-If your total story count is 30, you must call the Write tool 31 times (30 stories + 1 index).
+**If only 1 domain:** write stories directly, no sub-agent overhead.
 </CRITICAL-OUTPUT-RULES>
 
 ## Overview

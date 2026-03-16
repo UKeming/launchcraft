@@ -119,7 +119,7 @@ First, set up the test framework and shared test infrastructure (config, helpers
 Then:
 
 1. **Group test cases by domain** — each domain folder has its own design doc + stories
-2. **Dispatch one Agent per domain, each in its own worktree** (`isolation: "worktree"`)
+2. **Dispatch one `tdd-test-writer` sub-agent per domain** (parallel, each in its own worktree)
 3. **Merge all worktree branches** into main, resolving any conflicts
 
 ```
@@ -149,13 +149,14 @@ Then:
         Run full suite → all tests must FAIL
 ```
 
-**Dispatching parallel worktree agents:**
+**Dispatching parallel sub-agents:**
 
 ```
-Agent tool call (repeat for each design doc, ALL in one message):
-  - prompt: "Write tests for [design doc N] covering US-NNN, US-NNN..."
-  - isolation: "worktree"
-  - run_in_background: true (except the last one, which runs in foreground)
+Agent(subagent_type="tdd-test-writer") per domain, ALL in one message:
+  - prompt: "Domain: [domain], Design doc: .launchcraft/[domain]/design.md,
+             Stories: US-NNN to US-NNN, T-NNN range: T-001 to T-020,
+             Test framework: [vitest/jest/pytest]"
+  - run_in_background: true (except the last one)
 ```
 
 **Each worktree agent receives:**
