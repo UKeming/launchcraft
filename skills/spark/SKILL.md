@@ -180,7 +180,7 @@ Iterate until the user approves. All questions MUST use the AskUserQuestion tool
 
 ### 5. Save
 
-Save to `docs/requirements/YYYY-MM-DD-[product-name]-requirements.md`.
+Save to `.launchcraft/requirements/YYYY-MM-DD-[product-name]-requirements.md`.
 
 ## Output Validation
 

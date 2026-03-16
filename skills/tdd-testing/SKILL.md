@@ -25,11 +25,11 @@ All tests must FAIL after this skill completes. If any test passes, something is
 ## Input Contract Validation
 
 On start, verify:
-- [ ] Domain design docs exist at `docs/*/design.md` (at least one domain)
+- [ ] Domain design docs exist at `.launchcraft/*/design.md` (at least one domain)
 - [ ] Each design doc has: Overview, Architecture, Components sections
 - [ ] Each design doc references user stories (US-NNN)
-- [ ] Domain story files exist at `docs/*/stories/US-*.md`
-- [ ] Story Coverage Matrix exists at `docs/story-coverage.md`
+- [ ] Domain story files exist at `.launchcraft/*/stories/US-*.md`
+- [ ] Story Coverage Matrix exists at `.launchcraft/story-coverage.md`
 
 If validation fails, list specific violations and stop.
 
@@ -37,16 +37,16 @@ If validation fails, list specific violations and stop.
 
 ### 1. Story Inventory for Testing
 
-Read ALL story files from `docs/*/stories/US-*.md` and the story coverage matrix from `docs/story-coverage.md`. For each story, identify what needs testing:
+Read ALL story files from `.launchcraft/*/stories/US-*.md` and the story coverage matrix from `.launchcraft/story-coverage.md`. For each story, identify what needs testing:
 
 ```markdown
 ## Story Test Inventory
 
 | US-NNN | Story Title | Priority | Test Type Needed | Domain | Design Doc |
 |--------|------------|----------|-----------------|--------|------------|
-| US-001 | User registration | High | Unit + Integration | system | docs/system/design.md |
-| US-002 | OAuth login | High | Unit + Integration + E2E | auth | docs/auth/design.md |
-| US-010 | Create dashboard | High | Unit + E2E | dashboard | docs/dashboard/design.md |
+| US-001 | User registration | High | Unit + Integration | system | .launchcraft/system/design.md |
+| US-002 | OAuth login | High | Unit + Integration + E2E | auth | .launchcraft/auth/design.md |
+| US-010 | Create dashboard | High | Unit + E2E | dashboard | .launchcraft/dashboard/design.md |
 | ... | ... | ... | ... | ... | ... |
 
 **Total stories:** [N]
@@ -155,8 +155,8 @@ Agent tool call (repeat for each design doc, ALL in one message):
 ```
 
 **Each worktree agent receives:**
-- The domain's design doc (`docs/[domain]/design.md`)
-- The domain's story files (`docs/[domain]/stories/US-*.md`)
+- The domain's design doc (`.launchcraft/[domain]/design.md`)
+- The domain's story files (`.launchcraft/[domain]/stories/US-*.md`)
 - The test framework config and shared helpers (already committed)
 - Instructions to write executable failing tests with US-NNN + T-NNN references
 - **Must commit its work before finishing** (so the branch has the changes)
@@ -203,14 +203,14 @@ Run the full test suite. Every test must fail with a clear reason (missing funct
 
 ### 6. Save Test Plan
 
-Save to `docs/test-plans/YYYY-MM-DD-[topic]-test-plan.md`:
+Save to `.launchcraft/test-plans/YYYY-MM-DD-[topic]-test-plan.md`:
 
 ```markdown
 # Test Plan: [Topic]
 
 **Date:** YYYY-MM-DD
 **Related Design Docs:** [list all design doc paths]
-**Related User Stories:** docs/*/stories/US-*.md
+**Related User Stories:** .launchcraft/*/stories/US-*.md
 **Status:** Red (all tests failing)
 **Test Framework:** [framework name]
 **Total Test Cases:** [N]
@@ -247,7 +247,7 @@ Output path: [test plan file and test directory]
 Agent: code-reviewer (run_in_background: true)
 Skill: tdd-testing
 Code paths: tests/
-Design doc: docs/*/design.md
+Design doc: .launchcraft/*/design.md
 ```
 
 Wait for both to complete. If code-reviewer made fixes, re-run tests to verify they still FAIL (no accidental implementation).

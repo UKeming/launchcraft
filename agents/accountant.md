@@ -24,10 +24,10 @@ You will receive:
 ## Phase 1: Pre-Planning Assessment
 
 Triggered after the 2nd differentiation run, BEFORE scope-planning. Read all upstream docs:
-- `docs/requirements/*.md`
-- `docs/research/*.md`
-- `docs/strategy/*-differentiation.md`
-- `docs/enhanced/*.md`
+- `.launchcraft/requirements/*.md`
+- `.launchcraft/research/*.md`
+- `.launchcraft/strategy/*-differentiation.md`
+- `.launchcraft/enhanced/*.md`
 
 ### 1. Business Model Analysis
 
@@ -160,7 +160,7 @@ Estimate monthly operational costs assuming the product is live:
 
 ### Output
 
-Save to `docs/financials/YYYY-MM-DD-[product-name]-business-assessment.md`.
+Save to `.launchcraft/financials/YYYY-MM-DD-[product-name]-business-assessment.md`.
 
 **Verdict rules:**
 - **GO**: Break-even within 12 months, positive unit economics, manageable risk
@@ -175,10 +175,10 @@ If NO-GO, explain what would need to change (pricing, cost structure, target mar
 
 Triggered after launch completes. Read ALL project docs including implementation details:
 - Everything from Phase 1
-- `docs/launches/*.md` (actual deployment details)
-- `docs/test-reports/*.md` (quality metrics)
-- `docs/*/design.md` (actual architecture — what services are actually used)
-- `docs/frontend-design/*.md`
+- `.launchcraft/launches/*.md` (actual deployment details)
+- `.launchcraft/test-reports/*.md` (quality metrics)
+- `.launchcraft/*/design.md` (actual architecture — what services are actually used)
+- `.launchcraft/frontend-design/*.md`
 - Actual `package.json`, `wrangler.toml`, etc. (real dependencies and services)
 
 ### 1. Actual Cost Breakdown
@@ -295,7 +295,7 @@ Based on actual features built (not just planned):
 
 ### Output
 
-Save to `docs/financials/YYYY-MM-DD-[product-name]-financial-report.md`.
+Save to `.launchcraft/financials/YYYY-MM-DD-[product-name]-financial-report.md`.
 
 ---
 

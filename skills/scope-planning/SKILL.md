@@ -22,10 +22,10 @@ Do NOT let user-story or design-doc start without a scope plan.
 ## Input Contract Validation
 
 On start, verify:
-- [ ] Requirements doc exists at `docs/requirements/*.md`
+- [ ] Requirements doc exists at `.launchcraft/requirements/*.md`
 - [ ] Requirements doc has: Problem Statement, Target Users, Functional Requirements (Must/Should/Nice)
-- [ ] Research report exists at `docs/research/*.md`
-- [ ] Differentiation strategy exists at `docs/strategy/*-differentiation.md`
+- [ ] Research report exists at `.launchcraft/research/*.md`
+- [ ] Differentiation strategy exists at `.launchcraft/strategy/*-differentiation.md`
 
 If requirements missing, run `/spark` first.
 If research missing, run `/research` first.
@@ -72,7 +72,7 @@ Present the calculation to the user. Adjust based on their feedback.
 Every product is organized into **domain folders**. Each domain co-locates its stories and design doc:
 
 ```
-docs/[domain]/
+.launchcraft/[domain]/
   stories/       ← individual US-NNN-[slug].md files
   design.md      ← domain's design doc
 ```
@@ -89,7 +89,7 @@ Identify domains by:
 
 Example for a bookmark manager:
 ```
-docs/
+.launchcraft/
   system/          (architecture, DB, API framework, auth)
   bookmark-crud/   (create, read, update, delete, organize)
   search-filter/   (search, tags, filters, sort)
@@ -110,7 +110,7 @@ Present and save the scope plan:
 # Scope Plan: [Product Name]
 
 **Date:** YYYY-MM-DD
-**Requirements:** docs/requirements/[filename].md
+**Requirements:** .launchcraft/requirements/[filename].md
 **Complexity:** Simple | Medium | Complex
 **Status:** Draft | Approved
 
@@ -147,9 +147,9 @@ Present and save the scope plan:
 
 | Domain | Folder | Scope | Related Requirements |
 |--------|--------|-------|---------------------|
-| system | docs/system/ | Architecture, DB, auth, deployment | All |
-| [domain] | docs/[domain]/ | [scope] | [Must-Have items] |
-| [domain] | docs/[domain]/ | [scope] | [Must-Have items] |
+| system | .launchcraft/system/ | Architecture, DB, auth, deployment | All |
+| [domain] | .launchcraft/[domain]/ | [scope] | [Must-Have items] |
+| [domain] | .launchcraft/[domain]/ | [scope] | [Must-Have items] |
 
 ## Implementation Modules
 
@@ -171,7 +171,7 @@ Iterate until approved.
 
 ### 6. Save
 
-Save to `docs/plans/YYYY-MM-DD-[product-name]-scope-plan.md`.
+Save to `.launchcraft/plans/YYYY-MM-DD-[product-name]-scope-plan.md`.
 
 ## Output Validation
 

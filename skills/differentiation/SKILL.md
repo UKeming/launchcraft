@@ -25,8 +25,8 @@ Do NOT let scope-planning start without a differentiation strategy.
 ## Input Contract Validation
 
 On start, verify:
-- [ ] Requirements doc exists at `docs/requirements/*.md`
-- [ ] Research report exists at `docs/research/*.md`
+- [ ] Requirements doc exists at `.launchcraft/requirements/*.md`
+- [ ] Research report exists at `.launchcraft/research/*.md`
 - [ ] Research report has: Competitive analysis, Assumption validation, Product-market fit assessment
 
 If validation fails, stop and run `/research` first.
@@ -139,7 +139,7 @@ Iterate until the user approves.
 
 ### 7. Save
 
-Save to `docs/strategy/YYYY-MM-DD-[product-name]-differentiation.md`.
+Save to `.launchcraft/strategy/YYYY-MM-DD-[product-name]-differentiation.md`.
 
 ## Output Validation
 
@@ -153,8 +153,8 @@ Output path: [the file you just saved]
 
 Do NOT proceed until the validator returns PASS.
 Once the validator returns PASS:
-- If NO enhance record exists in `docs/enhanced/`, **immediately invoke `/enhance`** — requirements need expansion.
-- If an enhance record ALREADY exists in `docs/enhanced/`, dispatch the **accountant** agent for a pre-planning business assessment:
+- If NO enhance record exists in `.launchcraft/enhanced/`, **immediately invoke `/enhance`** — requirements need expansion.
+- If an enhance record ALREADY exists in `.launchcraft/enhanced/`, dispatch the **accountant** agent for a pre-planning business assessment:
 
 ```
 Agent: accountant

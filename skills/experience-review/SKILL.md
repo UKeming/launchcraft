@@ -28,11 +28,11 @@ You MUST interact with the RUNNING application. Reading code is NOT a substitute
 ## Input Contract Validation
 
 On start, verify:
-- [ ] Domain design docs exist at `docs/*/design.md`
-- [ ] Domain story files exist at `docs/*/stories/US-*.md`
-- [ ] Requirements doc exists at `docs/requirements/*.md`
+- [ ] Domain design docs exist at `.launchcraft/*/design.md`
+- [ ] Domain story files exist at `.launchcraft/*/stories/US-*.md`
+- [ ] Requirements doc exists at `.launchcraft/requirements/*.md`
 - [ ] All tests pass (run the test suite and show output)
-- [ ] Pipeline context log exists at `docs/pipeline-context.md` (read it for full context)
+- [ ] Pipeline context log exists at `.launchcraft/pipeline-context.md` (read it for full context)
 
 If validation fails, stop and run the missing upstream skill.
 
@@ -58,7 +58,7 @@ If validation fails, stop and run the missing upstream skill.
 | Jupyter notebooks / data pipeline | **Data/ML Tool** | Run notebooks, verify output files |
 
 #### Fallback Rule
-If the app type is unclear, check `docs/*/design.md` for architecture clues. If still unclear, default to Playwright for anything with a web interface.
+If the app type is unclear, check `.launchcraft/*/design.md` for architecture clues. If still unclear, default to Playwright for anything with a web interface.
 
 ### 2. Install Required Tools
 
@@ -335,7 +335,7 @@ Continue to /test-report
 
 ### 9. Save Review Report
 
-Save to `docs/experience-review/YYYY-MM-DD-[product-name]-experience-review.md`:
+Save to `.launchcraft/experience-review/YYYY-MM-DD-[product-name]-experience-review.md`:
 
 ```markdown
 # Experience Review: [Product Name]
@@ -426,7 +426,7 @@ Minimum to APPROVE: Overall >= 3.5, no individual score below 2.
 When issuing a BACK-TO verdict:
 
 1. **Save the review report** with status `BACK-TO-[stage]` and detailed reasoning
-2. **Append to pipeline context log** (`docs/pipeline-context.md`) explaining why rollback is needed
+2. **Append to pipeline context log** (`.launchcraft/pipeline-context.md`) explaining why rollback is needed
 3. **Invoke the target skill** (e.g., `/impl`, `/frontend-design`, `/design-doc`)
 4. The pipeline will continue from that stage forward
 5. **This skill will run again** after impl completes — and will re-verify everything

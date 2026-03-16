@@ -23,7 +23,7 @@ Never deploy with failing tests or without explicit user approval.
 ## Input Contract Validation
 
 On start, verify:
-- [ ] Test report exists at `docs/test-reports/*.md`
+- [ ] Test report exists at `.launchcraft/test-reports/*.md`
 - [ ] Test report Recommendation is "Ready to Launch"
 - [ ] Test report has zero critical/major failures
 - [ ] Application code builds successfully
@@ -73,7 +73,7 @@ Report results to user.
 
 ### 5. Save Launch Record
 
-Save to `docs/launches/YYYY-MM-DD-[topic]-launch.md`:
+Save to `.launchcraft/launches/YYYY-MM-DD-[topic]-launch.md`:
 
 ```markdown
 # Launch: [Topic]
@@ -106,9 +106,9 @@ Save to `docs/launches/YYYY-MM-DD-[topic]-launch.md`:
 
 ## Related Artifacts
 
-- User Stories: docs/*/stories/US-*.md
-- Design Docs: docs/*/design.md
-- Test Report: docs/test-reports/[file].md
+- User Stories: .launchcraft/*/stories/US-*.md
+- Design Docs: .launchcraft/*/design.md
+- Test Report: .launchcraft/test-reports/[file].md
 
 ## Rollback Instructions
 
@@ -117,7 +117,7 @@ If issues are found after launch:
 1. Run: `wrangler rollback` or redeploy previous version
 2. Verify rollback at https://[app-name].keming.co
 3. Update this document Status to "Rolled Back"
-4. Create issue in docs/issues/ describing the problem
+4. Create issue in .launchcraft/issues/ describing the problem
 ```
 
 ## Output Validation

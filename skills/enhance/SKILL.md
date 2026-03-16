@@ -31,9 +31,9 @@ Do NOT just add random features. Every enhancement must tie to user pain points,
 ## Input Contract Validation
 
 On start, verify:
-- [ ] Requirements doc exists at `docs/requirements/*.md`
-- [ ] Research report exists at `docs/research/*.md`
-- [ ] Differentiation strategy exists at `docs/strategy/*-differentiation.md`
+- [ ] Requirements doc exists at `.launchcraft/requirements/*.md`
+- [ ] Research report exists at `.launchcraft/research/*.md`
+- [ ] Differentiation strategy exists at `.launchcraft/strategy/*-differentiation.md`
 
 If validation fails, stop and run the missing upstream skill first.
 
@@ -257,7 +257,7 @@ Ask the user: "Here's the full enhancement proposal. I recommend adding all of t
 
 ### 5. Update Requirements Document
 
-After user approval, update the original requirements document at `docs/requirements/*.md`:
+After user approval, update the original requirements document at `.launchcraft/requirements/*.md`:
 - Add approved features to the appropriate tier (Must/Should/Nice-to-Have)
 - Add new sections for dimensions not previously covered (Monetization, Admin, Analytics, etc.)
 - Update the competitive landscape if new competitors were found
@@ -268,15 +268,15 @@ After user approval, update the original requirements document at `docs/requirem
 
 ### 6. Save Enhancement Record
 
-Save the enhancement record to `docs/enhanced/YYYY-MM-DD-[product-name]-enhanced.md`:
+Save the enhancement record to `.launchcraft/enhanced/YYYY-MM-DD-[product-name]-enhanced.md`:
 
 ```markdown
 # Enhancement Record: [Product Name]
 
 **Date:** YYYY-MM-DD
-**Requirements Doc:** docs/requirements/[filename].md
-**Research Report:** docs/research/[filename].md
-**Differentiation Strategy:** docs/strategy/[filename].md
+**Requirements Doc:** .launchcraft/requirements/[filename].md
+**Research Report:** .launchcraft/research/[filename].md
+**Differentiation Strategy:** .launchcraft/strategy/[filename].md
 **Status:** Approved
 
 ## Commercial Dimension Coverage

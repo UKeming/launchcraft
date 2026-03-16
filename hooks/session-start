@@ -32,33 +32,33 @@ test_report_ready=false
 has_launch=false
 
 # 1. Check for requirements
-if [ -d "${PROJECT_DIR}/docs/requirements" ] && ls "${PROJECT_DIR}/docs/requirements/"*.md &>/dev/null; then
+if [ -d "${PROJECT_DIR}/.launchcraft/requirements" ] && ls "${PROJECT_DIR}/.launchcraft/requirements/"*.md &>/dev/null; then
     has_requirements=true
 fi
 
 # 2. Check for research report
-if [ -d "${PROJECT_DIR}/docs/research" ] && ls "${PROJECT_DIR}/docs/research/"*.md &>/dev/null; then
+if [ -d "${PROJECT_DIR}/.launchcraft/research" ] && ls "${PROJECT_DIR}/.launchcraft/research/"*.md &>/dev/null; then
     has_research=true
 fi
 
 # 3. Check for differentiation strategy
-if [ -d "${PROJECT_DIR}/docs/strategy" ] && ls "${PROJECT_DIR}/docs/strategy/"*-differentiation.md &>/dev/null; then
+if [ -d "${PROJECT_DIR}/.launchcraft/strategy" ] && ls "${PROJECT_DIR}/.launchcraft/strategy/"*-differentiation.md &>/dev/null; then
     has_differentiation=true
 fi
 
 # 4. Check for enhancement record
-if [ -d "${PROJECT_DIR}/docs/enhanced" ] && ls "${PROJECT_DIR}/docs/enhanced/"*.md &>/dev/null; then
+if [ -d "${PROJECT_DIR}/.launchcraft/enhanced" ] && ls "${PROJECT_DIR}/.launchcraft/enhanced/"*.md &>/dev/null; then
     has_enhance=true
 fi
 
 # 5. Check for business assessment (accountant pre-planning)
 has_business_assessment=false
-if [ -d "${PROJECT_DIR}/docs/financials" ] && ls "${PROJECT_DIR}/docs/financials/"*-business-assessment.md &>/dev/null; then
+if [ -d "${PROJECT_DIR}/.launchcraft/financials" ] && ls "${PROJECT_DIR}/.launchcraft/financials/"*-business-assessment.md &>/dev/null; then
     has_business_assessment=true
 fi
 
-# 6. Check for user stories (domain-based: docs/*/stories/US-*.md or legacy docs/user-stories/*.md)
-if [ -f "${PROJECT_DIR}/docs/user-stories-index.md" ] || ([ -d "${PROJECT_DIR}/docs/user-stories" ] && ls "${PROJECT_DIR}/docs/user-stories/"*.md &>/dev/null); then
+# 6. Check for user stories (domain-based: .launchcraft/*/stories/US-*.md or legacy .launchcraft/user-stories/*.md)
+if [ -f "${PROJECT_DIR}/.launchcraft/user-stories-index.md" ] || ([ -d "${PROJECT_DIR}/.launchcraft/user-stories" ] && ls "${PROJECT_DIR}/.launchcraft/user-stories/"*.md &>/dev/null); then
     has_user_stories=true
 else
     # Check for domain-based story files
@@ -68,14 +68,14 @@ else
     fi
 fi
 
-# 7. Check for design docs (domain-based: docs/*/design.md or legacy docs/designs/*.md)
+# 7. Check for design docs (domain-based: .launchcraft/*/design.md or legacy .launchcraft/designs/*.md)
 design_count=$(find "${PROJECT_DIR}/docs" -maxdepth 2 -name "design.md" 2>/dev/null | head -5 | wc -l | tr -d ' ')
-if [ "$design_count" -gt 0 ] || ([ -d "${PROJECT_DIR}/docs/designs" ] && ls "${PROJECT_DIR}/docs/designs/"*.md &>/dev/null); then
+if [ "$design_count" -gt 0 ] || ([ -d "${PROJECT_DIR}/.launchcraft/designs" ] && ls "${PROJECT_DIR}/.launchcraft/designs/"*.md &>/dev/null); then
     has_designs=true
 fi
 
 # 8. Check for frontend design
-if [ -d "${PROJECT_DIR}/docs/frontend-design" ] && ls "${PROJECT_DIR}/docs/frontend-design/"*.md &>/dev/null; then
+if [ -d "${PROJECT_DIR}/.launchcraft/frontend-design" ] && ls "${PROJECT_DIR}/.launchcraft/frontend-design/"*.md &>/dev/null; then
     has_frontend_design=true
 fi
 
@@ -115,30 +115,30 @@ fi
 
 # 9. Check for experience review
 has_experience_review=false
-if [ -d "${PROJECT_DIR}/docs/experience-review" ] && ls "${PROJECT_DIR}/docs/experience-review/"*.md &>/dev/null; then
-    if grep -rli "APPROVED" "${PROJECT_DIR}/docs/experience-review/" &>/dev/null; then
+if [ -d "${PROJECT_DIR}/.launchcraft/experience-review" ] && ls "${PROJECT_DIR}/.launchcraft/experience-review/"*.md &>/dev/null; then
+    if grep -rli "APPROVED" "${PROJECT_DIR}/.launchcraft/experience-review/" &>/dev/null; then
         has_experience_review=true
     fi
 fi
 
 # 10. Check for test reports
-if [ -d "${PROJECT_DIR}/docs/test-reports" ] && ls "${PROJECT_DIR}/docs/test-reports/"*.md &>/dev/null; then
+if [ -d "${PROJECT_DIR}/.launchcraft/test-reports" ] && ls "${PROJECT_DIR}/.launchcraft/test-reports/"*.md &>/dev/null; then
     has_test_report=true
     # Check if any test report says "Ready to Launch" (case-insensitive)
-    if grep -rli "ready to launch" "${PROJECT_DIR}/docs/test-reports/" &>/dev/null; then
+    if grep -rli "ready to launch" "${PROJECT_DIR}/.launchcraft/test-reports/" &>/dev/null; then
         test_report_ready=true
     fi
 fi
 
 # 10. Check for launch docs
-if [ -d "${PROJECT_DIR}/docs/launches" ] && ls "${PROJECT_DIR}/docs/launches/"*.md &>/dev/null; then
+if [ -d "${PROJECT_DIR}/.launchcraft/launches" ] && ls "${PROJECT_DIR}/.launchcraft/launches/"*.md &>/dev/null; then
     has_launch=true
 fi
 
 # --- Determine stage ---
 if [ "$has_launch" = true ]; then
     stage="Pipeline complete"
-    stage_detail="All pipeline stages done. Launch docs found in docs/launches/."
+    stage_detail="All pipeline stages done. Launch docs found in .launchcraft/launches/."
 elif [ "$test_report_ready" = true ]; then
     stage="Next: launch"
     stage_detail="Test report shows 'Ready to Launch'. Run /launch to deploy."
@@ -275,7 +275,7 @@ context+="${memory_instructions}\\n"
 
 # Pipeline context log instructions
 context+="\\n## Pipeline Context Log\\n\\n"
-context+="**MANDATORY:** Every pipeline skill MUST append its execution summary to \`docs/pipeline-context.md\` BEFORE completing.\\n\\n"
+context+="**MANDATORY:** Every pipeline skill MUST append its execution summary to \`.launchcraft/pipeline-context.md\` BEFORE completing.\\n\\n"
 context+="This file is the persistent context that survives context window compression. Later skills MUST read this file on start to understand what happened in all previous stages.\\n\\n"
 context+="**Format for each entry:**\\n"
 context+="\`\`\`markdown\\n"

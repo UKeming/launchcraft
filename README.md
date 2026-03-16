@@ -48,15 +48,15 @@ Claude: [auto-detects: no pipeline artifacts → suggests /spark]
 
 You: /spark
 
-Claude: [probing questions → competitive analysis → structured requirements → saves to docs/requirements/ → contract-validator verifies]
+Claude: [probing questions → competitive analysis → structured requirements → saves to .launchcraft/requirements/ → contract-validator verifies]
 
 You: /research
 
-Claude: [web search → market data → competitor deep-dive → assumption validation → product-market fit assessment → saves to docs/research/ → contract-validator verifies]
+Claude: [web search → market data → competitor deep-dive → assumption validation → product-market fit assessment → saves to .launchcraft/research/ → contract-validator verifies]
 
 You: /differentiation
 
-Claude: [feature matrix → differentiation axes → positioning statement → strategic bets → requirement adjustments → saves to docs/strategy/ → contract-validator verifies]
+Claude: [feature matrix → differentiation axes → positioning statement → strategic bets → requirement adjustments → saves to .launchcraft/strategy/ → contract-validator verifies]
 
 You: /scope-planning
 
@@ -64,11 +64,11 @@ Claude: [analyzes complexity → calculates story count → plans design doc spl
 
 You: /user-story
 
-Claude: [asks clarifying questions → identifies personas → generates user stories → saves per-domain story files (docs/[domain]/stories/US-NNN.md) → contract-validator verifies]
+Claude: [asks clarifying questions → identifies personas → generates user stories → saves per-domain story files (.launchcraft/[domain]/stories/US-NNN.md) → contract-validator verifies]
 
 You: /design-doc
 
-Claude: [reads domain stories → proposes architecture → writes design per domain (docs/[domain]/design.md) → contract-validator verifies]
+Claude: [reads domain stories → proposes architecture → writes design per domain (.launchcraft/[domain]/design.md) → contract-validator verifies]
 
 ...continue through the pipeline...
 ```
@@ -104,14 +104,14 @@ launchcraft/
 │   └── contract-validator.md     # Independent output verifier
 ├── commands/                     # Slash command shortcuts
 ├── hooks/                        # SessionStart: stage detection + memory injection
-└── docs/
+└── .launchcraft/
     ├── contracts.md              # Input/output contracts for all skills
     └── worktree-guide.md         # Isolated workspaces per product
 ```
 
 ## How It Works
 
-1. **SessionStart hook** runs on every session — detects which pipeline stage you're in by checking for artifacts (`docs/*/stories/`, `docs/*/design.md`, `tests/`, etc.) and injects context
+1. **SessionStart hook** runs on every session — detects which pipeline stage you're in by checking for artifacts (`.launchcraft/*/stories/`, `.launchcraft/*/design.md`, `tests/`, etc.) and injects context
 2. **Each skill** validates its input contract, enforces a HARD-GATE before doing real work, then produces output
 3. **Contract-validator agent** independently checks the output against `docs/contracts.md`
 4. **Auto-memory** saves key decisions and gotchas to `CLAUDE.md` so future sessions have full context

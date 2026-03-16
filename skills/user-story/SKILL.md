@@ -14,10 +14,10 @@ Convert enhanced requirements into comprehensive, traceable user stories. Every 
 ## Input Contract Validation
 
 On start, verify:
-- [ ] Requirements doc exists at `docs/requirements/*.md`
-- [ ] Research report exists at `docs/research/*.md`
-- [ ] Differentiation strategy exists at `docs/strategy/*-differentiation.md`
-- [ ] Enhancement record exists at `docs/enhanced/*.md`
+- [ ] Requirements doc exists at `.launchcraft/requirements/*.md`
+- [ ] Research report exists at `.launchcraft/research/*.md`
+- [ ] Differentiation strategy exists at `.launchcraft/strategy/*-differentiation.md`
+- [ ] Enhancement record exists at `.launchcraft/enhanced/*.md`
 
 Read ALL upstream docs. The requirements doc (with enhanced features) is the primary source. The differentiation strategy informs priority. The research report provides user context.
 
@@ -151,9 +151,9 @@ If any gaps exist, write the missing stories and update the coverage matrix.
 
 Save each story as an individual file, organized by domain folders.
 
-**Step 1: Determine domains.** Group stories by functional domain (e.g., auth, dashboard, search, settings). Each domain gets its own folder under `docs/`.
+**Step 1: Determine domains.** Group stories by functional domain (e.g., auth, dashboard, search, settings). Each domain gets its own folder under `.launchcraft/`.
 
-**Step 2: Save individual story files.** For each story, save to `docs/[domain]/stories/US-NNN-[slug].md`:
+**Step 2: Save individual story files.** For each story, save to `.launchcraft/[domain]/stories/US-NNN-[slug].md`:
 
 ```markdown
 ---
@@ -179,7 +179,7 @@ domain: [domain name]
 [Optional: edge cases, technical considerations, dependencies]
 ```
 
-**Step 3: Save global index.** Save to `docs/user-stories-index.md`:
+**Step 3: Save global index.** Save to `.launchcraft/user-stories-index.md`:
 
 ```markdown
 # User Stories Index
@@ -202,8 +202,8 @@ domain: [domain name]
 
 | Domain | Folder | Stories | Count |
 |--------|--------|---------|-------|
-| Auth | docs/auth/stories/ | US-001, US-002, ... | [N] |
-| Dashboard | docs/dashboard/stories/ | US-010, US-011, ... | [N] |
+| Auth | .launchcraft/auth/stories/ | US-001, US-002, ... | [N] |
+| Dashboard | .launchcraft/dashboard/stories/ | US-010, US-011, ... | [N] |
 | ... | ... | ... | ... |
 
 ---
@@ -220,7 +220,7 @@ After saving, dispatch the **contract-validator** agent to independently verify 
 ```
 Agent: contract-validator
 Skill: user-story
-Output path: docs/user-stories-index.md + docs/*/stories/US-*.md
+Output path: .launchcraft/user-stories-index.md + .launchcraft/*/stories/US-*.md
 ```
 
 Do NOT proceed to design-doc until the validator returns PASS. If it returns FAIL, fix the violations and re-validate.

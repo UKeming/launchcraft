@@ -25,7 +25,7 @@ The report must reflect reality. Never fabricate passing results.
 On start, verify:
 - [ ] Implementation code exists (impl skill output)
 - [ ] Test files exist in `tests/`
-- [ ] Test plan exists at `docs/test-plans/*.md`
+- [ ] Test plan exists at `.launchcraft/test-plans/*.md`
 - [ ] Tests are runnable (test framework is installed)
 
 If validation fails, list specific violations and stop.
@@ -72,13 +72,13 @@ Ask: "Should we proceed to launch, or fix issues first?"
 
 ### 5. Save
 
-Save to `docs/test-reports/YYYY-MM-DD-[topic]-test-report.md`:
+Save to `.launchcraft/test-reports/YYYY-MM-DD-[topic]-test-report.md`:
 
 ```markdown
 # Test Report: [Topic]
 
 **Date:** YYYY-MM-DD
-**Related Test Plan:** docs/test-plans/[filename].md
+**Related Test Plan:** .launchcraft/test-plans/[filename].md
 **Status:** Pass | Fail | Partial
 **Recommendation:** Ready to Launch | Needs Fixes
 

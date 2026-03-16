@@ -53,7 +53,7 @@ You will receive:
 - [ ] Has User Story Opportunities table with persona and journey stage
 - [ ] Has Competitor Deep-Dive section with 3+ competitors
 - [ ] Has Enhancement Metrics with before/after counts
-- [ ] Requirements doc at `docs/requirements/*.md` has been updated with new features (verify by reading)
+- [ ] Requirements doc at `.launchcraft/requirements/*.md` has been updated with new features (verify by reading)
 
 ### frontend-design
 - [ ] Frontend design doc exists at the specified path
@@ -69,9 +69,9 @@ You will receive:
 - [ ] Frontend-tester agent has tested all pages (check for test report)
 
 ### user-story
-- [ ] Global index exists at `docs/user-stories-index.md`
+- [ ] Global index exists at `.launchcraft/user-stories-index.md`
 - [ ] Index has: Feature Inventory, Feature Coverage Matrix, Domain Listing
-- [ ] Domain story folders exist (at least one `docs/*/stories/` with US-*.md files)
+- [ ] Domain story folders exist (at least one `.launchcraft/*/stories/` with US-*.md files)
 - [ ] Each story file has frontmatter: id (US-NNN), title, priority, size, persona, features (F-NNN), domain
 - [ ] Each story file has "As a..." statement and `## Acceptance Criteria` with at least one Given/When/Then
 - [ ] Total story files count ≥ number of Must-Have + Should-Have features
@@ -82,24 +82,24 @@ You will receive:
 - [ ] No implementation details in stories
 
 ### design-doc
-- [ ] Domain design docs exist at `docs/*/design.md` (at least system + 1 feature domain)
+- [ ] Domain design docs exist at `.launchcraft/*/design.md` (at least system + 1 feature domain)
 - [ ] Each doc has file header: Title, Date, Domain, Related User Stories (US-NNN list), Status
 - [ ] Each doc's Overview references specific US-NNN numbers
 - [ ] Each doc has sections: Architecture, Components
 - [ ] Each doc has at least one of: Data Model, API Design (if applicable)
 - [ ] Each doc has sections: Error Handling, Security Considerations, Testing Strategy
-- [ ] Global Story Coverage Matrix exists at `docs/story-coverage.md`
-- [ ] **Cross-check: read all story files from `docs/*/stories/US-*.md`, extract all US-NNN, verify EVERY one appears in the Story Coverage Matrix with a domain design doc assigned. Coverage must be 100%.**
+- [ ] Global Story Coverage Matrix exists at `.launchcraft/story-coverage.md`
+- [ ] **Cross-check: read all story files from `.launchcraft/*/stories/US-*.md`, extract all US-NNN, verify EVERY one appears in the Story Coverage Matrix with a domain design doc assigned. Coverage must be 100%.**
 - [ ] No remaining `<!-- IMAGE_REQUEST` blocks in any design doc (all resolved or removed)
-- [ ] If `docs/*/assets/` directories exist, verify referenced image files actually exist
-- [ ] If real images were used, `ATTRIBUTION.md` exists in the relevant `docs/*/assets/` folder with source, license, and URL
+- [ ] If `.launchcraft/*/assets/` directories exist, verify referenced image files actually exist
+- [ ] If real images were used, `ATTRIBUTION.md` exists in the relevant `.launchcraft/*/assets/` folder with source, license, and URL
 
 ### tdd-testing
 - [ ] Test plan file exists at the specified path
 - [ ] Has file header: Title, Date, Related Design Docs, Related User Stories, Status, Story Coverage
 - [ ] Has Story Test Inventory listing all US-NNN
 - [ ] Has Story → Test Coverage Matrix mapping every US-NNN to T-NNN
-- [ ] **Cross-check: read all story files from `docs/*/stories/US-*.md`, extract all US-NNN, verify EVERY one appears in the Story → Test Coverage Matrix with at least one T-NNN. Coverage must be 100%.**
+- [ ] **Cross-check: read all story files from `.launchcraft/*/stories/US-*.md`, extract all US-NNN, verify EVERY one appears in the Story → Test Coverage Matrix with at least one T-NNN. Coverage must be 100%.**
 - [ ] Every test case maps to a user story (US-NNN) in the test plan
 - [ ] At least one executable test file exists in `tests/`
 - [ ] **Run all tests** — every test must FAIL
@@ -118,7 +118,7 @@ You will receive:
 - [ ] Has Results by User Story table with per-story pass/fail
 - [ ] Has Requirements Traceability Matrix (RTM) section with: US-NNN, Design Doc, Page/Route, Test Cases, Pass/Fail
 - [ ] RTM Summary shows full traceability percentage
-- [ ] **Cross-check: verify RTM covers all US-NNN from `docs/*/stories/US-*.md`**
+- [ ] **Cross-check: verify RTM covers all US-NNN from `.launchcraft/*/stories/US-*.md`**
 - [ ] Every failed test has error details and reproduction steps
 - [ ] Recommendation is justified by the data (no "Ready to Launch" with failures)
 

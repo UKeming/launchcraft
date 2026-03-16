@@ -24,7 +24,7 @@ Do NOT let differentiation start without validated requirements.
 ## Input Contract Validation
 
 On start, verify:
-- [ ] Requirements doc exists at `docs/requirements/*.md`
+- [ ] Requirements doc exists at `.launchcraft/requirements/*.md`
 - [ ] Requirements doc has: Problem Statement, Target Users, Competitive Landscape, Functional Requirements
 
 If validation fails, stop and run `/spark` first.
@@ -167,7 +167,7 @@ Iterate until the user approves the research and any requirement adjustments.
 
 ### 10. Save
 
-Save to `docs/research/YYYY-MM-DD-[product-name]-research.md`.
+Save to `.launchcraft/research/YYYY-MM-DD-[product-name]-research.md`.
 
 ## Output Validation
 

@@ -24,9 +24,9 @@ Do NOT modify any test files. Tests are the spec.
 ## Input Contract Validation
 
 On start, verify:
-- [ ] Domain design docs exist at `docs/*/design.md` (at least one domain)
+- [ ] Domain design docs exist at `.launchcraft/*/design.md` (at least one domain)
 - [ ] Test files exist in `tests/`
-- [ ] Test plan exists at `docs/test-plans/*.md`
+- [ ] Test plan exists at `.launchcraft/test-plans/*.md`
 - [ ] Test plan has Story → Test Coverage Matrix with 100% story coverage
 - [ ] All tests currently FAIL (red phase is complete)
 
@@ -245,7 +245,7 @@ Output path: [project root]
 Agent: code-reviewer (run_in_background: true)
 Skill: impl
 Code paths: [source code directories]
-Design doc: docs/*/design.md
+Design doc: .launchcraft/*/design.md
 ```
 
 Wait for both to complete. If code-reviewer made fixes, re-run tests to verify they still pass.

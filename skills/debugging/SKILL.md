@@ -46,7 +46,7 @@ Error location → What called it → What provided the input → Where did it g
 ```
 
 Check at each boundary:
-- **Skill output**: Does it match the contract in docs/contracts.md?
+- **Skill output**: Does it match the contract in .launchcraft/contracts.md?
 - **File format**: Is the markdown well-formed? YAML frontmatter valid?
 - **Data flow**: Did upstream skill produce what downstream expects?
 - **External deps**: Is wrangler/test framework/build tool working?

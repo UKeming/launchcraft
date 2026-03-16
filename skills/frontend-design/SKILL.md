@@ -36,10 +36,10 @@ After building, pass the complete page list to the frontend-tester agent for vis
 ## Input Contract Validation
 
 On start, verify:
-- [ ] Domain design docs exist at `docs/*/design.md` (at least one domain)
+- [ ] Domain design docs exist at `.launchcraft/*/design.md` (at least one domain)
 - [ ] At least one design doc has UI/UX Design section with page inventory
 - [ ] At least one design doc has Architecture section (for tech stack context)
-- [ ] Domain story files exist at `docs/*/stories/US-*.md`
+- [ ] Domain story files exist at `.launchcraft/*/stories/US-*.md`
 
 If validation fails, list specific violations and stop.
 
@@ -143,13 +143,13 @@ After building all pages, compile the complete test list:
 
 ### 5. Save Frontend Design Doc
 
-Save to `docs/frontend-design/YYYY-MM-DD-[product-name]-frontend-design.md`:
+Save to `.launchcraft/frontend-design/YYYY-MM-DD-[product-name]-frontend-design.md`:
 
 ```markdown
 # Frontend Design: [Product Name]
 
 **Date:** YYYY-MM-DD
-**Related Design Docs:** docs/*/design.md
+**Related Design Docs:** .launchcraft/*/design.md
 **Aesthetic Direction:** [chosen direction]
 **Status:** Draft | Tested | Approved
 

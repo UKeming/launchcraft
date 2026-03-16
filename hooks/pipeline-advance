@@ -8,7 +8,7 @@ set -euo pipefail
 PROJECT_DIR="${PWD}"
 ADVANCE_STATE_FILE="${PROJECT_DIR}/.launchcraft-advance-state"
 
-# Quick exit: no docs/ directory means no pipeline in progress
+# Quick exit: no .launchcraft/ directory means no pipeline in progress
 if [ ! -d "${PROJECT_DIR}/docs" ]; then
     exit 0
 fi
@@ -35,28 +35,28 @@ has_test_report=false
 test_report_ready=false
 has_launch=false
 
-if [ -d "${PROJECT_DIR}/docs/requirements" ] && ls "${PROJECT_DIR}/docs/requirements/"*.md &>/dev/null; then
+if [ -d "${PROJECT_DIR}/.launchcraft/requirements" ] && ls "${PROJECT_DIR}/.launchcraft/requirements/"*.md &>/dev/null; then
     has_requirements=true
 fi
 
-if [ -d "${PROJECT_DIR}/docs/research" ] && ls "${PROJECT_DIR}/docs/research/"*.md &>/dev/null; then
+if [ -d "${PROJECT_DIR}/.launchcraft/research" ] && ls "${PROJECT_DIR}/.launchcraft/research/"*.md &>/dev/null; then
     has_research=true
 fi
 
-if [ -d "${PROJECT_DIR}/docs/strategy" ] && ls "${PROJECT_DIR}/docs/strategy/"*-differentiation.md &>/dev/null; then
+if [ -d "${PROJECT_DIR}/.launchcraft/strategy" ] && ls "${PROJECT_DIR}/.launchcraft/strategy/"*-differentiation.md &>/dev/null; then
     has_differentiation=true
 fi
 
-if [ -d "${PROJECT_DIR}/docs/enhanced" ] && ls "${PROJECT_DIR}/docs/enhanced/"*.md &>/dev/null; then
+if [ -d "${PROJECT_DIR}/.launchcraft/enhanced" ] && ls "${PROJECT_DIR}/.launchcraft/enhanced/"*.md &>/dev/null; then
     has_enhance=true
 fi
 
 has_business_assessment=false
-if [ -d "${PROJECT_DIR}/docs/financials" ] && ls "${PROJECT_DIR}/docs/financials/"*-business-assessment.md &>/dev/null; then
+if [ -d "${PROJECT_DIR}/.launchcraft/financials" ] && ls "${PROJECT_DIR}/.launchcraft/financials/"*-business-assessment.md &>/dev/null; then
     has_business_assessment=true
 fi
 
-if [ -f "${PROJECT_DIR}/docs/user-stories-index.md" ] || ([ -d "${PROJECT_DIR}/docs/user-stories" ] && ls "${PROJECT_DIR}/docs/user-stories/"*.md &>/dev/null); then
+if [ -f "${PROJECT_DIR}/.launchcraft/user-stories-index.md" ] || ([ -d "${PROJECT_DIR}/.launchcraft/user-stories" ] && ls "${PROJECT_DIR}/.launchcraft/user-stories/"*.md &>/dev/null); then
     has_user_stories=true
 else
     story_count=$(find "${PROJECT_DIR}/docs" -path "*/stories/US-*.md" 2>/dev/null | head -5 | wc -l | tr -d ' ')
@@ -66,11 +66,11 @@ else
 fi
 
 design_count=$(find "${PROJECT_DIR}/docs" -maxdepth 2 -name "design.md" 2>/dev/null | head -5 | wc -l | tr -d ' ')
-if [ "$design_count" -gt 0 ] || ([ -d "${PROJECT_DIR}/docs/designs" ] && ls "${PROJECT_DIR}/docs/designs/"*.md &>/dev/null); then
+if [ "$design_count" -gt 0 ] || ([ -d "${PROJECT_DIR}/.launchcraft/designs" ] && ls "${PROJECT_DIR}/.launchcraft/designs/"*.md &>/dev/null); then
     has_designs=true
 fi
 
-if [ -d "${PROJECT_DIR}/docs/frontend-design" ] && ls "${PROJECT_DIR}/docs/frontend-design/"*.md &>/dev/null; then
+if [ -d "${PROJECT_DIR}/.launchcraft/frontend-design" ] && ls "${PROJECT_DIR}/.launchcraft/frontend-design/"*.md &>/dev/null; then
     has_frontend_design=true
 fi
 
@@ -93,20 +93,20 @@ if [ "$has_test_files" = true ]; then
     fi
 fi
 
-if [ -d "${PROJECT_DIR}/docs/experience-review" ] && ls "${PROJECT_DIR}/docs/experience-review/"*.md &>/dev/null; then
-    if grep -rli "APPROVED" "${PROJECT_DIR}/docs/experience-review/" &>/dev/null; then
+if [ -d "${PROJECT_DIR}/.launchcraft/experience-review" ] && ls "${PROJECT_DIR}/.launchcraft/experience-review/"*.md &>/dev/null; then
+    if grep -rli "APPROVED" "${PROJECT_DIR}/.launchcraft/experience-review/" &>/dev/null; then
         has_experience_review=true
     fi
 fi
 
-if [ -d "${PROJECT_DIR}/docs/test-reports" ] && ls "${PROJECT_DIR}/docs/test-reports/"*.md &>/dev/null; then
+if [ -d "${PROJECT_DIR}/.launchcraft/test-reports" ] && ls "${PROJECT_DIR}/.launchcraft/test-reports/"*.md &>/dev/null; then
     has_test_report=true
-    if grep -rli "ready to launch" "${PROJECT_DIR}/docs/test-reports/" &>/dev/null; then
+    if grep -rli "ready to launch" "${PROJECT_DIR}/.launchcraft/test-reports/" &>/dev/null; then
         test_report_ready=true
     fi
 fi
 
-if [ -d "${PROJECT_DIR}/docs/launches" ] && ls "${PROJECT_DIR}/docs/launches/"*.md &>/dev/null; then
+if [ -d "${PROJECT_DIR}/.launchcraft/launches" ] && ls "${PROJECT_DIR}/.launchcraft/launches/"*.md &>/dev/null; then
     has_launch=true
 fi
 

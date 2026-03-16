@@ -7,7 +7,7 @@ Each skill validates its input on start and self-validates its output before sav
 ### spark
 
 **Input:** Raw idea, problem statement, or pasted feedback (free-form)
-**Output:** `docs/requirements/YYYY-MM-DD-[product-name]-requirements.md`
+**Output:** `.launchcraft/requirements/YYYY-MM-DD-[product-name]-requirements.md`
 **Output must contain:**
 - Problem Statement (2-3 sentences)
 - Target Users with Primary and Secondary personas
@@ -24,8 +24,8 @@ Each skill validates its input on start and self-validates its output before sav
 
 ### research
 
-**Input:** Requirements doc from spark (`docs/requirements/*.md`)
-**Output:** `docs/research/YYYY-MM-DD-[product-name]-research.md`
+**Input:** Requirements doc from spark (`.launchcraft/requirements/*.md`)
+**Output:** `.launchcraft/research/YYYY-MM-DD-[product-name]-research.md`
 **Output must contain:**
 - Assumptions table extracted from requirements (at least 3 assumptions)
 - Market research with cited sources (at least 3 real sources)
@@ -40,8 +40,8 @@ Each skill validates its input on start and self-validates its output before sav
 
 ### differentiation
 
-**Input:** Requirements doc (`docs/requirements/*.md`) + Research report (`docs/research/*.md`)
-**Output:** `docs/strategy/YYYY-MM-DD-[product-name]-differentiation.md`
+**Input:** Requirements doc (`.launchcraft/requirements/*.md`) + Research report (`.launchcraft/research/*.md`)
+**Output:** `.launchcraft/strategy/YYYY-MM-DD-[product-name]-differentiation.md`
 **Output must contain:**
 - Competitive feature matrix (capabilities vs competitors with gap analysis)
 - Differentiation axes analysis (at least 4 axes explored, must include business model and growth)
@@ -51,8 +51,8 @@ Each skill validates its input on start and self-validates its output before sav
 
 ### enhance
 
-**Input:** Requirements doc (`docs/requirements/*.md`) + Research report (`docs/research/*.md`) + Differentiation strategy (`docs/strategy/*.md`)
-**Output:** `docs/enhanced/YYYY-MM-DD-[product-name]-enhanced.md`
+**Input:** Requirements doc (`.launchcraft/requirements/*.md`) + Research report (`.launchcraft/research/*.md`) + Differentiation strategy (`.launchcraft/strategy/*.md`)
+**Output:** `.launchcraft/enhanced/YYYY-MM-DD-[product-name]-enhanced.md`
 **Output must contain:**
 - Enhancement record header with Date, Requirements Doc path, Research Report path, Differentiation Strategy path, Status
 - Features Added table with feature name, tier (Must/Should/Nice), source, and rationale
@@ -60,14 +60,14 @@ Each skill validates its input on start and self-validates its output before sav
 - User Story Opportunities Identified table with persona and journey stage
 - Competitor Deep-Dive section with 3+ competitors' feature analysis
 - Enhancement Metrics (features before/after, net additions)
-- Updated requirements doc at `docs/requirements/*.md` with approved features added
+- Updated requirements doc at `.launchcraft/requirements/*.md` with approved features added
 
 ### frontend-design
 
-**Input:** Domain design docs (`docs/*/design.md`) + Story files (`docs/*/stories/US-*.md`) + Index (`docs/user-stories-index.md`)
+**Input:** Domain design docs (`.launchcraft/*/design.md`) + Story files (`.launchcraft/*/stories/US-*.md`) + Index (`.launchcraft/user-stories-index.md`)
 **Output:**
 - Frontend code files (HTML/CSS/JS or framework components)
-- `docs/frontend-design/YYYY-MM-DD-[product-name]-frontend-design.md`
+- `.launchcraft/frontend-design/YYYY-MM-DD-[product-name]-frontend-design.md`
 **Output must contain:**
 - Frontend design doc header with Date, Related Design Doc, Aesthetic Direction, Status
 - Visual Direction section with aesthetic rationale
@@ -81,10 +81,10 @@ Each skill validates its input on start and self-validates its output before sav
 
 ### user-story
 
-**Input:** Requirements doc (`docs/requirements/*.md`) + Research report (`docs/research/*.md`) + Differentiation strategy (`docs/strategy/*.md`) + Enhancement record (`docs/enhanced/*.md`)
+**Input:** Requirements doc (`.launchcraft/requirements/*.md`) + Research report (`.launchcraft/research/*.md`) + Differentiation strategy (`.launchcraft/strategy/*.md`) + Enhancement record (`.launchcraft/enhanced/*.md`)
 **Output:**
-- `docs/[domain]/stories/US-NNN-[slug].md` — one file per story, organized by domain folder
-- `docs/user-stories-index.md` — global feature inventory + coverage matrix + domain listing
+- `.launchcraft/[domain]/stories/US-NNN-[slug].md` — one file per story, organized by domain folder
+- `.launchcraft/user-stories-index.md` — global feature inventory + coverage matrix + domain listing
 **Output must contain:**
 - Each story file has frontmatter: US-NNN, Title, Priority, Size, Persona, Features (F-NNN), Domain
 - Each story file has: "As a..." statement, `## Acceptance Criteria` with Given/When/Then items
@@ -98,11 +98,11 @@ Each skill validates its input on start and self-validates its output before sav
 
 ### design-doc
 
-**Input:** `docs/*/stories/US-*.md` (story files by domain) + `docs/user-stories-index.md` + `docs/requirements/*.md`
+**Input:** `.launchcraft/*/stories/US-*.md` (story files by domain) + `.launchcraft/user-stories-index.md` + `.launchcraft/requirements/*.md`
 **Output:**
-- `docs/[domain]/design.md` — one design doc per domain, co-located with its stories
-- `docs/[domain]/assets/*` — generated image assets (if any IMAGE_REQUESTs)
-- `docs/story-coverage.md` — global Story Coverage Matrix
+- `.launchcraft/[domain]/design.md` — one design doc per domain, co-located with its stories
+- `.launchcraft/[domain]/assets/*` — generated image assets (if any IMAGE_REQUESTs)
+- `.launchcraft/story-coverage.md` — global Story Coverage Matrix
 **Output must contain:**
 - Each design doc has file header: Title, Date, Domain, Related User Stories (US-NNN list), Status
 - Each design doc has sections: Overview, Architecture, Components
@@ -117,10 +117,10 @@ Each skill validates its input on start and self-validates its output before sav
 
 ### tdd-testing
 
-**Input:** `docs/*/design.md` (domain design docs) + `docs/*/stories/US-*.md` (story files) + `docs/story-coverage.md`
+**Input:** `.launchcraft/*/design.md` (domain design docs) + `.launchcraft/*/stories/US-*.md` (story files) + `.launchcraft/story-coverage.md`
 **Output:**
 - Test files in `tests/`
-- `docs/test-plans/YYYY-MM-DD-[topic]-test-plan.md`
+- `.launchcraft/test-plans/YYYY-MM-DD-[topic]-test-plan.md`
 **Output must contain:**
 - Test plan header with Title, Date, Related Design Docs, Related User Stories, Status, Story Coverage percentage
 - Story Test Inventory listing every US-NNN with test type needed
@@ -133,7 +133,7 @@ Each skill validates its input on start and self-validates its output before sav
 ### impl
 
 **Input:**
-- `docs/*/design.md` (domain design docs)
+- `.launchcraft/*/design.md` (domain design docs)
 - Test files in `tests/` (from tdd-testing)
 **Output:** Implementation source code
 **Output must satisfy:**
@@ -144,10 +144,10 @@ Each skill validates its input on start and self-validates its output before sav
 ### experience-review
 
 **Input:**
-- All upstream docs: requirements (`docs/requirements/*.md`), domain stories (`docs/*/stories/US-*.md`), domain designs (`docs/*/design.md`), frontend design (`docs/frontend-design/*.md`)
+- All upstream docs: requirements (`.launchcraft/requirements/*.md`), domain stories (`.launchcraft/*/stories/US-*.md`), domain designs (`.launchcraft/*/design.md`), frontend design (`.launchcraft/frontend-design/*.md`)
 - Running application (all tests must pass)
-- Pipeline context log (`docs/pipeline-context.md`)
-**Output:** `docs/experience-review/YYYY-MM-DD-[product-name]-experience-review.md`
+- Pipeline context log (`.launchcraft/pipeline-context.md`)
+**Output:** `.launchcraft/experience-review/YYYY-MM-DD-[product-name]-experience-review.md`
 **Output must contain:**
 - Review Summary (total pages tested, journeys tested, issues found, iterations)
 - Page-by-page results with screenshots (desktop + mobile) for every page
@@ -162,8 +162,8 @@ Each skill validates its input on start and self-validates its output before sav
 
 ### test-report
 
-**Input:** Test execution results (after experience-review) + domain stories (`docs/*/stories/US-*.md`) + domain designs (`docs/*/design.md`) + test plan
-**Output:** `docs/test-reports/YYYY-MM-DD-[topic]-test-report.md`
+**Input:** Test execution results (after experience-review) + domain stories (`.launchcraft/*/stories/US-*.md`) + domain designs (`.launchcraft/*/design.md`) + test plan
+**Output:** `.launchcraft/test-reports/YYYY-MM-DD-[topic]-test-report.md`
 **Output must contain:**
 - File header with Title, Date, Related Test Plan, Status
 - Summary: total tests, passed, failed, skipped
@@ -181,7 +181,7 @@ Each skill validates its input on start and self-validates its output before sav
 - Built application code
 **Output:**
 - Deployed to Cloudflare at `appX.keming.co`
-- `docs/launches/YYYY-MM-DD-[topic]-launch.md`
+- `.launchcraft/launches/YYYY-MM-DD-[topic]-launch.md`
 **Output must contain:**
 - File header with Title, Date, URL, Status
 - Deployment details: platform, subdomain, timestamp
@@ -191,7 +191,7 @@ Each skill validates its input on start and self-validates its output before sav
 ### accountant (pre-planning)
 
 **Input:** Requirements doc + Research report + Differentiation strategy + Enhancement record
-**Output:** `docs/financials/YYYY-MM-DD-[product-name]-business-assessment.md`
+**Output:** `.launchcraft/financials/YYYY-MM-DD-[product-name]-business-assessment.md`
 **Output must contain:**
 - Business Model section with pricing tiers table (actual prices, not placeholders)
 - Cost Structure with itemized infrastructure costs (actual dollar amounts)
@@ -204,7 +204,7 @@ Each skill validates its input on start and self-validates its output before sav
 ### accountant (post-launch)
 
 **Input:** All project docs + actual implementation (package.json, wrangler.toml, code)
-**Output:** `docs/financials/YYYY-MM-DD-[product-name]-financial-report.md`
+**Output:** `.launchcraft/financials/YYYY-MM-DD-[product-name]-financial-report.md`
 **Output must contain:**
 - Actual Cost Breakdown based on real services used in code (not estimated — verified from implementation)
 - Cost scaling table at 100, 1K, 10K, 100K users

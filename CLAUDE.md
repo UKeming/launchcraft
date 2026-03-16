@@ -13,7 +13,7 @@ spark → research → differentiation → enhance → differentiation (re-run) 
 - **frontend-tester** — after frontend-design, tests every page with Playwright
 
 ### Pipeline Context Log
-- Every skill appends execution summary to `docs/pipeline-context.md`
+- Every skill appends execution summary to `.launchcraft/pipeline-context.md`
 - Downstream skills read this file on start to recover full context
 - Survives context window compression — the lifeline between sessions
 
@@ -32,7 +32,7 @@ spark → research → differentiation → enhance → differentiation (re-run) 
 User stories and design docs are organized by domain folders. Each domain co-locates its stories and design:
 
 ```
-docs/
+.launchcraft/
   [domain]/                    # e.g., auth/, dashboard/, system/
     stories/
       US-NNN-[slug].md         # individual story file with frontmatter
@@ -43,8 +43,8 @@ docs/
 
 - **user-story skill** creates domain folders + individual story files + global index
 - **design-doc skill** reads stories from domain folders, writes `design.md` into each domain folder
-- **tdd-testing** and **impl** read `docs/*/design.md` + `docs/*/stories/US-*.md`
-- Hooks detect both new (`docs/*/stories/`) and legacy (`docs/user-stories/`) paths
+- **tdd-testing** and **impl** read `.launchcraft/*/design.md` + `.launchcraft/*/stories/US-*.md`
+- Hooks detect both new (`.launchcraft/*/stories/`) and legacy (`.launchcraft/user-stories/`) paths
 
 ## MCP Servers
 
@@ -91,7 +91,7 @@ docs/
 - **Worktree agents can't call MCP**: Design doc worktree agents insert `IMAGE_REQUEST` placeholders. After merge, the main agent handles all image sourcing (MCP + web search), then dispatches verification agents.
 - **Verification loop**: After generation/download, a subagent reads each image to check quality. FAIL_TEXT → retry without text (cheaper model). FAIL_RESOLUTION → re-search or fall back to generated. Max 2 retries per image.
 - **Real images need resolution minimums**: Hero/banner = 1920×1080, inline = 1200×800, card = 800×600, icon = 512×512. Low-res images on retina displays look terrible.
-- **Real images need attribution**: Every `docs/[domain]/assets/` folder with real images must have `ATTRIBUTION.md` tracking source, license, and original URL.
+- **Real images need attribution**: Every `.launchcraft/[domain]/assets/` folder with real images must have `ATTRIBUTION.md` tracking source, license, and original URL.
 - **Use real for photos, generated for graphics**: AI-generated photos of people/places look uncanny. Use `type: real` for any real-world photography. Use `type: generated` for illustrations, icons, patterns, conceptual graphics.
 
 ### Contract System
