@@ -48,7 +48,7 @@ docs/
 
 ## MCP Servers
 
-- **nano-banana** — Image generation/editing via Google Gemini models. Tools: `generate_image`, `edit_image`, `list_models`. Requires `GEMINI_API_KEY` env var.
+- **nano-banana** — Image generation/editing via Google Gemini models. Tools: `configure`, `generate_image`, `edit_image`, `list_models`. API key configured via `configure` tool (saved to `~/.config/nano-banana/config.json`) or `GEMINI_API_KEY` env var.
 
 ## GitHub
 

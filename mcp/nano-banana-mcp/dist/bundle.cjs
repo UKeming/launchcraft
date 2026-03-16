@@ -18800,7 +18800,7 @@ var require_util3 = __commonJS({
     exports2.isValidFile = isValidFile;
     exports2.getWellKnownCertificateConfigFileLocation = getWellKnownCertificateConfigFileLocation;
     var fs4 = require("fs");
-    var os = require("os");
+    var os2 = require("os");
     var path3 = require("path");
     var WELL_KNOWN_CERTIFICATE_CONFIG_FILE = "certificate_config.json";
     var CLOUDSDK_CONFIG_DIRECTORY = "gcloud";
@@ -18898,7 +18898,7 @@ var require_util3 = __commonJS({
       return path3.join(configDir, WELL_KNOWN_CERTIFICATE_CONFIG_FILE);
     }
     function _isWindows() {
-      return os.platform().startsWith("win");
+      return os2.platform().startsWith("win");
     }
   }
 });
@@ -21570,11 +21570,11 @@ var require_jwtclient = __commonJS({
        * Creates a JWT credentials instance using an API Key for authentication.
        * @param apiKey The API Key in string form.
        */
-      fromAPIKey(apiKey2) {
-        if (typeof apiKey2 !== "string") {
+      fromAPIKey(apiKey) {
+        if (typeof apiKey !== "string") {
           throw new Error("Must provide an API Key string.");
         }
-        this.apiKey = apiKey2;
+        this.apiKey = apiKey;
       }
       /**
        * Using the key or keyFile on the JWT client, obtain an object that contains
@@ -24000,7 +24000,7 @@ var require_googleauth = __commonJS({
     var fs4 = require("fs");
     var gaxios_1 = require_src2();
     var gcpMetadata = require_src4();
-    var os = require("os");
+    var os2 = require("os");
     var path3 = require("path");
     var crypto_1 = require_crypto3();
     var computeclient_1 = require_computeclient();
@@ -24495,15 +24495,15 @@ var require_googleauth = __commonJS({
        * @param options An optional options object.
        * @returns A JWT loaded from the key
        */
-      fromAPIKey(apiKey2, options = {}) {
-        return new jwtclient_1.JWT({ ...options, apiKey: apiKey2 });
+      fromAPIKey(apiKey, options = {}) {
+        return new jwtclient_1.JWT({ ...options, apiKey });
       }
       /**
        * Determines whether the current operating system is Windows.
        * @api private
        */
       _isWindows() {
-        const sys = os.platform();
+        const sys = os2.platform();
         if (sys && sys.length >= 3) {
           if (sys.substring(0, 3).toLowerCase() === "win") {
             return true;
@@ -62903,8 +62903,8 @@ var LiveMusic = class {
     const websocketBaseUrl = this.apiClient.getWebsocketBaseUrl();
     const apiVersion = this.apiClient.getApiVersion();
     const headers = mapToHeaders$1(this.apiClient.getDefaultHeaders());
-    const apiKey2 = this.apiClient.getApiKey();
-    const url2 = `${websocketBaseUrl}/ws/google.ai.generativelanguage.${apiVersion}.GenerativeService.BidiGenerateMusic?key=${apiKey2}`;
+    const apiKey = this.apiClient.getApiKey();
+    const url2 = `${websocketBaseUrl}/ws/google.ai.generativelanguage.${apiVersion}.GenerativeService.BidiGenerateMusic?key=${apiKey}`;
     let onopenResolve = () => {
     };
     const onopenPromise = new Promise((resolve) => {
@@ -63124,8 +63124,8 @@ var Live = class {
     if (this.apiClient.isVertexAI()) {
       const project = this.apiClient.getProject();
       const location = this.apiClient.getLocation();
-      const apiKey2 = this.apiClient.getApiKey();
-      const hasStandardAuth = !!project && !!location || !!apiKey2;
+      const apiKey = this.apiClient.getApiKey();
+      const hasStandardAuth = !!project && !!location || !!apiKey;
       if (this.apiClient.getCustomBaseUrl() && !hasStandardAuth) {
         url2 = websocketBaseUrl;
       } else {
@@ -63133,10 +63133,10 @@ var Live = class {
         await this.auth.addAuthHeaders(headers, url2);
       }
     } else {
-      const apiKey2 = this.apiClient.getApiKey();
+      const apiKey = this.apiClient.getApiKey();
       let method = "BidiGenerateContent";
       let keyName = "key";
-      if (apiKey2 === null || apiKey2 === void 0 ? void 0 : apiKey2.startsWith("auth_tokens/")) {
+      if (apiKey === null || apiKey === void 0 ? void 0 : apiKey.startsWith("auth_tokens/")) {
         console.warn("Warning: Ephemeral token support is experimental and may change in future versions.");
         if (apiVersion !== "v1alpha") {
           console.warn("Warning: The SDK's ephemeral token support is in v1alpha only. Please use const ai = new GoogleGenAI({apiKey: token.name, httpOptions: { apiVersion: 'v1alpha' }}); before session connection.");
@@ -63144,7 +63144,7 @@ var Live = class {
         method = "BidiGenerateContentConstrained";
         keyName = "access_token";
       }
-      url2 = `${websocketBaseUrl}/ws/google.ai.generativelanguage.${apiVersion}.GenerativeService.${method}?${keyName}=${apiKey2}`;
+      url2 = `${websocketBaseUrl}/ws/google.ai.generativelanguage.${apiVersion}.GenerativeService.${method}?${keyName}=${apiKey}`;
     }
     let onopenResolve = () => {
     };
@@ -67170,9 +67170,9 @@ var BaseGeminiNextGenAPIClient = class _BaseGeminiNextGenAPIClient {
    */
   constructor(_b) {
     var _c, _d, _e, _f, _g, _h, _j;
-    var { baseURL = readEnv("GEMINI_NEXT_GEN_API_BASE_URL"), apiKey: apiKey2 = (_c = readEnv("GEMINI_API_KEY")) !== null && _c !== void 0 ? _c : null, apiVersion = "v1beta" } = _b, opts = __rest(_b, ["baseURL", "apiKey", "apiVersion"]);
+    var { baseURL = readEnv("GEMINI_NEXT_GEN_API_BASE_URL"), apiKey = (_c = readEnv("GEMINI_API_KEY")) !== null && _c !== void 0 ? _c : null, apiVersion = "v1beta" } = _b, opts = __rest(_b, ["baseURL", "apiKey", "apiVersion"]);
     const options = Object.assign(Object.assign({
-      apiKey: apiKey2,
+      apiKey,
       apiVersion
     }, opts), { baseURL: baseURL || `https://generativelanguage.googleapis.com` });
     this.baseURL = options.baseURL;
@@ -67186,7 +67186,7 @@ var BaseGeminiNextGenAPIClient = class _BaseGeminiNextGenAPIClient {
     this.fetch = (_j = options.fetch) !== null && _j !== void 0 ? _j : getDefaultFetch();
     this.encoder = FallbackEncoder;
     this._options = options;
-    this.apiKey = apiKey2;
+    this.apiKey = apiKey;
     this.apiVersion = apiVersion;
     this.clientAdapter = options.clientAdapter;
   }
@@ -69261,6 +69261,50 @@ function getApiKeyFromEnv() {
 // src/index.ts
 var import_fs2 = __toESM(require("fs"), 1);
 var import_path = __toESM(require("path"), 1);
+var import_os = __toESM(require("os"), 1);
+var CONFIG_DIR = import_path.default.join(import_os.default.homedir(), ".config", "nano-banana");
+var CONFIG_FILE = import_path.default.join(CONFIG_DIR, "config.json");
+function readConfigKey() {
+  try {
+    if (import_fs2.default.existsSync(CONFIG_FILE)) {
+      const config2 = JSON.parse(import_fs2.default.readFileSync(CONFIG_FILE, "utf-8"));
+      return config2.gemini_api_key || "";
+    }
+  } catch {
+  }
+  return "";
+}
+function writeConfigKey(key) {
+  if (!import_fs2.default.existsSync(CONFIG_DIR)) {
+    import_fs2.default.mkdirSync(CONFIG_DIR, { recursive: true });
+  }
+  import_fs2.default.writeFileSync(CONFIG_FILE, JSON.stringify({ gemini_api_key: key }, null, 2));
+}
+function getApiKey() {
+  return process.env.GEMINI_API_KEY || readConfigKey();
+}
+function getAI() {
+  const key = getApiKey();
+  if (!key) return null;
+  return new GoogleGenAI({ apiKey: key });
+}
+function notConfiguredError() {
+  return {
+    content: [{
+      type: "text",
+      text: [
+        "\u274C GEMINI_API_KEY not configured.",
+        "",
+        "Run the `configure` tool with your Gemini API key:",
+        '  configure({ gemini_api_key: "AIza..." })',
+        "",
+        "Or set the GEMINI_API_KEY environment variable.",
+        "Get a key at: https://aistudio.google.com/apikey"
+      ].join("\n")
+    }],
+    isError: true
+  };
+}
 var MODELS = {
   "nano-banana-2": "gemini-3.1-flash-image-preview",
   "nano-banana-pro": "gemini-3-pro-image-preview",
@@ -69283,15 +69327,9 @@ var ASPECT_RATIOS = [
   "21:9"
 ];
 var IMAGE_SIZES = ["512px", "1K", "2K", "4K"];
-var apiKey = process.env.GEMINI_API_KEY;
-if (!apiKey) {
-  console.error("Error: GEMINI_API_KEY environment variable is required");
-  process.exit(1);
-}
-var ai = new GoogleGenAI({ apiKey });
 var server = new McpServer({
   name: "nano-banana-mcp",
-  version: "1.0.0"
+  version: "1.1.0"
 });
 function readImagePart(imagePath) {
   const resolvedPath = import_path.default.resolve(imagePath);
@@ -69305,6 +69343,49 @@ function readImagePart(imagePath) {
   return { inlineData: { mimeType, data: base643 } };
 }
 server.tool(
+  "configure",
+  "Configure the Gemini API key for image generation. The key is saved to ~/.config/nano-banana/config.json and persists across sessions. Get a key at https://aistudio.google.com/apikey",
+  {
+    gemini_api_key: external_exports3.string().describe("Your Gemini API key (starts with 'AIza...')")
+  },
+  async ({ gemini_api_key }) => {
+    if (!gemini_api_key || gemini_api_key.trim().length === 0) {
+      return {
+        content: [{ type: "text", text: "Error: API key cannot be empty." }],
+        isError: true
+      };
+    }
+    const key = gemini_api_key.trim();
+    try {
+      const testAI = new GoogleGenAI({ apiKey: key });
+      await testAI.models.generateContent({
+        model: "gemini-2.5-flash",
+        contents: "Say OK",
+        config: { maxOutputTokens: 5 }
+      });
+    } catch (error48) {
+      if (error48.message?.includes("API_KEY_INVALID") || error48.status === 400 || error48.status === 403) {
+        return {
+          content: [{ type: "text", text: `Error: Invalid API key. ${error48.message}` }],
+          isError: true
+        };
+      }
+    }
+    writeConfigKey(key);
+    return {
+      content: [{
+        type: "text",
+        text: [
+          "\u2705 Gemini API key configured and saved.",
+          `   Config: ${CONFIG_FILE}`,
+          "",
+          "Image generation tools are now ready to use."
+        ].join("\n")
+      }]
+    };
+  }
+);
+server.tool(
   "generate_image",
   "Generate an image using Google Nano Banana Pro 2 (or other Nano Banana models). Returns the image saved to a file.",
   {
@@ -69317,6 +69398,8 @@ server.tool(
     filename: external_exports3.string().optional().describe("Output filename (without extension). Auto-generated if not provided.")
   },
   async ({ prompt, image_paths, model, aspect_ratio, image_size, output_dir, filename }) => {
+    const ai = getAI();
+    if (!ai) return notConfiguredError();
     try {
       const modelId = MODELS[model];
       let contents;
@@ -69403,6 +69486,8 @@ server.tool(
     filename: external_exports3.string().optional().describe("Output filename (without extension)")
   },
   async ({ prompt, image_path, additional_images, model, output_dir, filename }) => {
+    const ai = getAI();
+    if (!ai) return notConfiguredError();
     try {
       const resolvedPath = import_path.default.resolve(image_path);
       if (!import_fs2.default.existsSync(resolvedPath)) {
@@ -69482,10 +69567,13 @@ server.tool(
   "List available Nano Banana image generation models and their capabilities.",
   {},
   async () => {
+    const configured = !!getApiKey();
     return {
       content: [{
         type: "text",
         text: [
+          configured ? "\u2705 API key configured" : "\u274C API key not configured (run `configure` tool first)",
+          "",
           "Available Nano Banana models:",
           "",
           "1. nano-banana-2 (gemini-3.1-flash-image-preview)",
@@ -69513,7 +69601,8 @@ server.tool(
 async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
-  console.error("Nano Banana MCP server running on stdio");
+  const keyStatus = getApiKey() ? "configured" : "NOT configured (run configure tool)";
+  console.error(`Nano Banana MCP server running on stdio [API key: ${keyStatus}]`);
 }
 main().catch((error48) => {
   console.error("Fatal error:", error48);

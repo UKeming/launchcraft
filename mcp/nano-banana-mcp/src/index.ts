@@ -4,7 +4,59 @@ import { GoogleGenAI } from "@google/genai";
 import { z } from "zod";
 import fs from "fs";
 import path from "path";
+import os from "os";
 
+// --- API Key Management ---
+// Priority: env var > config file
+const CONFIG_DIR = path.join(os.homedir(), ".config", "nano-banana");
+const CONFIG_FILE = path.join(CONFIG_DIR, "config.json");
+
+function readConfigKey(): string {
+  try {
+    if (fs.existsSync(CONFIG_FILE)) {
+      const config = JSON.parse(fs.readFileSync(CONFIG_FILE, "utf-8"));
+      return config.gemini_api_key || "";
+    }
+  } catch {}
+  return "";
+}
+
+function writeConfigKey(key: string): void {
+  if (!fs.existsSync(CONFIG_DIR)) {
+    fs.mkdirSync(CONFIG_DIR, { recursive: true });
+  }
+  fs.writeFileSync(CONFIG_FILE, JSON.stringify({ gemini_api_key: key }, null, 2));
+}
+
+function getApiKey(): string {
+  return process.env.GEMINI_API_KEY || readConfigKey();
+}
+
+function getAI(): GoogleGenAI | null {
+  const key = getApiKey();
+  if (!key) return null;
+  return new GoogleGenAI({ apiKey: key });
+}
+
+function notConfiguredError() {
+  return {
+    content: [{
+      type: "text" as const,
+      text: [
+        "❌ GEMINI_API_KEY not configured.",
+        "",
+        "Run the `configure` tool with your Gemini API key:",
+        '  configure({ gemini_api_key: "AIza..." })',
+        "",
+        "Or set the GEMINI_API_KEY environment variable.",
+        "Get a key at: https://aistudio.google.com/apikey",
+      ].join("\n"),
+    }],
+    isError: true,
+  };
+}
+
+// --- Constants ---
 const MODELS = {
   "nano-banana-2": "gemini-3.1-flash-image-preview",
   "nano-banana-pro": "gemini-3-pro-image-preview",
@@ -20,17 +72,10 @@ const ASPECT_RATIOS = [
 
 const IMAGE_SIZES = ["512px", "1K", "2K", "4K"] as const;
 
-const apiKey = process.env.GEMINI_API_KEY;
-if (!apiKey) {
-  console.error("Error: GEMINI_API_KEY environment variable is required");
-  process.exit(1);
-}
-
-const ai = new GoogleGenAI({ apiKey });
-
+// --- Server Setup (always starts, even without key) ---
 const server = new McpServer({
   name: "nano-banana-mcp",
-  version: "1.0.0",
+  version: "1.1.0",
 });
 
 // Helper: read image file and return inlineData part
@@ -46,7 +91,58 @@ function readImagePart(imagePath: string) {
   return { inlineData: { mimeType, data: base64 } };
 }
 
-// Tool: Generate image
+// --- Tool: Configure API Key ---
+server.tool(
+  "configure",
+  "Configure the Gemini API key for image generation. The key is saved to ~/.config/nano-banana/config.json and persists across sessions. Get a key at https://aistudio.google.com/apikey",
+  {
+    gemini_api_key: z.string().describe("Your Gemini API key (starts with 'AIza...')"),
+  },
+  async ({ gemini_api_key }) => {
+    if (!gemini_api_key || gemini_api_key.trim().length === 0) {
+      return {
+        content: [{ type: "text" as const, text: "Error: API key cannot be empty." }],
+        isError: true,
+      };
+    }
+
+    const key = gemini_api_key.trim();
+
+    // Validate the key by making a lightweight API call
+    try {
+      const testAI = new GoogleGenAI({ apiKey: key });
+      await testAI.models.generateContent({
+        model: "gemini-2.5-flash",
+        contents: "Say OK",
+        config: { maxOutputTokens: 5 },
+      });
+    } catch (error: any) {
+      if (error.message?.includes("API_KEY_INVALID") || error.status === 400 || error.status === 403) {
+        return {
+          content: [{ type: "text" as const, text: `Error: Invalid API key. ${error.message}` }],
+          isError: true,
+        };
+      }
+      // Other errors (network, rate limit) are OK — key format is probably valid
+    }
+
+    writeConfigKey(key);
+
+    return {
+      content: [{
+        type: "text" as const,
+        text: [
+          "✅ Gemini API key configured and saved.",
+          `   Config: ${CONFIG_FILE}`,
+          "",
+          "Image generation tools are now ready to use.",
+        ].join("\n"),
+      }],
+    };
+  }
+);
+
+// --- Tool: Generate Image ---
 server.tool(
   "generate_image",
   "Generate an image using Google Nano Banana Pro 2 (or other Nano Banana models). Returns the image saved to a file.",
@@ -60,6 +156,9 @@ server.tool(
     filename: z.string().optional().describe("Output filename (without extension). Auto-generated if not provided."),
   },
   async ({ prompt, image_paths, model, aspect_ratio, image_size, output_dir, filename }) => {
+    const ai = getAI();
+    if (!ai) return notConfiguredError();
+
     try {
       const modelId = MODELS[model as ModelAlias];
 
@@ -144,7 +243,7 @@ server.tool(
   }
 );
 
-// Tool: Edit image
+// --- Tool: Edit Image ---
 server.tool(
   "edit_image",
   "Edit an existing image using Nano Banana Pro 2. Provide a source image and a text prompt describing the desired edits.",
@@ -157,6 +256,9 @@ server.tool(
     filename: z.string().optional().describe("Output filename (without extension)"),
   },
   async ({ prompt, image_path, additional_images, model, output_dir, filename }) => {
+    const ai = getAI();
+    if (!ai) return notConfiguredError();
+
     try {
       const resolvedPath = path.resolve(image_path);
       if (!fs.existsSync(resolvedPath)) {
@@ -241,16 +343,19 @@ server.tool(
   }
 );
 
-// Tool: List available models
+// --- Tool: List Models ---
 server.tool(
   "list_models",
   "List available Nano Banana image generation models and their capabilities.",
   {},
   async () => {
+    const configured = !!getApiKey();
     return {
       content: [{
         type: "text" as const,
         text: [
+          configured ? "✅ API key configured" : "❌ API key not configured (run `configure` tool first)",
+          "",
           "Available Nano Banana models:",
           "",
           "1. nano-banana-2 (gemini-3.1-flash-image-preview)",
@@ -276,10 +381,12 @@ server.tool(
   }
 );
 
+// --- Start Server ---
 async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
-  console.error("Nano Banana MCP server running on stdio");
+  const keyStatus = getApiKey() ? "configured" : "NOT configured (run configure tool)";
+  console.error(`Nano Banana MCP server running on stdio [API key: ${keyStatus}]`);
 }
 
 main().catch((error) => {
