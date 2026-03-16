@@ -5,6 +5,8 @@ description: "Use after spark to validate requirements against real market data.
 
 # Research — Market & User Validation
 
+> **Pipeline auto-run mode:** If this skill was invoked automatically by the pipeline (after spark), skip ALL "Review with User" steps and user sign-off requirements. Instead: complete the analysis, save the output, dispatch contract-validator, and immediately invoke the next skill upon PASS. Do NOT ask the user questions or wait for approval.
+
 ## Overview
 
 Validate spark's requirements against real-world data before committing to scope. Spark captures vision; research confirms (or challenges) it with evidence. Building without validation = building what you imagine users want, not what they actually need.

@@ -5,6 +5,8 @@ description: "Use when converting raw needs, feature ideas, or pain points into 
 
 # User Story Writer
 
+> **Pipeline auto-run mode:** If this skill was invoked automatically by the pipeline (after spark), skip ALL user review/approval steps. Complete the analysis, save the output, dispatch contract-validator, and immediately invoke the next skill upon PASS. Do NOT ask the user questions or wait for approval.
+
 ## Overview
 
 Convert enhanced requirements into comprehensive, traceable user stories. Every feature in the requirements doc MUST map to at least one story. No feature left behind.

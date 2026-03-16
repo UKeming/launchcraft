@@ -30,6 +30,7 @@ has_designs=false
 has_frontend_design=false
 has_test_files=false
 tests_pass=false
+has_experience_review=false
 has_test_report=false
 test_report_ready=false
 has_launch=false
@@ -86,6 +87,12 @@ if [ "$has_test_files" = true ]; then
     fi
 fi
 
+if [ -d "${PROJECT_DIR}/docs/experience-review" ] && ls "${PROJECT_DIR}/docs/experience-review/"*.md &>/dev/null; then
+    if grep -rli "APPROVED" "${PROJECT_DIR}/docs/experience-review/" &>/dev/null; then
+        has_experience_review=true
+    fi
+fi
+
 if [ -d "${PROJECT_DIR}/docs/test-reports" ] && ls "${PROJECT_DIR}/docs/test-reports/"*.md &>/dev/null; then
     has_test_report=true
     if grep -rli "ready to launch" "${PROJECT_DIR}/docs/test-reports/" &>/dev/null; then
@@ -107,8 +114,10 @@ elif [ "$test_report_ready" = true ]; then
 elif [ "$has_test_report" = true ]; then
     # Test report exists but not ready — needs fixes, not auto-advance
     next_skill=""
-elif [ "$tests_pass" = true ]; then
+elif [ "$has_experience_review" = true ]; then
     next_skill="test-report"
+elif [ "$tests_pass" = true ]; then
+    next_skill="experience-review"
 elif [ "$has_test_files" = true ]; then
     next_skill="impl"
 elif [ "$has_designs" = true ] && [ "$has_frontend_design" = true ]; then

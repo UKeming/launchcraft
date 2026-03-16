@@ -5,6 +5,8 @@ description: "Use after design-doc to create distinctive, production-grade front
 
 # Frontend Design
 
+> **Pipeline auto-run mode:** If this skill was invoked automatically by the pipeline (after spark), skip ALL user approval steps (including aesthetic direction approval). Make design decisions yourself and proceed. Complete the build, save the output, dispatch agents, and immediately invoke the next skill. Do NOT ask the user questions or wait for approval.
+
 ## EXECUTION MODE: CONTINUOUS BUILD
 
 **Do NOT create TodoWrite tasks, TaskCreate items, or any task-tracking artifacts for this skill.** The checklist in the Evidence Gate is for final self-verification ONLY — not a task list to be created and tracked.

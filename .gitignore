@@ -5,3 +5,6 @@ node_modules/
 dist/
 build/
 .launchcraft-advance-state
+
+# Keep bundled MCP server dist (single-file bundle, no node_modules needed)
+!mcp/nano-banana-mcp/dist/

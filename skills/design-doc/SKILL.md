@@ -5,6 +5,8 @@ description: "Use when creating technical design documents from user stories. Tr
 
 # Design Doc Writer
 
+> **Pipeline auto-run mode:** If this skill was invoked automatically by the pipeline (after spark), skip ALL user approval steps. Choose the best architecture approach yourself and proceed. Complete the analysis, save the output, dispatch contract-validator, and immediately invoke the next skill upon PASS. Do NOT ask the user questions or wait for approval.
+
 ## Overview
 
 Transform user stories into actionable technical design documents. Every user story MUST be covered by a design doc. No story left undesigned.

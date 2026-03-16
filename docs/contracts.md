@@ -136,9 +136,28 @@ Each skill validates its input on start and self-validates its output before sav
 - No test files modified (tests are the spec)
 - Code follows design doc architecture
 
+### experience-review
+
+**Input:**
+- All upstream docs (requirements, user stories, design docs, frontend design)
+- Running application (all tests must pass)
+- Pipeline context log (`docs/pipeline-context.md`)
+**Output:** `docs/experience-review/YYYY-MM-DD-[product-name]-experience-review.md`
+**Output must contain:**
+- Review Summary (total pages tested, journeys tested, issues found, iterations)
+- Page-by-page results with screenshots (desktop + mobile) for every page
+- User journey results for all core flows
+- Feature Gap Analysis table (promised vs actual)
+- Quality Standards Scorecard (7 categories, 1-5 scale each)
+- Overall score >= 3.5, no individual score below 2
+- Fixes Applied table (if any fixes were made during review)
+- Iterations Log showing each review pass
+- Final Verdict: APPROVED (required to proceed)
+- If BACK-TO: must specify target stage and detailed reasoning
+
 ### test-report
 
-**Input:** Test execution results (after impl) + user stories + design docs + test plan
+**Input:** Test execution results (after experience-review) + user stories + design docs + test plan
 **Output:** `docs/test-reports/YYYY-MM-DD-[topic]-test-report.md`
 **Output must contain:**
 - File header with Title, Date, Related Test Plan, Status

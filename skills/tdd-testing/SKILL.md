@@ -5,6 +5,8 @@ description: "Use when writing tests before implementation based on a design doc
 
 # TDD Test Writer
 
+> **Pipeline auto-run mode:** If this skill was invoked automatically by the pipeline (after spark), do NOT ask the user questions or wait for approval. Complete the work, save, dispatch contract-validator, and immediately invoke the next skill upon PASS.
+
 ## Overview
 
 Write failing tests and a test plan from design documents. This is the RED phase of TDD — tests define the spec, implementation comes later. Every user story MUST have at least one test. No story left untested.
@@ -104,17 +106,67 @@ For each design doc, map components to test cases:
 
 **HARD RULE: 100% story coverage.** Every US-NNN must map to at least one T-NNN. If any story shows "NO", write tests for it NOW.
 
-### 4. Write Test Files
+### 4. Write Test Files — PARALLELIZE BY DESIGN DOC (Worktree Isolation)
 
-For each test case, write actual executable test code:
-- Use the project's test framework (detect from package.json, pyproject.toml, etc.)
-- If no framework exists, recommend one and set it up
-- Each test must have a clear name describing the expected behavior
-- Use Given/When/Then structure in test names or comments
-- Include setup/teardown as needed
-- **Add US-NNN reference in test name or comment** for traceability
+**This step MUST use parallel agents in isolated worktrees for speed and conflict safety.**
 
-Example:
+First, set up the test framework and shared test infrastructure (config, helpers, fixtures) and **commit it** — this becomes the base that each worktree agent starts from.
+
+Then:
+
+1. **Group test cases by design doc** — each design doc covers an independent domain
+2. **Dispatch one Agent per design doc, each in its own worktree** (`isolation: "worktree"`)
+3. **Merge all worktree branches** into main, resolving any conflicts
+
+```
+┌──────────────────────────────────────────────┐
+│  Set up test framework + shared config       │
+│  git commit (base for all worktrees)         │
+└──────────────┬───────────────────────────────┘
+               ▼
+    ┌──────────┼──────────┐
+    ▼          ▼          ▼
+┌────────┐ ┌────────┐ ┌────────┐
+│Worktree│ │Worktree│ │Worktree│
+│ Agent: │ │ Agent: │ │ Agent: │
+│ Tests  │ │ Tests  │ │ Tests  │
+│ for    │ │ for    │ │ for    │
+│ doc 1  │ │ doc 2  │ │ doc 3  │
+│(branch │ │(branch │ │(branch │
+│  wt-1) │ │  wt-2) │ │  wt-3) │
+└────┬───┘ └────┬───┘ └────┬───┘
+     └──────────┼──────────┘
+                ▼
+┌──────────────────────────────────────────────┐
+│  Merge: git merge wt-1 wt-2 wt-3 into main  │
+│  If conflicts → resolve (see Merge Protocol) │
+└──────────────┬───────────────────────────────┘
+               ▼
+        Run full suite → all tests must FAIL
+```
+
+**Dispatching parallel worktree agents:**
+
+```
+Agent tool call (repeat for each design doc, ALL in one message):
+  - prompt: "Write tests for [design doc N] covering US-NNN, US-NNN..."
+  - isolation: "worktree"
+  - run_in_background: true (except the last one, which runs in foreground)
+```
+
+**Each worktree agent receives:**
+- The design doc it's responsible for
+- The user stories (US-NNN) mapped to that design doc
+- The test framework config and shared helpers (already committed)
+- Instructions to write executable failing tests with US-NNN + T-NNN references
+- **Must commit its work before finishing** (so the branch has the changes)
+
+**Each agent writes (in its own worktree):**
+- Test files for its domain (e.g., `tests/auth.test.ts`, `tests/dashboard.test.ts`)
+- Must use Given/When/Then structure
+- Must reference US-NNN in test names or comments
+
+Example test structure:
 ```javascript
 // US-001: User registration
 describe('User Registration', () => {
@@ -126,9 +178,26 @@ describe('User Registration', () => {
 });
 ```
 
+**After all agents complete — Merge Protocol:**
+
+1. Collect all worktree branches returned by agents
+2. For each branch, merge into the current branch:
+   ```bash
+   git merge <worktree-branch> --no-edit
+   ```
+3. **If merge succeeds cleanly:** continue to next branch
+4. **If merge conflicts:**
+   - Read the conflicting files
+   - Resolve conflicts intelligently (both sides are test files for different domains — usually keep both)
+   - `git add` resolved files → `git commit`
+5. After all branches merged: run full test suite → all tests must FAIL
+6. Clean up worktree branches: `git branch -d <worktree-branch>`
+
+**If there is only ONE design doc**, write tests directly without worktrees (overhead not worth it).
+
 ### 5. Verify All Tests Fail
 
-Run the test suite. Every test must fail with a clear reason (missing function, missing module, etc.). If any test passes, investigate — it means either:
+Run the full test suite. Every test must fail with a clear reason (missing function, missing module, etc.). If any test passes, investigate — it means either:
 - The test is wrong (doesn't test real behavior)
 - There's already an implementation (should not exist yet)
 
@@ -159,9 +228,14 @@ Save to `docs/test-plans/YYYY-MM-DD-[topic]-test-plan.md`:
 [From Step 3]
 ```
 
-## Output Validation
+## Output Validation — Dispatch Agents in PARALLEL
 
-After saving, dispatch the **contract-validator** agent to independently verify:
+After saving, dispatch **both agents simultaneously**:
+
+**Dispatch in parallel:**
+
+1. **contract-validator** (foreground) — runs tests, confirms they FAIL, cross-checks story coverage
+2. **code-reviewer** (background) — checks test quality, coverage completeness, auto-fixes issues
 
 ```
 Agent: contract-validator
@@ -169,24 +243,16 @@ Skill: tdd-testing
 Output path: [test plan file and test directory]
 ```
 
-The validator will:
-1. Run all tests and confirm they FAIL
-2. Cross-check: read user stories, extract all US-NNN, verify each appears in the Story → Test Coverage Matrix with at least one T-NNN
-
-Do NOT proceed until the validator returns PASS.
-
-After contract-validator PASS, dispatch the **code-reviewer** agent to review test code quality:
-
 ```
-Agent: code-reviewer
+Agent: code-reviewer (run_in_background: true)
 Skill: tdd-testing
 Code paths: tests/
 Design doc: docs/designs/[filename].md
 ```
 
-The code-reviewer will check test quality, coverage completeness, and auto-fix any issues. All tests must still FAIL after fixes.
+Wait for both to complete. If code-reviewer made fixes, re-run tests to verify they still FAIL (no accidental implementation).
 
-Once the code-reviewer completes, **immediately invoke `/impl`** — do NOT ask the user whether to continue.
+Once both complete, **immediately invoke `/impl`** — do NOT ask the user whether to continue.
 
 ## Rationalization Prevention
 
@@ -199,6 +265,11 @@ Once the code-reviewer completes, **immediately invoke `/impl`** — do NOT ask 
 | "Edge cases can be tested later" | Edge cases found in production cost 10x more. Test now. |
 | "80% coverage is good enough" | 100% story coverage. Non-negotiable. |
 | "Low-priority stories can skip tests" | Low-priority stories still have acceptance criteria. Test them. |
+| "I'll write all tests sequentially, it's simpler" | If there are 2+ design docs, dispatch parallel worktree agents. Speed matters. |
+| "Parallel test writing will cause conflicts" | Each agent runs in its own worktree. Merge afterward — conflicts are rare for test files in different domains. |
+| "Worktrees are overkill for tests" | Agents might touch shared files (test config, fixtures, helpers). Worktrees make this safe. |
+| "Let me run contract-validator first, then code-reviewer" | Dispatch both in parallel. They don't depend on each other. |
+| "I'll merge the worktree branches later" | Merge immediately after all agents complete. Don't defer. |
 
 ## Evidence Gate
 
@@ -223,3 +294,6 @@ No evidence = not complete. Period.
 | No assertion message | `assert result == expected, "Search should return 10 results for 'shoes'"` |
 | No US-NNN reference in tests | Every test file/block references the story it tests |
 | "20 of 30 stories have tests" | "30/30 stories covered, 100% traceability" |
+| Writing all tests in one long sequential pass | Parallel worktree agents per design doc, merge branches |
+| Running validators sequentially | Dispatch contract-validator + code-reviewer in parallel |
+| Parallel agents writing to same working directory | Each agent in `isolation: "worktree"`, merge after |

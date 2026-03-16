@@ -5,6 +5,8 @@ description: "Use when generating a test report after implementation is complete
 
 # Test Report Generator
 
+> **Pipeline auto-run mode:** If this skill was invoked automatically by the pipeline (after spark), skip ALL user review steps. Complete the report, save, dispatch contract-validator, and immediately invoke the next skill upon PASS. Do NOT ask the user questions or wait for approval.
+
 ## Overview
 
 Run all tests, collect results, analyze coverage, and produce a comprehensive test report. This is the quality gate before launch.

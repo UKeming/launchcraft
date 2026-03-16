@@ -106,7 +106,15 @@ if [ "$has_test_files" = true ]; then
     fi
 fi
 
-# 9. Check for test reports
+# 9. Check for experience review
+has_experience_review=false
+if [ -d "${PROJECT_DIR}/docs/experience-review" ] && ls "${PROJECT_DIR}/docs/experience-review/"*.md &>/dev/null; then
+    if grep -rli "APPROVED" "${PROJECT_DIR}/docs/experience-review/" &>/dev/null; then
+        has_experience_review=true
+    fi
+fi
+
+# 10. Check for test reports
 if [ -d "${PROJECT_DIR}/docs/test-reports" ] && ls "${PROJECT_DIR}/docs/test-reports/"*.md &>/dev/null; then
     has_test_report=true
     # Check if any test report says "Ready to Launch" (case-insensitive)
@@ -130,9 +138,12 @@ elif [ "$test_report_ready" = true ]; then
 elif [ "$has_test_report" = true ]; then
     stage="Next: launch (fix issues first)"
     stage_detail="Test report exists but does not show 'Ready to Launch'. Review test report and fix issues, then regenerate."
-elif [ "$tests_pass" = true ]; then
+elif [ "$has_experience_review" = true ]; then
     stage="Next: test-report"
-    stage_detail="All tests pass. Run /test-report to generate the test report."
+    stage_detail="Experience review APPROVED. Run /test-report to generate the test report."
+elif [ "$tests_pass" = true ]; then
+    stage="Next: experience-review"
+    stage_detail="All tests pass. Run /experience-review to experience the running app and verify quality before generating test report."
 elif [ "$has_test_files" = true ]; then
     stage="Next: impl"
     stage_detail="Test files exist but tests are not passing yet. Run /impl to implement the code (TDD green phase)."
@@ -183,6 +194,7 @@ skills_list+="  - /design-doc    : Create a design document from user stories\\n
 skills_list+="  - /frontend-design: Create distinctive frontend UI with Playwright testing\\n"
 skills_list+="  - /tdd-testing   : Write failing tests from the design (TDD red phase)\\n"
 skills_list+="  - /impl          : Implement code to make tests pass (TDD green phase)\\n"
+skills_list+="  - /experience-review: Experience the running app via Playwright, fix issues, loop until deliverable\\n"
 skills_list+="  - /test-report   : Generate a test report from test results\\n"
 skills_list+="  - /launch        : Deploy the application and create launch docs\\n"
 skills_list+="  - /debugging     : Debug issues at any stage"
@@ -236,9 +248,45 @@ context="<EXTREMELY_IMPORTANT>\\nLaunchCraft Pipeline Status\\n\\n"
 context+="**Current stage:** ${stage}\\n"
 context+="**Detail:** ${stage_detail}\\n\\n"
 context+="${skills_list}\\n\\n"
-context+="The LaunchCraft pipeline follows this order: spark -> research -> differentiation -> enhance -> differentiation (re-run) -> accountant (pre-planning) -> user-story -> design-doc -> frontend-design -> tdd-testing -> impl -> test-report -> launch -> accountant (post-launch)\\n"
+context+="The LaunchCraft pipeline follows this order: spark -> research -> differentiation -> enhance -> differentiation (re-run) -> accountant (pre-planning) -> user-story -> design-doc -> frontend-design -> tdd-testing -> impl -> experience-review -> test-report -> launch -> accountant (post-launch)\\n"
 context+="Always follow the pipeline order. Each skill validates its inputs against upstream contracts before proceeding.\\n"
+context+="**RULE: All questions to the user MUST use the AskUserQuestion tool.** Never output a question as plain text — always use AskUserQuestion with structured options.\\n"
+
+# Inject auto-run instruction when pipeline is in progress (not at start or end)
+if [ "$stage" != "Start with spark" ] && [ "$stage" != "Pipeline complete" ]; then
+    context+="\\n## FULL PIPELINE AUTO-RUN\\n\\n"
+    context+="**This is a BLOCKING instruction.** The pipeline MUST run to completion **without stopping or asking the user for permission between stages**.\\n\\n"
+    context+="Do NOT pause between stages. Do NOT ask 'should we continue?' Do NOT present findings and wait for sign-off. Do NOT 'Review with User'. The pipeline runs as one continuous flow from spark to launch.\\n\\n"
+    context+="**Skip all 'Review with User' steps in skills.** Instead: complete the skill's analysis, save the output, dispatch the contract-validator, and immediately invoke the next skill upon PASS.\\n\\n"
+    context+="The ONLY time you stop is:\\n"
+    context+="1. If a contract-validator returns FAIL — fix and re-validate, then continue\\n"
+    context+="2. If an unrecoverable error occurs — report it and invoke /debugging\\n\\n"
+    context+="**Every other transition is automatic. No exceptions.**\\n"
+fi
+
 context+="${memory_instructions}\\n"
+
+# Pipeline context log instructions
+context+="\\n## Pipeline Context Log\\n\\n"
+context+="**MANDATORY:** Every pipeline skill MUST append its execution summary to \`docs/pipeline-context.md\` BEFORE completing.\\n\\n"
+context+="This file is the persistent context that survives context window compression. Later skills MUST read this file on start to understand what happened in all previous stages.\\n\\n"
+context+="**Format for each entry:**\\n"
+context+="\`\`\`markdown\\n"
+context+="## [Skill Name] — [Date]\\n\\n"
+context+="**Status:** COMPLETED | BACK-TO-[stage]\\n"
+context+="**Output:** [path to saved artifact]\\n\\n"
+context+="### Key Decisions\\n"
+context+="- [decision]: [rationale]\\n\\n"
+context+="### Artifacts Produced\\n"
+context+="- [file path]: [what it contains]\\n\\n"
+context+="### Context for Downstream\\n"
+context+="- [anything the next skill needs to know]\\n"
+context+="\`\`\`\\n\\n"
+context+="**Rules:**\\n"
+context+="- Append only — never delete or rewrite previous entries\\n"
+context+="- Keep entries concise but complete — this is the lifeline when context is lost\\n"
+context+="- Include key decisions, trade-offs, and any issues encountered\\n"
+context+="- On skill start, read this file FIRST to understand pipeline history\\n"
 
 # Inject existing project memory if present
 if [ -n "$project_memory" ]; then

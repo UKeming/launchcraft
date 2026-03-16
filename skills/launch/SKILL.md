@@ -5,6 +5,8 @@ description: "Use when deploying a completed and tested application to Cloudflar
 
 # Launch to Cloudflare
 
+> **Pipeline auto-run mode:** If this skill was invoked automatically by the pipeline (after spark), skip user confirmation steps. Choose a reasonable subdomain based on the product name and proceed with deployment. Do NOT wait for user go/no-go — the pipeline IS the go.
+
 ## Overview
 
 Deploy a tested application to Cloudflare and assign it a subdomain under keming.co. This is the final pipeline stage — only proceed with a passing test report.

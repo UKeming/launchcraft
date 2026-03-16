@@ -5,6 +5,8 @@ description: "Use after research to define product differentiation strategy. Tri
 
 # Differentiation — Strategic Positioning
 
+> **Pipeline auto-run mode:** If this skill was invoked automatically by the pipeline (after spark), skip ALL "Review with User" steps and user sign-off requirements. Instead: complete the analysis, save the output, dispatch contract-validator, and immediately invoke the next skill upon PASS. Do NOT ask the user questions or wait for approval.
+
 ## Overview
 
 Turn research findings into a clear differentiation strategy. Research tells you what exists; differentiation decides how your product will be meaningfully different. Without this, you build a "me too" product that competes on features alone.

@@ -10,10 +10,12 @@ description: "Use when starting a new product or feature from scratch. Triggers 
 **This is a BLOCKING instruction.** After spark completes and the contract-validator passes, you MUST continue running the entire pipeline to completion **without stopping or asking the user for permission between stages**:
 
 ```
-spark → research → differentiation → enhance → differentiation (re-run) → accountant (pre-planning) → user-story → design-doc → frontend-design → tdd-testing → impl → test-report → launch → accountant (post-launch)
+spark → research → differentiation → enhance → differentiation (re-run) → accountant (pre-planning) → user-story → design-doc → frontend-design → tdd-testing → impl → experience-review → test-report → launch → accountant (post-launch)
 ```
 
 Each stage invokes the next via its `/skill-name` command. Do NOT pause between stages. Do NOT ask "should we continue?" Do NOT summarize and wait. The pipeline runs as one continuous flow from spark to launch.
+
+**CRITICAL OVERRIDE:** Downstream skills (research, differentiation, enhance, etc.) contain "Review with User" and "Iterate until the user approves" steps. **SKIP ALL OF THEM.** These steps exist for standalone skill invocation — during a full pipeline run they do NOT apply. Instead: complete the analysis, save the output, dispatch contract-validator, and immediately invoke the next skill upon PASS.
 
 The ONLY time you stop is:
 1. During spark itself — to ask the user clarifying questions and get sign-off on requirements
@@ -49,7 +51,7 @@ Accepts any of:
 
 ### 1. Capture Raw Need
 
-Record exactly what the user said. Then ask probing questions **one at a time**:
+Record exactly what the user said. Then ask probing questions **one at a time** using the **AskUserQuestion tool** (NEVER just output a question as text — always use the tool with structured options):
 
 **Product vision:**
 - What problem does this solve? For whom?
@@ -169,12 +171,12 @@ Organize findings into a requirements document:
 
 ### 4. Review and Refine
 
-Present the structured requirements. Ask:
+Present the structured requirements. Then use **AskUserQuestion** to ask:
 - Is anything missing from the must-haves?
 - Are the success criteria realistic and measurable?
 - Any open questions we should resolve now?
 
-Iterate until the user approves.
+Iterate until the user approves. All questions MUST use the AskUserQuestion tool.
 
 ### 5. Save
 

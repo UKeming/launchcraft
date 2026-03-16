@@ -5,6 +5,8 @@ description: "Use after differentiation to expand requirements with additional f
 
 # Requirement Enhancer
 
+> **Pipeline auto-run mode:** If this skill was invoked automatically by the pipeline (after spark), skip ALL user approval steps. Auto-approve all proposed enhancements and continue. Do NOT ask the user "Want to approve all, or select specific ones?" — approve all and proceed. Complete the analysis, save the output, dispatch contract-validator, and immediately invoke the next skill upon PASS.
+
 ## Philosophy
 
 **A user types one sentence. We deliver a production-grade commercial application.**
