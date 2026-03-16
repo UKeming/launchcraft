@@ -184,7 +184,7 @@ Output path: [the file you just saved]
 ```
 
 Do NOT proceed to user-story until the validator returns PASS.
-Once the validator returns PASS, **immediately invoke `/user-story`** — do NOT ask the user whether to continue.
+Once the validator returns PASS, run `echo "user-story" > .launchcraft/.pipeline-next` then **immediately invoke `/user-story`** — do NOT ask the user whether to continue.
 
 ## Rationalization Prevention
 

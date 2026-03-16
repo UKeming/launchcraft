@@ -159,7 +159,7 @@ Output path: [the file you just saved]
 ```
 
 The validator will check for actual metrics, proper US-NNN mapping, and justified recommendations. Do NOT proceed to launch until the validator returns PASS. If it returns FAIL, fix the violations and re-validate.
-Once the validator returns PASS, **immediately invoke `/launch`** — do NOT ask the user whether to continue.
+Once the validator returns PASS, run `echo "launch" > .launchcraft/.pipeline-next` then **immediately invoke `/launch`** — do NOT ask the user whether to continue.
 
 ## Rationalization Prevention
 

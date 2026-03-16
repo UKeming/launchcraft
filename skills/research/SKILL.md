@@ -186,7 +186,7 @@ Output path: [the file you just saved]
 ```
 
 Do NOT proceed to differentiation until the validator returns PASS.
-Once the validator returns PASS, **immediately invoke `/differentiation`** — do NOT ask the user whether to continue.
+Once the validator returns PASS, run `echo "differentiation" > .launchcraft/.pipeline-next` then **immediately invoke `/differentiation`** — do NOT ask the user whether to continue.
 
 ## Rationalization Prevention
 

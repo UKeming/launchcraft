@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+# PreToolUse hook: enforce that pipeline .md files go to .launchcraft/
+# Runs before every Write and Edit tool call.
+# Reads JSON from stdin with tool_input.file_path.
+# Exit 2 = block the tool call with a message.
+
+set -euo pipefail
+
+INPUT=$(cat)
+
+# Extract file_path from tool input
+FILE_PATH=$(echo "$INPUT" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('tool_input',{}).get('file_path',''))" 2>/dev/null || echo "")
+
+if [ -z "$FILE_PATH" ]; then
+    exit 0
+fi
+
+# Only check .md files
+case "$FILE_PATH" in
+    *.md) ;;
+    *) exit 0 ;;
+esac
+
+# Allow known non-pipeline files
+BASENAME=$(basename "$FILE_PATH")
+case "$BASENAME" in
+    CLAUDE.md|README.md|CHANGELOG.md|LICENSE.md|CONTRIBUTING.md|AGENTS.md|GEMINI.md)
+        exit 0
+        ;;
+esac
+
+# Allow files inside .launchcraft/ — these are correct
+case "$FILE_PATH" in
+    *.launchcraft/*|*/.launchcraft/*)
+        exit 0
+        ;;
+esac
+
+# Allow files inside code directories (tests, src, lib, etc.)
+case "$FILE_PATH" in
+    */tests/*|*/test/*|*/src/*|*/lib/*|*/app/*|*/pages/*|*/components/*|*/node_modules/*|*/.claude/*)
+        exit 0
+        ;;
+esac
+
+# Block writes to docs/ that look like pipeline artifacts
+PIPELINE_DIRS="requirements research strategy enhanced user-stories designs test-plans frontend-design test-reports experience-review launches financials plans"
+for dir in $PIPELINE_DIRS; do
+    case "$FILE_PATH" in
+        */docs/${dir}/*|*docs/${dir}/*)
+            echo "BLOCKED: Pipeline artifact must be saved under .launchcraft/, not docs/. Change path from docs/${dir}/ to .launchcraft/${dir}/" >&2
+            exit 2
+            ;;
+    esac
+done
+
+# Block known pipeline index files at project root or docs/
+case "$BASENAME" in
+    pipeline-context.md|user-stories-index.md|story-coverage.md)
+        case "$FILE_PATH" in
+            *.launchcraft/*) exit 0 ;;  # already checked above but be safe
+            *)
+                echo "BLOCKED: ${BASENAME} must be saved under .launchcraft/. Use .launchcraft/${BASENAME}" >&2
+                exit 2
+                ;;
+        esac
+        ;;
+esac
+
+# All other .md files are allowed (project docs, skill files, etc.)
+exit 0

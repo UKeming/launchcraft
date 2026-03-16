@@ -213,7 +213,7 @@ Output path: [the frontend design doc + code files]
 ```
 
 Do NOT proceed to tdd-testing until BOTH the frontend-tester and contract-validator return PASS.
-Once both return PASS, **immediately invoke `/tdd-testing`** — do NOT ask the user whether to continue.
+Once both return PASS, run `echo "tdd-testing" > .launchcraft/.pipeline-next` then **immediately invoke `/tdd-testing`** — do NOT ask the user whether to continue.
 
 ## Rationalization Prevention
 

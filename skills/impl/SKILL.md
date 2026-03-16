@@ -257,7 +257,7 @@ Design doc: .launchcraft/*/design.md
 
 Wait for both to complete. If code-reviewer made fixes, re-run tests to verify they still pass.
 
-Once both complete and all tests pass, **immediately invoke `/experience-review`** — do NOT ask the user whether to continue.
+Once both complete and all tests pass, run `echo "experience-review" > .launchcraft/.pipeline-next` then **immediately invoke `/experience-review`** — do NOT ask the user whether to continue.
 
 ## Rationalization Prevention
 

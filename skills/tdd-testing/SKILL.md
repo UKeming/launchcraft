@@ -259,7 +259,7 @@ Design doc: .launchcraft/*/design.md
 
 Wait for both to complete. If code-reviewer made fixes, re-run tests to verify they still FAIL (no accidental implementation).
 
-Once both complete, **immediately invoke `/impl`** — do NOT ask the user whether to continue.
+Once both complete, run `echo "impl" > .launchcraft/.pipeline-next` then **immediately invoke `/impl`** — do NOT ask the user whether to continue.
 
 ## Rationalization Prevention
 

@@ -237,7 +237,7 @@ Output path: .launchcraft/user-stories-index.md + .launchcraft/*/stories/US-*.md
 ```
 
 Do NOT proceed to design-doc until the validator returns PASS. If it returns FAIL, fix the violations and re-validate.
-Once the validator returns PASS, **immediately invoke `/design-doc`** — do NOT ask the user whether to continue.
+Once the validator returns PASS, run `echo "design-doc" > .launchcraft/.pipeline-next` then **immediately invoke `/design-doc`** — do NOT ask the user whether to continue.
 
 ## Rationalization Prevention
 

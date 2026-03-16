@@ -103,7 +103,9 @@ User stories and design docs are organized by domain folders. Each domain co-loc
 - **Upstream failures cascade**: If user-story output is bad, every downstream skill fails. The contract-validator catches this at the boundary, but fixing means re-running upstream — not patching downstream.
 
 ### Hooks
-- **SessionStart hook runs test suites**: The pipeline stage detection actually runs `npm test` / `pytest` etc. This can be slow on large projects. Keep it best-effort with timeouts.
-- **Hook output is JSON**: Must escape special characters properly. The `escape_for_json` helper handles newlines, quotes, backslashes.
-- **Cross-platform wrapper is required**: `run-hook.cmd` polyglot ensures hooks work on Windows (batch) and Unix (bash).
-- **Stop hook needs cooldown**: The pipeline-advance stop hook fires on EVERY stop attempt. Without a cooldown, it creates an infinite loop when the agent can't immediately advance (e.g., waiting for background agents). Fixed by writing `.launchcraft-advance-state` with the last directive — same directive within 5 minutes is suppressed.
+- **Three hooks registered**: SessionStart (context injection), PreToolUse on Write|Edit (path enforcement), Stop (auto-advance).
+- **PreToolUse enforce-paths**: Blocks any Write/Edit of pipeline .md files outside `.launchcraft/`. Exit code 2 = deny with error message. Allows CLAUDE.md, README.md, code files, test files.
+- **Stop pipeline-advance (two-tier)**: 1) Fast path: reads `.launchcraft/.pipeline-next` state file written by completing skill. 2) Fallback: detects pipeline state from file existence. Blocks stop and feeds next skill command as `"reason"`.
+- **State file pattern**: Each skill writes `echo "next-skill" > .launchcraft/.pipeline-next` before invoking the next skill. Stop hook reads it as safety net if agent ignores the invoke instruction.
+- **Cooldown**: Same directive within 3 minutes is suppressed (`.launchcraft/.advance-cooldown`).
+- **Cross-platform wrapper**: `run-hook.cmd` polyglot ensures hooks work on Windows (batch) and Unix (bash).

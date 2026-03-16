@@ -495,7 +495,7 @@ Skill: experience-review
 Output path: [the review report file]
 ```
 
-Once the validator returns PASS, **immediately invoke `/test-report`** — do NOT ask the user.
+Once the validator returns PASS, run `echo "test-report" > .launchcraft/.pipeline-next` then **immediately invoke `/test-report`** — do NOT ask the user.
 
 ## Rationalization Prevention
 

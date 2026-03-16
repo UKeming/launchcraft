@@ -456,7 +456,7 @@ Output path: [all design doc files + story coverage matrix]
 The validator will cross-check: read the user stories file, extract all US-NNN, and verify each one appears in the Story Coverage Matrix with a design doc assigned.
 
 Do NOT proceed to frontend-design until the validator returns PASS. If it returns FAIL, fix the violations and re-validate.
-Once the validator returns PASS, **immediately invoke `/frontend-design`** — do NOT ask the user whether to continue.
+Once the validator returns PASS, run `echo "frontend-design" > .launchcraft/.pipeline-next` then **immediately invoke `/frontend-design`** — do NOT ask the user whether to continue.
 
 ## Rationalization Prevention
 

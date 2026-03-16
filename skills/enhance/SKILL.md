@@ -343,7 +343,7 @@ Output path: [the enhancement record file]
 ```
 
 Do NOT proceed until the validator returns PASS.
-Once the validator returns PASS, **immediately invoke `/differentiation`** — the differentiation strategy must be re-run on the updated requirements. Do NOT ask the user whether to continue.
+Once the validator returns PASS, run `echo "differentiation" > .launchcraft/.pipeline-next` then **immediately invoke `/differentiation`** — the differentiation strategy must be re-run. Do NOT ask the user whether to continue.
 
 ## Rationalization Prevention
 
