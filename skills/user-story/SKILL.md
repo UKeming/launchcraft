@@ -5,7 +5,25 @@ description: "Use when converting raw needs, feature ideas, or pain points into 
 
 # User Story Writer
 
-> **Pipeline auto-run mode:** If this skill was invoked automatically by the pipeline (after spark), skip ALL user review/approval steps. Complete the analysis, save the output, dispatch contract-validator, and immediately invoke the next skill upon PASS. Do NOT ask the user questions or wait for approval.
+<PIPELINE-AUTO-RUN>
+**MANDATORY: Do NOT ask user questions. Do NOT wait for approval. Do NOT stop after saving.**
+Complete the analysis → save individual story files + index → dispatch contract-validator → on PASS immediately invoke `/design-doc`.
+Skip ALL user review steps. This is a continuous pipeline — you do NOT stop between stages.
+</PIPELINE-AUTO-RUN>
+
+<CRITICAL-OUTPUT-RULES>
+## OUTPUT FORMAT — READ THIS FIRST
+
+**Each user story is saved as a SEPARATE .md file.** The output of this skill is NOT one big file. It is:
+- N individual story files: `.launchcraft/[domain]/stories/US-NNN-[slug].md`
+- 1 index file: `.launchcraft/user-stories-index.md`
+
+**You write each story file to disk AS YOU GO** (during Step 4). You do NOT compose all stories in your response and save at the end. The workflow is: write story → save file → next story → save file → repeat.
+
+**Domain folders must be created first.** Before writing any story, run `mkdir -p .launchcraft/[domain]/stories/` for each domain.
+
+If your total story count is 30, you must call the Write tool 31 times (30 stories + 1 index).
+</CRITICAL-OUTPUT-RULES>
 
 ## Overview
 
@@ -79,28 +97,43 @@ For each persona, map the full journey:
 6. Administration → Settings, account management, data export
 ```
 
-### 4. Generate User Stories
+### 4. Generate & Save Stories (Write Each File Immediately)
 
-Write stories by walking through the feature inventory systematically. For EACH feature in the inventory, write one or more stories.
+Walk through the feature inventory by domain. For each domain, create the folder, then write and **immediately save** each story file.
 
-**Story format:**
+**Workflow per domain:**
+
+```
+1. mkdir -p .launchcraft/[domain]/stories/
+2. For each story in this domain:
+   a. Compose the story content
+   b. Write it to .launchcraft/[domain]/stories/US-NNN-[slug].md (using the Write tool)
+   c. Move to next story
+```
+
+**Each story file format:**
 
 ```markdown
-## US-[NNN]: [Short Title]
+---
+id: US-NNN
+title: [Short Title]
+priority: High | Medium | Low
+size: S | M | L
+persona: [Persona name]
+features: [F-001, F-002]
+domain: [domain name]
+---
 
-**Priority:** High (must have) | Medium (should have) | Low (nice to have)
-**Size:** S (< 1 day) | M (1-3 days) | L (3-5 days, consider splitting)
-**Persona:** [Persona name]
-**Features:** F-001, F-002 (which features this story covers)
+# US-NNN: [Short Title]
 
 > As a [persona], I want [goal/action], so that [benefit/value].
 
-### Acceptance Criteria
+## Acceptance Criteria
 
 - [ ] Given [context], when [action], then [expected result]
 - [ ] Given [context], when [action], then [expected result]
 
-### Notes
+## Notes
 [Optional: edge cases, technical considerations, dependencies]
 ```
 
@@ -110,6 +143,7 @@ Write stories by walking through the feature inventory systematically. For EACH 
 - Cover happy path, error path, and edge cases
 - Every acceptance criterion must be testable and specific
 - Number stories sequentially starting at US-001
+- **SAVE EACH FILE IMMEDIATELY** — do not batch all stories and save at the end
 
 ### 5. Feature Coverage Matrix
 
@@ -147,47 +181,9 @@ After the feature matrix passes, verify journey coverage:
 
 If any gaps exist, write the missing stories and update the coverage matrix.
 
-### 7. Save — Domain-Based Structure (MANDATORY: One File Per Story)
+### 7. Save Global Index
 
-<HARD-GATE>
-**You MUST save each story as a SEPARATE file.** Do NOT save all stories into a single file. The output is NOT one big markdown file — it is N individual files (one per story) + 1 index file.
-
-If you find yourself writing all stories into one file, STOP. You are doing it wrong. Go back and write each story to its own file.
-
-Expected file count: Total stories + 1 index = N+1 files written via the Write tool.
-</HARD-GATE>
-
-Save each story as an individual file, organized by domain folders.
-
-**Step 1: Determine domains.** Group stories by functional domain (e.g., auth, dashboard, search, settings). Each domain gets its own folder under `.launchcraft/`.
-
-**Step 2: Save individual story files.** For each story, save to `.launchcraft/[domain]/stories/US-NNN-[slug].md`:
-
-```markdown
----
-id: US-NNN
-title: [Short Title]
-priority: High | Medium | Low
-size: S | M | L
-persona: [Persona name]
-features: [F-001, F-002]
-domain: [domain name]
----
-
-# US-NNN: [Short Title]
-
-> As a [persona], I want [goal/action], so that [benefit/value].
-
-## Acceptance Criteria
-
-- [ ] Given [context], when [action], then [expected result]
-- [ ] Given [context], when [action], then [expected result]
-
-## Notes
-[Optional: edge cases, technical considerations, dependencies]
-```
-
-**Step 3: Save global index.** Save to `.launchcraft/user-stories-index.md`:
+All individual story files were already saved in Step 4. Now save the global index to `.launchcraft/user-stories-index.md`:
 
 ```markdown
 # User Stories Index

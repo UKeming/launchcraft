@@ -5,7 +5,8 @@ description: "Use when deploying a completed and tested application to Cloudflar
 
 # Launch to Cloudflare
 
-> **Pipeline auto-run mode:** If this skill was invoked automatically by the pipeline (after spark), skip user confirmation steps. Choose a reasonable subdomain based on the product name and proceed with deployment. Do NOT wait for user go/no-go — the pipeline IS the go.
+<PIPELINE-AUTO-RUN>
+**MANDATORY: Do NOT ask user questions. Do NOT wait for approval.** If this skill was invoked automatically by the pipeline (after spark), skip user confirmation steps. Choose a reasonable subdomain based on the product name and proceed with deployment. Do NOT wait for user go/no-go — the pipeline IS the go.
 
 ## Overview
 

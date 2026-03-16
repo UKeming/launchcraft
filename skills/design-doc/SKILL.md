@@ -5,7 +5,26 @@ description: "Use when creating technical design documents from user stories. Tr
 
 # Design Doc Writer
 
-> **Pipeline auto-run mode:** If this skill was invoked automatically by the pipeline (after spark), skip ALL user approval steps. Choose the best architecture approach yourself and proceed. Complete the analysis, save the output, dispatch contract-validator, and immediately invoke the next skill upon PASS. Do NOT ask the user questions or wait for approval.
+<PIPELINE-AUTO-RUN>
+**MANDATORY: Do NOT ask user questions. Do NOT wait for approval. Do NOT stop after saving.**
+Choose the best architecture approach YOURSELF. Write design docs (parallel by domain) → save → dispatch contract-validator → on PASS immediately invoke `/frontend-design`.
+Skip ALL user approval steps. This is a continuous pipeline — you do NOT stop between stages.
+</PIPELINE-AUTO-RUN>
+
+<CRITICAL-OUTPUT-RULES>
+## OUTPUT FORMAT & PARALLELIZATION — READ THIS FIRST
+
+**Each domain gets its own `design.md` co-located with its stories:**
+- `.launchcraft/[domain]/design.md` — one file per domain
+- `.launchcraft/story-coverage.md` — global coverage matrix
+
+**Parallelization is MANDATORY when there are 2+ feature domains:**
+1. Write `system` domain design doc FIRST (in main context) → commit
+2. Dispatch ALL feature domain design docs as **parallel worktree agents** (`isolation: "worktree"`)
+3. Merge branches after all complete
+
+**Do NOT write all design docs sequentially.** If you have auth, dashboard, and settings domains, dispatch 3 parallel agents — one per domain. Sequential writing when parallel is possible is a bug.
+</CRITICAL-OUTPUT-RULES>
 
 ## Overview
 

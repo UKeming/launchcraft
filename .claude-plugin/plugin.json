@@ -1,7 +1,7 @@
 {
   "name": "launchcraft",
   "description": "End-to-end product development pipeline: need discovery, market research, differentiation, requirement enhancement, user stories, design, frontend design with Playwright testing, TDD, code review, implementation, testing, and launch",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "author": {
     "name": "UKeming"
   },

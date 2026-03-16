@@ -5,7 +5,11 @@ description: "Use after research to define product differentiation strategy. Tri
 
 # Differentiation — Strategic Positioning
 
-> **Pipeline auto-run mode:** If this skill was invoked automatically by the pipeline (after spark), skip ALL "Review with User" steps and user sign-off requirements. Instead: complete the analysis, save the output, dispatch contract-validator, and immediately invoke the next skill upon PASS. Do NOT ask the user questions or wait for approval.
+<PIPELINE-AUTO-RUN>
+**MANDATORY: Do NOT ask user questions. Do NOT wait for approval. Do NOT stop after saving.**
+Complete the analysis → save output → dispatch contract-validator → on PASS invoke next stage (see Output Validation for which).
+Skip ALL "Review with User" steps. This is a continuous pipeline — you do NOT stop between stages.
+</PIPELINE-AUTO-RUN>
 
 ## Overview
 

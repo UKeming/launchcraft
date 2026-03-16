@@ -5,7 +5,11 @@ description: "Use when implementing code to make failing tests pass, guided by a
 
 # Implementation
 
-> **Pipeline auto-run mode:** If this skill was invoked automatically by the pipeline (after spark), do NOT ask the user questions or wait for approval. Complete the implementation, dispatch contract-validator, and immediately invoke the next skill upon PASS.
+<PIPELINE-AUTO-RUN>
+**MANDATORY: Do NOT ask user questions. Do NOT wait for approval. Do NOT stop after saving.**
+Implement (parallel by dependency layer) → run tests → dispatch contract-validator + code-reviewer → on PASS immediately invoke `/experience-review`.
+This is a continuous pipeline — you do NOT stop between stages.
+</PIPELINE-AUTO-RUN>
 
 ## Overview
 

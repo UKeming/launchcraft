@@ -5,7 +5,11 @@ description: "Use when writing tests before implementation based on a design doc
 
 # TDD Test Writer
 
-> **Pipeline auto-run mode:** If this skill was invoked automatically by the pipeline (after spark), do NOT ask the user questions or wait for approval. Complete the work, save, dispatch contract-validator, and immediately invoke the next skill upon PASS.
+<PIPELINE-AUTO-RUN>
+**MANDATORY: Do NOT ask user questions. Do NOT wait for approval. Do NOT stop after saving.**
+Write tests (parallel by domain) → save test plan → dispatch contract-validator + code-reviewer → on PASS immediately invoke `/impl`.
+This is a continuous pipeline — you do NOT stop between stages.
+</PIPELINE-AUTO-RUN>
 
 ## Overview
 

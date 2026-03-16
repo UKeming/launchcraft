@@ -5,7 +5,11 @@ description: "Use after design-doc to create distinctive, production-grade front
 
 # Frontend Design
 
-> **Pipeline auto-run mode:** If this skill was invoked automatically by the pipeline (after spark), skip ALL user approval steps (including aesthetic direction approval). Make design decisions yourself and proceed. Complete the build, save the output, dispatch agents, and immediately invoke the next skill. Do NOT ask the user questions or wait for approval.
+<PIPELINE-AUTO-RUN>
+**MANDATORY: Do NOT ask user questions. Do NOT wait for approval. Do NOT stop after saving.**
+Choose aesthetic direction YOURSELF. Build all pages → save → dispatch agents → on PASS immediately invoke `/tdd-testing`.
+Skip ALL user approval steps including aesthetic direction. This is a continuous pipeline — you do NOT stop between stages.
+</PIPELINE-AUTO-RUN>
 
 ## EXECUTION MODE: CONTINUOUS BUILD
 

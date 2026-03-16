@@ -5,7 +5,11 @@ description: "Use after impl to experience the actual running application via re
 
 # Experience Review — Product Quality Gate
 
-> **Pipeline auto-run mode:** If this skill was invoked automatically by the pipeline (after spark), do NOT ask the user questions or wait for approval. Run the review, fix issues, loop until satisfied, and invoke the next skill when done.
+<PIPELINE-AUTO-RUN>
+**MANDATORY: Do NOT ask user questions. Do NOT wait for approval. Do NOT stop after saving.**
+Run the review → fix issues → loop until APPROVED → dispatch contract-validator → on PASS immediately invoke `/test-report`.
+This is a continuous pipeline — you do NOT stop between stages.
+</PIPELINE-AUTO-RUN>
 
 ## Overview
 
