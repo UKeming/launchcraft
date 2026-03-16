@@ -191,12 +191,15 @@ Each skill validates its input on start and self-validates its output before sav
 **Input:**
 - Passing test-report (recommendation must be "ready to launch")
 - Built application code
+- All required API keys provided by user (no placeholders, no mock data)
 **Output:**
 - Deployed to Cloudflare at `appX.keming.co`
 - `.launchcraft/launches/YYYY-MM-DD-[topic]-launch.md`
 **Output must contain:**
 - File header with Title, Date, URL, Status
 - Deployment details: platform, subdomain, timestamp
+- Data audit results: env vars scanned, mock data check, keys configured
+- API keys status table (key name, provided/skipped, service verified)
 - Smoke test results
 - Rollback instructions
 
