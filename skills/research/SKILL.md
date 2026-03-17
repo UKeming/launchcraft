@@ -75,6 +75,71 @@ Use web search to gather real data on:
 
 For each finding, cite the source.
 
+### 2.5. Competitor UI Analysis (Playwright Screenshots)
+
+**Visit each top competitor's live product and take screenshots.** This is NOT optional — the visual reference is critical for frontend-design and experience-review stages later.
+
+For EACH of the top 3-5 competitors:
+
+1. **Navigate to their website/app** using `browser_navigate`
+2. **Screenshot key pages** at 1440×900 (desktop):
+   - Landing/marketing page
+   - Login/signup page (if accessible)
+   - Dashboard/main view (use demo or free trial if available)
+   - Settings/profile page
+   - Any unique UI that differentiates them
+3. **Save screenshots** to `.launchcraft/research/screenshots/[competitor-name]/`
+   - `mkdir -p .launchcraft/research/screenshots/[competitor-name]/`
+   - Use `browser_take_screenshot` for each page
+4. **Analyze UI patterns** — for each competitor, document:
+
+```markdown
+### [Competitor Name] — UI Analysis
+
+**Screenshots:** .launchcraft/research/screenshots/[name]/
+
+**Layout patterns:**
+- Navigation style: [sidebar / top bar / hamburger / tabs]
+- Content layout: [single column / multi-column / bento grid / masonry]
+- Information density: [minimal / balanced / dense]
+
+**Key UI elements:**
+- [list every notable UI element: search bar, filter panel, drag-and-drop, etc.]
+
+**Design language:**
+- Color scheme: [describe]
+- Typography: [fonts used]
+- Iconography: [style]
+- Whitespace usage: [generous / tight / balanced]
+
+**Standout UX patterns:**
+- [what makes their UX good/unique?]
+- [any patterns we should adopt?]
+- [any patterns we should avoid?]
+
+**Page count:** [total distinct pages/views observed]
+```
+
+5. **Compile a UI Benchmark** across all competitors:
+
+```markdown
+## UI Benchmark Summary
+
+| Pattern | Competitor A | Competitor B | Competitor C | We Should Have |
+|---------|-------------|-------------|-------------|----------------|
+| Global search (Cmd+K) | ✓ | ✓ | ✗ | ✓ (standard) |
+| Dark mode | ✓ | ✓ | ✓ | ✓ (table stakes) |
+| Keyboard shortcuts | ✓ | ✗ | ✓ | ✓ |
+| Drag-and-drop | ✓ | ✓ | ✗ | ✓ |
+| Multiple view modes | ✓ (3) | ✓ (2) | ✗ | ✓ |
+| ... | ... | ... | ... | ... |
+
+**Average competitor page count:** [N]
+**Our target page count:** >= [N]
+```
+
+This UI benchmark flows directly to frontend-design as the visual reference.
+
 ### 3. Business Model Validation
 
 Research the monetization landscape:

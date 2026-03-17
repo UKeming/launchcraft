@@ -42,12 +42,16 @@ After building, pass the complete page list to the frontend-tester agent for vis
 ## Input Contract Validation
 
 On start, verify:
-- [ ] Domain design docs exist at `.launchcraft/*/design.md` (at least one domain)
+- [ ] Domain design docs exist at `.launchcraft/designs/*/design.md` (at least one domain)
 - [ ] At least one design doc has UI/UX Design section with page inventory
 - [ ] At least one design doc has Architecture section (for tech stack context)
-- [ ] Domain story files exist at `.launchcraft/*/stories/US-*.md`
+- [ ] Domain story files exist at `.launchcraft/stories/*/US-*.md`
+- [ ] **Competitor UI screenshots exist** at `.launchcraft/research/screenshots/` — read these as visual reference
+- [ ] **UI Benchmark table exists** in research report — this is your target for UI patterns and page count
 
 If validation fails, list specific violations and stop.
+
+**Before designing anything:** read the competitor screenshots and UI benchmark. Your design MUST match or exceed the competitor UI quality. The screenshots are your bar — not generic templates.
 
 ## Process
 

@@ -35,6 +35,9 @@ Each skill validates its input on start and self-validates its output before sav
 - Market research with cited sources (at least 3 real sources)
 - Expanded competitive analysis beyond spark's initial scan (pricing, reviews, gaps)
 - **Feature Benchmark table**: each competitor's total feature count, categorized. Industry average feature count vs our current count. Gap number.
+- **Competitor UI screenshots** saved to `.launchcraft/research/screenshots/[competitor-name]/` (at least 3 competitors, 3+ pages each)
+- **UI Benchmark table**: UI patterns across competitors (global search, dark mode, keyboard shortcuts, etc.) with "We Should Have" column
+- **Average competitor page count** with our target page count
 - Assumption validation table with verdict and evidence per assumption
 - Business model validation with competitor pricing data
 - Growth channel research with evidence
