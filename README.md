@@ -1,14 +1,16 @@
 # LaunchCraft
 
-A Claude Code plugin that turns ideas into launched products through a structured pipeline.
+A Claude Code plugin that turns ideas into launched, production-grade products through a fully automated pipeline. Not prototypes — real products with 50+ features, 15+ pages, real data, and real API integrations.
 
 ## Pipeline
 
 ```
-/spark → /research → /differentiation → /scope-planning → /user-story → /design-doc → /tdd-testing → /impl → /test-report → /launch
+/spark → /research → /differentiation → /enhance → /differentiation (re-run) → accountant (pre-planning)
+  → /user-story → /design-doc → /frontend-design → /tdd-testing → /impl
+  → /experience-review → /test-report → /launch → accountant (post-launch)
 ```
 
-Each stage validates its input from the previous stage, produces verified output, and saves important learnings to project memory (`CLAUDE.md`).
+The entire pipeline auto-runs from `/spark` to launch. Each stage validates its input, produces verified output, and automatically invokes the next stage. The only time the pipeline stops is during spark (to ask you about your idea) and launch (to collect your real API keys).
 
 ## Install
 
@@ -21,100 +23,114 @@ Restart Claude Code after installing.
 
 ## Usage
 
-Start a new Claude Code session in your project directory. The plugin auto-detects your pipeline stage and tells you what to do next.
-
-### Slash Commands
-
-| Command | What it does |
-|---------|-------------|
-| `/spark` | Capture, analyze, and structure requirements with competitive analysis and success criteria |
-| `/research` | Validate requirements against real market data, user pain points, and technical landscape |
-| `/differentiation` | Define product positioning, strategic bets, and competitive advantage |
-| `/scope-planning` | Analyze complexity, determine story count, plan design doc breakdown and impl modules |
-| `/user-story` | Generate comprehensive user stories per scope plan, covering full user journeys |
-| `/design-doc` | Create a technical design document from user stories |
-| `/tdd-testing` | Write failing tests from the design (TDD red phase) |
-| `/impl` | Implement code to make tests pass (TDD green phase) |
-| `/test-report` | Generate test report with metrics and coverage |
-| `/launch` | Deploy to Cloudflare and assign `appX.keming.co` subdomain |
-| `/debug` | Systematic debugging when any pipeline stage fails |
-
-### Example
+Start a new Claude Code session in your project directory:
 
 ```
 You: I want to build a bookmark manager app
 
-Claude: [auto-detects: no pipeline artifacts → suggests /spark]
-
 You: /spark
-
-Claude: [probing questions → competitive analysis → structured requirements → saves to .launchcraft/requirements/ → contract-validator verifies]
-
-You: /research
-
-Claude: [web search → market data → competitor deep-dive → assumption validation → product-market fit assessment → saves to .launchcraft/research/ → contract-validator verifies]
-
-You: /differentiation
-
-Claude: [feature matrix → differentiation axes → positioning statement → strategic bets → requirement adjustments → saves to .launchcraft/strategy/ → contract-validator verifies]
-
-You: /scope-planning
-
-Claude: [analyzes complexity → calculates story count → plans design doc split → defines impl modules → saves scope plan → contract-validator verifies]
-
-You: /user-story
-
-Claude: [asks clarifying questions → identifies personas → generates user stories → saves per-domain story files (.launchcraft/[domain]/stories/US-NNN.md) → contract-validator verifies]
-
-You: /design-doc
-
-Claude: [reads domain stories → proposes architecture → writes design per domain (.launchcraft/[domain]/design.md) → contract-validator verifies]
-
-...continue through the pipeline...
 ```
 
-## Quality Guarantees
+That's it. The pipeline runs automatically from spark through launch, producing:
 
-- **Contract validation** — An independent agent verifies every stage's output against defined contracts (`docs/contracts.md`)
-- **HARD-GATEs** — Each skill enforces prerequisites before proceeding (e.g., must ask clarifying questions before generating user stories)
-- **Evidence gates** — Must show concrete proof (command output, file paths, test results) before claiming completion
-- **Rationalization prevention** — Each skill has defenses against common shortcuts agents try to take
-- **Auto-memory** — Important decisions, gotchas, and configuration are saved to `CLAUDE.md` automatically
+1. **Spark** — structured requirements with competitive analysis, business model, 50+ features
+2. **Research** — market validation, competitor feature counts, UI screenshots of competitor apps
+3. **Differentiation** — positioning strategy, strategic bets, feature matrix
+4. **Enhance** — expands to 35-70+ features based on competitor benchmarks
+5. **User Story** — individual story files (1 file per story, 5+ acceptance criteria each), organized by domain
+6. **Design Doc** — 1 design doc per story (200+ lines each), system architecture + API contract
+7. **Frontend Design** — 12-18+ pages, bold aesthetic, responsive, with competitor UI as reference
+8. **TDD Testing** — failing tests for every story (red phase)
+9. **Implementation** — code to pass all tests (green phase), parallel by component
+10. **Experience Review** — Playwright-based QA with 2+ iteration passes, visual design audit, P0/P1/P2 improvement suggestions
+11. **Test Report** — full traceability matrix from requirements to test results
+12. **Launch** — real data audit (no mock data), API key collection, deploy to Cloudflare
 
-## Project Structure
+## Anti-Laziness System
+
+LLMs produce thin output when asked to generate many files. LaunchCraft fights this with:
+
+- **1 story = 1 design doc** — each agent designs ONE story with full attention
+- **Max 8-10 stories per agent** — prevents context fatigue
+- **Minimum depth requirements** — 5+ acceptance criteria per story, 200+ lines per design doc
+- **Gold standard examples** — agents read exemplary files before writing
+- **Depth-validator agent** — checks every file for minimum depth, rejects thin batches
+- **Ultrathink triggers** — "Write each story as if it's the ONLY one you're writing today"
+
+## Enforcement Hooks
+
+Instructions alone don't work — hooks enforce behavior deterministically:
+
+| Hook | Event | Enforcement |
+|------|-------|-------------|
+| `enforce-paths` | PreToolUse (Write/Edit) | Blocks pipeline .md files outside `.launchcraft/`. Blocks flat structures. |
+| `pipeline-advance` | Stop | Blocks agent from stopping between stages. Injects next skill command. |
+| `session-start` | SessionStart | Detects pipeline stage, injects context. |
+
+## Sub-Agents
+
+Parallel work is done by dedicated sub-agents, each with focused scope:
+
+| Agent | When | What it does |
+|-------|------|-------------|
+| `user-story-writer` | user-story | Writes 8-10 story files per batch, worktree isolation |
+| `design-doc-writer` | design-doc | Designs 1 story, has nano-banana MCP for images |
+| `tdd-test-writer` | tdd-testing | Writes tests for 1 domain |
+| `impl-worker` | impl | Implements 1 component per dependency layer |
+| `experience-reviewer` | experience-review | Playwright QA, 2+ passes, fixes inline |
+| `contract-validator` | every stage | Validates output against `docs/contracts.md` |
+| `depth-validator` | user-story, design-doc | Checks per-file depth (criteria count, line count) |
+| `code-reviewer` | tdd-testing, impl | Code quality, auto-fixes |
+| `frontend-tester` | frontend-design | Playwright visual testing |
+| `accountant` | pre-planning, post-launch | Business viability, financial projections |
+
+## Output Structure
+
+All pipeline artifacts go to `.launchcraft/` (never `docs/`):
 
 ```
-launchcraft/
-├── .claude-plugin/
-│   ├── plugin.json               # Plugin manifest
-│   └── marketplace.json          # Marketplace catalog
-├── skills/                       # Pipeline skills
-│   ├── spark/SKILL.md
-│   ├── research/SKILL.md
-│   ├── differentiation/SKILL.md
-│   ├── scope-planning/SKILL.md
-│   ├── user-story/SKILL.md
-│   ├── design-doc/SKILL.md
-│   ├── tdd-testing/SKILL.md
-│   ├── impl/SKILL.md
-│   ├── test-report/SKILL.md
-│   ├── launch/SKILL.md
-│   └── debugging/SKILL.md
-├── agents/
-│   └── contract-validator.md     # Independent output verifier
-├── commands/                     # Slash command shortcuts
-├── hooks/                        # SessionStart: stage detection + memory injection
-└── .launchcraft/
-    ├── contracts.md              # Input/output contracts for all skills
-    └── worktree-guide.md         # Isolated workspaces per product
+.launchcraft/
+  requirements/                          # spark
+  research/                              # research + competitor screenshots
+    screenshots/[competitor]/
+  strategy/                              # differentiation
+  enhanced/                              # enhance
+  stories/                               # user stories (1 file per story)
+    auth/US-001-login.md
+    dashboard/US-010-view.md
+  designs/                               # design docs (1 per story)
+    system/design.md                     # global architecture
+    US-001-user-login/design.md
+    US-010-dashboard-view/design.md
+  api-contract.yaml                      # OpenAPI 3.0 (single source of truth)
+  user-stories-index.md
+  story-coverage.md
+  frontend-design/
+  test-plans/
+  test-reports/
+  experience-review/
+  launches/
+  financials/
+  pipeline-context.md
 ```
+
+## Real Data Policy
+
+No mock data, no placeholder API keys, no lorem ipsum. Ever.
+
+- During **impl**: if the app needs an API key, the agent asks you via `AskUserQuestion`
+- During **launch**: full data audit scans for mock URLs, test keys, placeholder content
+- Every external service connection is verified before deploy
 
 ## How It Works
 
-1. **SessionStart hook** runs on every session — detects which pipeline stage you're in by checking for artifacts (`.launchcraft/*/stories/`, `.launchcraft/*/design.md`, `tests/`, etc.) and injects context
-2. **Each skill** validates its input contract, enforces a HARD-GATE before doing real work, then produces output
-3. **Contract-validator agent** independently checks the output against `docs/contracts.md`
-4. **Auto-memory** saves key decisions and gotchas to `CLAUDE.md` so future sessions have full context
+1. **SessionStart hook** detects pipeline stage from `.launchcraft/` artifacts
+2. **Each skill** validates input, enforces HARD-GATE, produces output, writes `.launchcraft/.pipeline-next`
+3. **Stop hook** reads the state file and blocks stop — injects next skill command
+4. **enforce-paths hook** blocks any Write/Edit to wrong paths (deterministic enforcement)
+5. **Sub-agents** do parallel work in isolated worktrees, merged after completion
+6. **Contract-validator + depth-validator** verify both structure and quality
+7. **Auto-memory** saves decisions and gotchas to `CLAUDE.md`
 
 ## License
 
