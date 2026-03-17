@@ -187,7 +187,7 @@ Output path: .launchcraft/research/
 ```
 
 Do NOT proceed to differentiation until the validator returns PASS.
-Once the validator returns PASS, run `echo "differentiation" > .launchcraft/.pipeline-next` then **call the Skill tool: `Skill(skill='differentiation')`** — do NOT ask the user whether to continue.
+Once validator returns PASS, dispatch **product-manager** agent to review this stage's output. If PM says PROCEED: run `echo "differentiation" > .launchcraft/.pipeline-next` then **call the Skill tool: `Skill(skill='differentiation')`**. If PM says ROLLBACK(target): run `echo "target" > .launchcraft/.pipeline-next` then call `Skill(skill=target)`. Save PM review to `.launchcraft/pm-reviews/`.
 
 ## Rationalization Prevention
 

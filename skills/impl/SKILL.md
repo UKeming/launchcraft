@@ -259,7 +259,7 @@ Design doc: .launchcraft/designs/*/design.md
 
 Wait for both to complete. If code-reviewer made fixes, re-run tests to verify they still pass.
 
-Once both complete and all tests pass, run `echo "experience-review" > .launchcraft/.pipeline-next` then **call the Skill tool: `Skill(skill='experience-review')`** — do NOT ask the user whether to continue.
+Once both complete and all tests pass, dispatch **product-manager** agent. If PM PROCEED: run `echo "experience-review" > .launchcraft/.pipeline-next` then **call `Skill(skill='experience-review')`**. If PM ROLLBACK(target): call `Skill(skill=target)`. Save review to `.launchcraft/pm-reviews/`.
 
 ## Rationalization Prevention
 

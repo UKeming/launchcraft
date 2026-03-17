@@ -184,7 +184,7 @@ Output path: [the file you just saved]
 ```
 
 Do NOT proceed to user-story until the validator returns PASS.
-Once the validator returns PASS, run `echo "user-story" > .launchcraft/.pipeline-next` then **call the Skill tool: `Skill(skill='user-story')`** — do NOT ask the user whether to continue.
+Once validator returns PASS, dispatch **product-manager** agent to review this stage's output. If PM says PROCEED: run `echo "user-story" > .launchcraft/.pipeline-next` then **call the Skill tool: `Skill(skill='user-story')`**. If PM says ROLLBACK(target): run `echo "target" > .launchcraft/.pipeline-next` then call `Skill(skill=target)`. Save PM review to `.launchcraft/pm-reviews/`.
 
 ## Rationalization Prevention
 

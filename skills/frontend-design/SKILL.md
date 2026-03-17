@@ -217,7 +217,7 @@ Output path: [the frontend design doc + code files]
 ```
 
 Do NOT proceed to tdd-testing until BOTH the frontend-tester and contract-validator return PASS.
-Once both return PASS, run `echo "tdd-testing" > .launchcraft/.pipeline-next` then **call the Skill tool: `Skill(skill='tdd-testing')`** — do NOT ask the user whether to continue.
+Once both return PASS, dispatch **product-manager** agent. If PM PROCEED: run `echo "tdd-testing" > .launchcraft/.pipeline-next` then **call `Skill(skill='tdd-testing')`**. If PM ROLLBACK(target): call `Skill(skill=target)`. Save review to `.launchcraft/pm-reviews/`.
 
 ## Rationalization Prevention
 

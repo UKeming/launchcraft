@@ -259,7 +259,7 @@ Design doc: .launchcraft/designs/*/design.md
 
 Wait for both to complete. If code-reviewer made fixes, re-run tests to verify they still FAIL (no accidental implementation).
 
-Once both complete, run `echo "impl" > .launchcraft/.pipeline-next` then **call the Skill tool: `Skill(skill='impl')`** — do NOT ask the user whether to continue.
+Once both complete, dispatch **product-manager** agent. If PM PROCEED: run `echo "impl" > .launchcraft/.pipeline-next` then **call `Skill(skill='impl')`**. If PM ROLLBACK(target): call `Skill(skill=target)`. Save review to `.launchcraft/pm-reviews/`.
 
 ## Rationalization Prevention
 

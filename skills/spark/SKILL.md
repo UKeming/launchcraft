@@ -79,24 +79,36 @@ Each story is a SEPARATE .md file with frontmatter. Each domain has its own fold
 This applies to ALL stages: impl, frontend-design, experience-review, and launch. Not just launch.
 </MANDATORY-RULES>
 
-## FULL PIPELINE AUTO-RUN
+## PIPELINE FLOW — PM-DRIVEN, NOT HARDCODED
 
-**This is a BLOCKING instruction.** After spark completes and the contract-validator passes, you MUST continue running the entire pipeline to completion **without stopping or asking the user for permission between stages**:
+**After every stage: dispatch `product-manager` agent to review. PM decides PROCEED or ROLLBACK.**
 
 ```
-spark → research → differentiation → enhance → differentiation (re-run) → accountant (pre-planning) → user-story → design-doc → frontend-design → tdd-testing → impl → experience-review → test-report → launch → accountant (post-launch)
+spark → PM review → research → PM review → differentiation → PM review → enhance → PM review
+  → user-story → PM review → design-doc → PM review → frontend-design → PM review
+  → tdd-testing → PM review → impl → PM review → experience-review → PM review
+  → test-report → PM review → launch → accountant (post-launch)
 ```
 
-Each stage invokes the next via its `/skill-name` command. Do NOT pause between stages. Do NOT ask "should we continue?" Do NOT summarize and wait. The pipeline runs as one continuous flow from spark to launch.
+**The pipeline is dynamic.** There is NO fixed "differentiation → enhance → differentiation re-run" loop. Instead:
+- PM reviews after differentiation → if features aren't enough, ROLLBACK to enhance or research
+- PM reviews after enhance → if still not enough, ROLLBACK to research for deeper competitor analysis
+- PM can rollback ANY stage to ANY earlier stage
 
-**CRITICAL OVERRIDE:** Downstream skills (research, differentiation, enhance, etc.) contain "Review with User" and "Iterate until the user approves" steps. **SKIP ALL OF THEM.** These steps exist for standalone skill invocation — during a full pipeline run they do NOT apply. Instead: complete the analysis, save the output, dispatch contract-validator, and call the Skill tool for the next skill upon PASS.
+**After each stage completes:**
+1. Dispatch `contract-validator` (structural check)
+2. If PASS: dispatch `product-manager` agent (quality/direction check)
+3. If PM says PROCEED: call Skill tool for the next stage
+4. If PM says ROLLBACK(target): save PM review, call Skill tool for the target stage
 
-The ONLY time you stop is:
-1. During spark itself — to ask the user clarifying questions and get sign-off on requirements
-2. If a contract-validator returns FAIL — fix and re-validate, then continue
-3. If an unrecoverable error occurs — report it and invoke `/debugging`
+**CRITICAL OVERRIDE:** Downstream skills contain "Review with User" steps. **SKIP ALL OF THEM** during pipeline auto-run. The `product-manager` agent IS the reviewer.
 
-**Every other transition is automatic. No exceptions.**
+The ONLY time you stop for user input is:
+1. During spark — to ask the user clarifying questions
+2. During launch — to collect real API keys
+3. If an unrecoverable error occurs — invoke `/debugging`
+
+**Everything else is automatic. PM reviews happen via agent dispatch, not user prompts.**
 
 ## Overview
 
@@ -267,7 +279,7 @@ Output path: [the file you just saved]
 ```
 
 Do NOT proceed to research until the validator returns PASS.
-Once the validator returns PASS, run `echo "research" > .launchcraft/.pipeline-next` then **call the Skill tool: `Skill(skill='research')`** — do NOT ask the user whether to continue.
+Once validator returns PASS, dispatch **product-manager** agent to review this stage's output. If PM says PROCEED: run `echo "research" > .launchcraft/.pipeline-next` then **call the Skill tool: `Skill(skill='research')`**. If PM says ROLLBACK(target): run `echo "target" > .launchcraft/.pipeline-next` then call `Skill(skill=target)`. Save PM review to `.launchcraft/pm-reviews/`.
 
 ## Rationalization Prevention
 

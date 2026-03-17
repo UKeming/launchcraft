@@ -159,7 +159,7 @@ Output path: [the file you just saved]
 ```
 
 The validator will check for actual metrics, proper US-NNN mapping, and justified recommendations. Do NOT proceed to launch until the validator returns PASS. If it returns FAIL, fix the violations and re-validate.
-Once the validator returns PASS, run `echo "launch" > .launchcraft/.pipeline-next` then **call the Skill tool: `Skill(skill='launch')`** — do NOT ask the user whether to continue.
+Once validator returns PASS, dispatch **product-manager** agent to review this stage's output. If PM says PROCEED: run `echo "launch" > .launchcraft/.pipeline-next` then **call the Skill tool: `Skill(skill='launch')`**. If PM says ROLLBACK(target): run `echo "target" > .launchcraft/.pipeline-next` then call `Skill(skill=target)`. Save PM review to `.launchcraft/pm-reviews/`.
 
 ## Rationalization Prevention
 

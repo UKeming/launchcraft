@@ -343,7 +343,7 @@ Output path: [the enhancement record file]
 ```
 
 Do NOT proceed until the validator returns PASS.
-Once the validator returns PASS, run `echo "differentiation" > .launchcraft/.pipeline-next` then **call the Skill tool: `Skill(skill='differentiation')`** — the differentiation strategy must be re-run. Do NOT ask the user whether to continue.
+Once validator returns PASS, dispatch **product-manager** agent. If PM PROCEED: run `echo "differentiation" > .launchcraft/.pipeline-next` then **call `Skill(skill='differentiation')`**. If PM ROLLBACK(target): call `Skill(skill=target)`. Save review to `.launchcraft/pm-reviews/`.
 
 ## Rationalization Prevention
 

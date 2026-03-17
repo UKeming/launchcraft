@@ -102,7 +102,7 @@ The agent returns one of:
    Skill: experience-review
    Output path: .launchcraft/experience-review/*.md
    ```
-2. On PASS: run `echo "test-report" > .launchcraft/.pipeline-next` then **call the Skill tool: `Skill(skill='test-report')`**
+2. On PASS: dispatch **product-manager** agent. If PM PROCEED: run `echo "test-report" > .launchcraft/.pipeline-next` then **call `Skill(skill='test-report')`**. If PM ROLLBACK(target): call `Skill(skill=target)`
 
 **If BACK-TO-[stage]:**
 1. Append reasoning to `.launchcraft/pipeline-context.md`

@@ -158,23 +158,22 @@ Output path: [the file you just saved]
 ```
 
 Do NOT proceed until the validator returns PASS.
-Once the validator returns PASS:
-- If NO enhance record exists in `.launchcraft/enhanced/`, **call the Skill tool: `Skill(skill='enhance')`** — requirements need expansion.
-- If an enhance record ALREADY exists in `.launchcraft/enhanced/`, dispatch the **accountant** agent for a pre-planning business assessment:
 
+Once validator returns PASS, dispatch **product-manager** agent to review. The PM decides:
+
+- **PROCEED to enhance** (if no enhance record exists yet)
+- **PROCEED to user-story** (if enhance already done — PM judges product is ready)
+- **ROLLBACK** to research or spark (if PM thinks direction is wrong)
+
+If PM says PROCEED to user-story, also dispatch the **accountant** agent for pre-planning:
 ```
 Agent: accountant
 Phase: pre-planning
-Product name: [product name]
-Project root: [project root]
 ```
+- If accountant returns **GO** or **CONDITIONAL GO**: call `Skill(skill='user-story')`.
+- If accountant returns **NO-GO**: use `AskUserQuestion` to ask user how to proceed.
 
-The accountant will evaluate commercial viability — costs, revenue projections, break-even, go/no-go.
-
-- If the accountant returns **GO** or **CONDITIONAL GO**: **call the Skill tool: `Skill(skill='user-story')`**.
-- If the accountant returns **NO-GO**: present the accountant's findings to the user and ask how they want to proceed (adjust pricing, reduce scope, or continue anyway).
-
-Do NOT ask the user whether to continue unless it's a NO-GO.
+Save PM review to `.launchcraft/pm-reviews/`.
 
 ## Rationalization Prevention
 

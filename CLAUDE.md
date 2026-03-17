@@ -2,9 +2,16 @@
 
 Claude Code plugin: end-to-end product development pipeline via skills, MCP, agents, and memory.
 
-## Pipeline
+## Pipeline (PM-Driven)
 
-spark → research → differentiation → enhance → differentiation (re-run) → accountant (pre-planning) → user-story → design-doc → frontend-design → tdd-testing → impl → experience-review → test-report → launch → accountant (post-launch)
+```
+spark → PM → research → PM → differentiation → PM → enhance → PM
+  → user-story → PM → design-doc → PM → frontend-design → PM
+  → tdd-testing → PM → impl → PM → experience-review → PM
+  → test-report → PM → launch → accountant (post-launch)
+```
+
+The `product-manager` agent reviews after EVERY stage. PM decides PROCEED or ROLLBACK(target-stage). No hardcoded loops — the PM dynamically controls the pipeline flow based on quality/direction/depth evaluation.
 
 ### Agents dispatched during pipeline:
 - **research-analyst** — parallel per competitor + per research dimension, produces one deep file each (spawned by research skill)
