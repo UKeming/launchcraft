@@ -57,20 +57,19 @@ if [ -d "${PROJECT_DIR}/.launchcraft/financials" ] && ls "${PROJECT_DIR}/.launch
     has_business_assessment=true
 fi
 
-# 6. Check for user stories (domain-based: .launchcraft/*/stories/US-*.md or legacy .launchcraft/user-stories/*.md)
-if [ -f "${PROJECT_DIR}/.launchcraft/user-stories-index.md" ] || ([ -d "${PROJECT_DIR}/.launchcraft/user-stories" ] && ls "${PROJECT_DIR}/.launchcraft/user-stories/"*.md &>/dev/null); then
+# 6. Check for user stories (domain-based: .launchcraft/*/stories/US-*.md)
+if [ -f "${PROJECT_DIR}/.launchcraft/user-stories-index.md" ]; then
     has_user_stories=true
 else
-    # Check for domain-based story files
-    story_count=$(find "${PROJECT_DIR}/docs" -path "*/stories/US-*.md" 2>/dev/null | head -5 | wc -l | tr -d ' ')
+    story_count=$(find "${PROJECT_DIR}/.launchcraft" -path "*/stories/US-*.md" 2>/dev/null | head -5 | wc -l | tr -d ' ')
     if [ "$story_count" -gt 0 ]; then
         has_user_stories=true
     fi
 fi
 
-# 7. Check for design docs (domain-based: .launchcraft/*/design.md or legacy .launchcraft/designs/*.md)
-design_count=$(find "${PROJECT_DIR}/docs" -maxdepth 2 -name "design.md" 2>/dev/null | head -5 | wc -l | tr -d ' ')
-if [ "$design_count" -gt 0 ] || ([ -d "${PROJECT_DIR}/.launchcraft/designs" ] && ls "${PROJECT_DIR}/.launchcraft/designs/"*.md &>/dev/null); then
+# 7. Check for design docs (domain-based: .launchcraft/*/design.md)
+design_count=$(find "${PROJECT_DIR}/.launchcraft" -maxdepth 2 -name "design.md" 2>/dev/null | head -5 | wc -l | tr -d ' ')
+if [ "$design_count" -gt 0 ]; then
     has_designs=true
 fi
 

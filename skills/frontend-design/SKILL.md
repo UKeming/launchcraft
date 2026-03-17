@@ -78,7 +78,7 @@ Read ALL domain design docs' UI/UX sections AND all domain story files. Build a 
 
 **Note:** Not all stories have UI (e.g., API-only, background jobs). Only stories with UI implications need page coverage. But every story WITH a UI component must map to at least one page.
 
-Present to user: "These are all the pages I'll build. Missing anything?"
+Use `AskUserQuestion` tool: "These are all the pages I'll build. Missing anything?" (Skip in pipeline auto-run — proceed with inventory as-is.)
 
 ### 2. Choose Aesthetic Direction
 
@@ -88,7 +88,7 @@ Before coding, commit to a BOLD aesthetic direction. Consider:
 - **Differentiation**: What makes this UI UNFORGETTABLE? What's the one thing someone will remember?
 - **Purpose**: What problem does this interface solve? Who uses it?
 
-Present 2-3 visual directions with mood descriptions. Let the user choose.
+Present 2-3 visual directions. Use `AskUserQuestion` tool to let user choose. (Skip in pipeline auto-run — choose the boldest direction yourself.)
 
 **CRITICAL RULES:**
 - NEVER use generic fonts (Inter, Roboto, Arial, system fonts)
@@ -231,7 +231,7 @@ Once both return PASS, run `echo "tdd-testing" > .launchcraft/.pipeline-next` th
 
 Before claiming this skill is complete, you must have:
 - [ ] Listed all pages from design doc (show page inventory table)
-- [ ] Presented 2-3 aesthetic directions and received user choice (show choice)
+- [ ] Presented 2-3 aesthetic directions and received user choice (show choice) — **auto-chosen in pipeline auto-run**
 - [ ] Built working code for EVERY page (show file paths)
 - [ ] Created responsive layouts at 3+ breakpoints (show evidence)
 - [ ] Built loading, empty, and error states (show evidence)

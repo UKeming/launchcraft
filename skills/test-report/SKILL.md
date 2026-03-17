@@ -74,7 +74,7 @@ Present key findings:
 - Coverage gaps
 - Recommendation
 
-Ask: "Should we proceed to launch, or fix issues first?"
+Use `AskUserQuestion` tool: "Should we proceed to launch, or fix issues first?" (Skip in pipeline auto-run — if tests pass, proceed to launch.)
 
 ### 5. Save
 

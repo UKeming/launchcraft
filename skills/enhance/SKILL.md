@@ -259,7 +259,7 @@ First, show which dimensions you selected and why:
 
 **Aim for 30-80+ additional features across selected dimensions.** If you're proposing fewer than 15, you're probably not thinking big enough — but the right number depends on the product. A B2B SaaS may need 60+, a focused developer tool may need 25. Use judgment, but err on the side of MORE.
 
-Ask the user: "Here's the full enhancement proposal. I recommend adding all of them — this is what makes the product commercially viable. Want to approve all, or select specific ones?"
+Use `AskUserQuestion` tool: "Here's the full enhancement proposal. I recommend adding all of them — this is what makes the product commercially viable. Want to approve all, or select specific ones?" (Skip in pipeline auto-run — auto-approve ALL.)
 
 ### 5. Update Requirements Document
 
@@ -367,7 +367,7 @@ Before claiming this skill is complete, you must have:
 - [ ] Researched 3+ competitors' full feature sets via web search (show analysis)
 - [ ] Evaluated all 15 dimensions for relevance, selected Core/Relevant ones (show dimension table)
 - [ ] Proposed features across selected dimensions — quantity appropriate for product type (show proposal)
-- [ ] Received user approval (show approval)
+- [ ] Received user approval (show approval) — **auto-approved in pipeline auto-run (approve ALL)**
 - [ ] Updated the requirements document with approved features (show diff)
 - [ ] Saved enhancement record with dimension coverage metrics (show path)
 - [ ] Dispatched contract-validator and received PASS (show result)

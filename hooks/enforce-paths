@@ -29,19 +29,42 @@ case "$BASENAME" in
         ;;
 esac
 
-# Allow files inside .launchcraft/ — these are correct
-case "$FILE_PATH" in
-    *.launchcraft/*|*/.launchcraft/*)
-        exit 0
-        ;;
-esac
-
 # Allow files inside code directories (tests, src, lib, etc.)
 case "$FILE_PATH" in
     */tests/*|*/test/*|*/src/*|*/lib/*|*/app/*|*/pages/*|*/components/*|*/node_modules/*|*/.claude/*)
         exit 0
         ;;
 esac
+
+# --- CHECKS INSIDE .launchcraft/ (structure enforcement) ---
+# These MUST run before the general .launchcraft/ allow
+
+# Block flat .launchcraft/user-stories/ structure (must use domain folders)
+case "$FILE_PATH" in
+    *.launchcraft/user-stories/*.md|*/.launchcraft/user-stories/*.md)
+        if [ "$BASENAME" != "user-stories-index.md" ]; then
+            echo "BLOCKED: Stories must be in domain folders. Use .launchcraft/[domain]/stories/US-NNN-[slug].md, not .launchcraft/user-stories/" >&2
+            exit 2
+        fi
+        ;;
+esac
+
+# Block flat .launchcraft/designs/ structure (must use domain folders)
+case "$FILE_PATH" in
+    *.launchcraft/designs/*.md|*/.launchcraft/designs/*.md)
+        echo "BLOCKED: Design docs must be in domain folders. Use .launchcraft/[domain]/design.md, not .launchcraft/designs/" >&2
+        exit 2
+        ;;
+esac
+
+# Allow all other files inside .launchcraft/ (correct structure)
+case "$FILE_PATH" in
+    *.launchcraft/*|*/.launchcraft/*)
+        exit 0
+        ;;
+esac
+
+# --- CHECKS OUTSIDE .launchcraft/ ---
 
 # Block writes to docs/ that look like pipeline artifacts
 PIPELINE_DIRS="requirements research strategy enhanced user-stories designs test-plans frontend-design test-reports experience-review launches financials plans"
@@ -57,13 +80,8 @@ done
 # Block known pipeline index files at project root or docs/
 case "$BASENAME" in
     pipeline-context.md|user-stories-index.md|story-coverage.md)
-        case "$FILE_PATH" in
-            *.launchcraft/*) exit 0 ;;  # already checked above but be safe
-            *)
-                echo "BLOCKED: ${BASENAME} must be saved under .launchcraft/. Use .launchcraft/${BASENAME}" >&2
-                exit 2
-                ;;
-        esac
+        echo "BLOCKED: ${BASENAME} must be saved under .launchcraft/. Use .launchcraft/${BASENAME}" >&2
+        exit 2
         ;;
 esac
 

@@ -493,7 +493,7 @@ Once the validator returns PASS, run `echo "frontend-design" > .launchcraft/.pip
 Before claiming this skill is complete, you must have:
 - [ ] Extracted Story Inventory with ALL US-NNN (show count)
 - [ ] Grouped stories into design doc domains (show grouping)
-- [ ] Presented 2-3 approaches and received user choice (show the choice)
+- [ ] Presented 2-3 approaches and received user choice (show the choice) — **auto-chosen in pipeline auto-run**
 - [ ] Written system design doc first, then feature domains in parallel (show file paths)
 - [ ] If IMAGE_REQUESTs exist: shown budget to user, generated images, verified each one (show manifest + results)
 - [ ] Built Story Coverage Matrix with 100% coverage (show matrix)

@@ -135,7 +135,7 @@ Based on the differentiation strategy, propose requirement adjustments:
 
 ### 6. Review with User
 
-Present the full strategy. Ask:
+Present the full strategy. Use `AskUserQuestion` tool to ask: (Skip in pipeline auto-run — auto-approve and proceed.)
 - Does this positioning resonate?
 - Are the strategic bets the right ones?
 - Do the requirement adjustments make sense?
@@ -195,7 +195,7 @@ Before claiming this skill is complete, you must have:
 - [ ] Defined clear positioning statement (show statement)
 - [ ] Identified 2-3 strategic bets with rationale (show bets)
 - [ ] Proposed requirement adjustments tied to strategy (show adjustments)
-- [ ] Received user sign-off on differentiation strategy (show confirmation)
+- [ ] Received user sign-off on differentiation strategy (show confirmation) — **auto-approved in pipeline auto-run**
 - [ ] Saved the file (show path)
 - [ ] Dispatched contract-validator and received PASS (show result)
 

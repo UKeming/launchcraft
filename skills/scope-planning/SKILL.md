@@ -65,7 +65,7 @@ Medium:  2-3 stories/stage → total: N × 6 × 2.5 ≈ 25-40 stories
 Complex: 3-5 stories/stage → total: N × 6 × 4   ≈ 40-70 stories
 ```
 
-Present the calculation to the user. Adjust based on their feedback.
+Present the calculation. Use `AskUserQuestion` tool for feedback. (Skip in pipeline auto-run — proceed with calculated count.)
 
 ### 3. Plan Domain Structure
 
@@ -161,9 +161,9 @@ Suggested implementation order (by dependency):
 
 ### 5. Review
 
-Ask the user:
+Use `AskUserQuestion` tool to ask: (Skip in pipeline auto-run — auto-approve the scope plan.)
 - Is the complexity classification correct?
-- Is the story count appropriate? Too many? Too few?
+- Is the story count appropriate?
 - Does the domain structure make sense?
 - Is the implementation order right?
 
@@ -203,7 +203,7 @@ Before claiming this skill is complete, you must have:
 - [ ] Calculated story count with formula (show calculation)
 - [ ] Listed design doc breakdown with scope per doc (show list)
 - [ ] Defined implementation order with dependencies (show order)
-- [ ] Received user approval on the scope plan (show confirmation)
+- [ ] Received user approval on the scope plan (show confirmation) — **auto-approved in pipeline auto-run**
 - [ ] Saved the file (show path)
 - [ ] Dispatched contract-validator and received PASS (show result)
 

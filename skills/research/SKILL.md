@@ -51,7 +51,7 @@ Read the requirements doc and list every assumption that needs validation:
 | 3 | [e.g., "Target users are willing to pay"] | [Value Prop] | [Impact] |
 ```
 
-Present to user. Ask: "Are there other assumptions you'd like me to research?"
+Present to user. Use `AskUserQuestion` tool to ask: "Are there other assumptions you'd like me to research?" (Skip in pipeline auto-run.)
 
 ### 2. Market Research
 
@@ -164,7 +164,7 @@ Produce actionable insights:
 
 ### 9. Review with User
 
-Present the full research report. Ask:
+Present the full research report. Use `AskUserQuestion` tool to ask: (Skip in pipeline auto-run — auto-approve and proceed.)
 - Do these findings change your vision?
 - Should we adjust requirements before scoping?
 - Any areas you want me to dig deeper?
@@ -212,7 +212,7 @@ Before claiming this skill is complete, you must have:
 - [ ] Researched growth channels with evidence (show findings)
 - [ ] Assessed regulatory/compliance landscape (show assessment)
 - [ ] Listed risk factors including business model and regulatory risks (show risks)
-- [ ] Received user sign-off on research findings (show confirmation)
+- [ ] Received user sign-off on research findings (show confirmation) — **auto-approved in pipeline auto-run**
 - [ ] Saved the file (show path)
 - [ ] Dispatched contract-validator and received PASS (show result)
 
