@@ -57,11 +57,11 @@ if [ -d "${PROJECT_DIR}/.launchcraft/financials" ] && ls "${PROJECT_DIR}/.launch
     has_business_assessment=true
 fi
 
-# 6. Check for user stories (domain-based: .launchcraft/*/stories/US-*.md)
+# 6. Check for user stories (domain-based: .launchcraft/stories/*/US-*.md)
 if [ -f "${PROJECT_DIR}/.launchcraft/user-stories-index.md" ]; then
     has_user_stories=true
 else
-    story_count=$(find "${PROJECT_DIR}/.launchcraft" -path "*/stories/US-*.md" 2>/dev/null | head -5 | wc -l | tr -d ' ')
+    story_count=$(find "${PROJECT_DIR}/.launchcraft/stories" -name "US-*.md" 2>/dev/null | head -5 | wc -l | tr -d ' ')
     if [ "$story_count" -gt 0 ]; then
         has_user_stories=true
     fi
@@ -87,7 +87,7 @@ if [ -d "${PROJECT_DIR}/tests" ]; then
     fi
 fi
 
-# 8. Check if tests pass (try common test runners, best-effort)
+# 10. Check if tests pass (try common test runners, best-effort)
 if [ "$has_test_files" = true ]; then
     if [ -f "${PROJECT_DIR}/package.json" ]; then
         # Node.js project - try npm test
@@ -112,7 +112,7 @@ if [ "$has_test_files" = true ]; then
     fi
 fi
 
-# 9. Check for experience review
+# 11. Check for experience review
 has_experience_review=false
 if [ -d "${PROJECT_DIR}/.launchcraft/experience-review" ] && ls "${PROJECT_DIR}/.launchcraft/experience-review/"*.md &>/dev/null; then
     if grep -rli "APPROVED" "${PROJECT_DIR}/.launchcraft/experience-review/" &>/dev/null; then
@@ -120,7 +120,7 @@ if [ -d "${PROJECT_DIR}/.launchcraft/experience-review" ] && ls "${PROJECT_DIR}/
     fi
 fi
 
-# 10. Check for test reports
+# 12. Check for test reports
 if [ -d "${PROJECT_DIR}/.launchcraft/test-reports" ] && ls "${PROJECT_DIR}/.launchcraft/test-reports/"*.md &>/dev/null; then
     has_test_report=true
     # Check if any test report says "Ready to Launch" (case-insensitive)
@@ -129,7 +129,7 @@ if [ -d "${PROJECT_DIR}/.launchcraft/test-reports" ] && ls "${PROJECT_DIR}/.laun
     fi
 fi
 
-# 10. Check for launch docs
+# 13. Check for launch docs
 if [ -d "${PROJECT_DIR}/.launchcraft/launches" ] && ls "${PROJECT_DIR}/.launchcraft/launches/"*.md &>/dev/null; then
     has_launch=true
 fi
@@ -254,7 +254,7 @@ context="<EXTREMELY_IMPORTANT>\\nLaunchCraft Pipeline Status\\n\\n"
 context+="**Current stage:** ${stage}\\n"
 context+="**Detail:** ${stage_detail}\\n\\n"
 context+="${skills_list}\\n\\n"
-context+="The LaunchCraft pipeline follows this order: spark -> research -> differentiation -> enhance -> differentiation (re-run) -> accountant (pre-planning) -> user-story -> design-doc -> frontend-design -> tdd-testing -> impl -> experience-review -> test-report -> launch -> accountant (post-launch)\\n"
+context+="The LaunchCraft pipeline follows this order: spark -> PM -> research -> PM -> differentiation -> PM -> enhance -> PM -> user-story -> PM -> design-doc -> PM -> frontend-design -> PM -> tdd-testing -> PM -> impl -> PM -> experience-review -> PM -> test-report -> PM -> launch\\n"
 context+="Always follow the pipeline order. Each skill validates its inputs against upstream contracts before proceeding.\\n"
 context+="**RULE: All questions to the user MUST use the AskUserQuestion tool.** Never output a question as plain text — always use AskUserQuestion with structured options.\\n"
 

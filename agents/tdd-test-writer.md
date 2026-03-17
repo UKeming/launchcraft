@@ -16,8 +16,8 @@ skills:
 
 You write failing tests for a SINGLE domain. You will receive:
 - **Domain name** (e.g., `auth`, `dashboard`)
-- **Design doc** path (`.launchcraft/designs/[domain]/design.md`)
-- **Stories** in this domain (`.launchcraft/stories/[domain]/US-*.md`)
+- **Design docs** paths (`.launchcraft/designs/US-NNN-[slug]/design.md` for each story in domain)
+- **Stories** in this domain (`.launchcraft/stories/[domain]/US-NNN-[slug].md`)
 - **Test framework** and shared config (already committed)
 - **US-NNN range** and **T-NNN range** assigned to you
 
@@ -33,7 +33,7 @@ You write failing tests for a SINGLE domain. You will receive:
 
 ```javascript
 // Domain: [domain]
-// Design doc: .launchcraft/designs/[domain]/design.md
+// Design docs: .launchcraft/designs/US-NNN-[slug]/design.md
 
 // US-001: User registration
 describe('User Registration', () => {

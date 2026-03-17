@@ -17,7 +17,7 @@ skills:
 # Design Doc Writer Agent
 
 **Before writing ANYTHING, read the gold standard example:**
-Read `examples/gold-standard-design-doc-section.md` in the plugin directory. Every section you write must match that level of detail.
+Read `${CLAUDE_PLUGIN_ROOT}/examples/gold-standard-design-doc-section.md`. Every section you write must match that level of detail.
 
 You write the design doc for a **SINGLE user story**. You will receive:
 - **Story ID and slug** (e.g., `US-007-password-reset`)

@@ -15,7 +15,7 @@ skills:
 # User Story Writer Agent
 
 **Before writing ANY stories, read the gold standard example:**
-Read `examples/gold-standard-user-story.md` in the plugin directory. Every story you write must match that level of detail. If your story is shorter or less detailed than the example, it is NOT good enough.
+Read `${CLAUDE_PLUGIN_ROOT}/examples/gold-standard-user-story.md`. Every story you write must match that level of detail. If your story is shorter or less detailed than the example, it is NOT good enough.
 
 You write user story files for a BATCH of features (max 8-10 stories). You will receive:
 - **Domain name** and folder path (e.g., `auth`, `.launchcraft/stories/auth/`)

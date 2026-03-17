@@ -78,7 +78,7 @@ Each skill validates its input on start and self-validates its output before sav
 
 ### frontend-design
 
-**Input:** Domain design docs (`.launchcraft/designs/*/design.md`) + Story files (`.launchcraft/*/stories/US-*.md`) + Index (`.launchcraft/user-stories-index.md`)
+**Input:** Domain design docs (`.launchcraft/designs/*/design.md`) + Story files (`.launchcraft/stories/*/US-*.md`) + Index (`.launchcraft/user-stories-index.md`)
 **Output:**
 - Frontend code files (HTML/CSS/JS or framework components)
 - `.launchcraft/frontend-design/YYYY-MM-DD-[product-name]-frontend-design.md`
@@ -98,7 +98,7 @@ Each skill validates its input on start and self-validates its output before sav
 
 **Input:** Requirements doc (`.launchcraft/requirements/*.md`) + Research report (`.launchcraft/research/*.md`) + Differentiation strategy (`.launchcraft/strategy/*.md`) + Enhancement record (`.launchcraft/enhanced/*.md`)
 **Output:**
-- `.launchcraft/[domain]/stories/US-NNN-[slug].md` — one file per story, organized by domain folder
+- `.launchcraft/stories/[domain]/US-NNN-[slug].md` — one file per story, organized by domain folder
 - `.launchcraft/user-stories-index.md` — global feature inventory + coverage matrix + domain listing
 **Output must contain:**
 - Each story file has frontmatter: US-NNN, Title, Priority, Size, Persona, Features (F-NNN), Domain
@@ -142,7 +142,7 @@ Each skill validates its input on start and self-validates its output before sav
 
 ### tdd-testing
 
-**Input:** `.launchcraft/designs/*/design.md` (domain design docs) + `.launchcraft/*/stories/US-*.md` (story files) + `.launchcraft/story-coverage.md`
+**Input:** `.launchcraft/designs/*/design.md` (domain design docs) + `.launchcraft/stories/*/US-*.md` (story files) + `.launchcraft/story-coverage.md`
 **Output:**
 - Test files in `tests/`
 - `.launchcraft/test-plans/YYYY-MM-DD-[topic]-test-plan.md`
@@ -173,7 +173,7 @@ Each skill validates its input on start and self-validates its output before sav
 ### experience-review
 
 **Input:**
-- All upstream docs: requirements (`.launchcraft/requirements/*.md`), domain stories (`.launchcraft/*/stories/US-*.md`), domain designs (`.launchcraft/designs/*/design.md`), frontend design (`.launchcraft/frontend-design/*.md`)
+- All upstream docs: requirements (`.launchcraft/requirements/*.md`), domain stories (`.launchcraft/stories/*/US-*.md`), domain designs (`.launchcraft/designs/*/design.md`), frontend design (`.launchcraft/frontend-design/*.md`)
 - Locally deployed application (production build, NOT dev server — all tests must pass)
 - Pipeline context log (`.launchcraft/pipeline-context.md`)
 **Output:** `.launchcraft/experience-review/YYYY-MM-DD-[product-name]-experience-review.md`
@@ -182,8 +182,9 @@ Each skill validates its input on start and self-validates its output before sav
 - Page-by-page results with screenshots (desktop + mobile) for every page
 - User journey results for all core flows
 - Feature Gap Analysis table (promised vs actual)
-- Quality Standards Scorecard (7 categories, 1-5 scale each)
-- Overall score >= 3.5, no individual score below 2
+- Quality Standards Scorecard (10 categories, 1-5 scale each)
+- Overall score >= 4.0, no individual score below 3
+- Minimum 2 review passes required
 - Fixes Applied table (if any fixes were made during review)
 - Iterations Log showing each review pass
 - Final Verdict: APPROVED (required to proceed)
@@ -191,7 +192,7 @@ Each skill validates its input on start and self-validates its output before sav
 
 ### test-report
 
-**Input:** Test execution results (after experience-review) + domain stories (`.launchcraft/*/stories/US-*.md`) + domain designs (`.launchcraft/designs/*/design.md`) + test plan
+**Input:** Test execution results (after experience-review) + domain stories (`.launchcraft/stories/*/US-*.md`) + domain designs (`.launchcraft/designs/*/design.md`) + test plan
 **Output:** `.launchcraft/test-reports/YYYY-MM-DD-[topic]-test-report.md`
 **Output must contain:**
 - File header with Title, Date, Related Test Plan, Status
@@ -247,6 +248,18 @@ Each skill validates its input on start and self-validates its output before sav
 - Financial Summary table with all key metrics filled in
 - Verdict (PROFITABLE, VIABLE, NEEDS WORK, NOT VIABLE)
 - All numbers must be filled in — no placeholders
+
+### product-manager (review)
+
+**Input:** Stage output files + all upstream `.launchcraft/` docs
+**Output:** `.launchcraft/pm-reviews/[stage]-review-[N].md`
+**Output must contain:**
+- Stage name and verdict (PROCEED or ROLLBACK)
+- Breadth score (1-5) with notes
+- Depth score (1-5) with notes
+- Direction score (1-5) with notes
+- Quality score (1-5) with notes
+- If ROLLBACK: target stage, specific changes needed, what to preserve
 
 ## Validation Protocol
 

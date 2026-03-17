@@ -34,7 +34,7 @@ On start, verify:
 - [ ] Domain design docs exist at `.launchcraft/designs/*/design.md` (at least one domain)
 - [ ] Each design doc has: Overview, Architecture, Components sections
 - [ ] Each design doc references user stories (US-NNN)
-- [ ] Domain story files exist at `.launchcraft/*/stories/US-*.md`
+- [ ] Domain story files exist at `.launchcraft/stories/*/US-*.md`
 - [ ] Story Coverage Matrix exists at `.launchcraft/story-coverage.md`
 
 If validation fails, list specific violations and stop.
@@ -43,16 +43,16 @@ If validation fails, list specific violations and stop.
 
 ### 1. Story Inventory for Testing
 
-Read ALL story files from `.launchcraft/*/stories/US-*.md` and the story coverage matrix from `.launchcraft/story-coverage.md`. For each story, identify what needs testing:
+Read ALL story files from `.launchcraft/stories/*/US-*.md` and the story coverage matrix from `.launchcraft/story-coverage.md`. For each story, identify what needs testing:
 
 ```markdown
 ## Story Test Inventory
 
 | US-NNN | Story Title | Priority | Test Type Needed | Domain | Design Doc |
 |--------|------------|----------|-----------------|--------|------------|
-| US-001 | User registration | High | Unit + Integration | system | .launchcraft/designs/system/design.md |
-| US-002 | OAuth login | High | Unit + Integration + E2E | auth | .launchcraft/designs/auth/design.md |
-| US-010 | Create dashboard | High | Unit + E2E | dashboard | .launchcraft/designs/dashboard/design.md |
+| US-001 | User registration | High | Unit + Integration | system | .launchcraft/designs/US-001-user-registration/design.md |
+| US-002 | OAuth login | High | Unit + Integration + E2E | auth | .launchcraft/designs/US-002-oauth-login/design.md |
+| US-010 | Create dashboard | High | Unit + E2E | dashboard | .launchcraft/designs/US-010-create-dashboard/design.md |
 | ... | ... | ... | ... | ... | ... |
 
 **Total stories:** [N]
@@ -155,15 +155,15 @@ Then:
 
 ```
 Agent(subagent_type="tdd-test-writer") per domain, ALL in one message:
-  - prompt: "Domain: [domain], Design doc: .launchcraft/[domain]/design.md,
-             Stories: US-NNN to US-NNN, T-NNN range: T-001 to T-020,
+  - prompt: "Domain: [domain], Design docs: .launchcraft/designs/US-NNN-[slug]/design.md (for each story in domain),
+             Stories: .launchcraft/stories/[domain]/US-NNN-[slug].md, T-NNN range: T-001 to T-020,
              Test framework: [vitest/jest/pytest]"
   - run_in_background: true (except the last one)
 ```
 
 **Each worktree agent receives:**
-- The domain's design doc (`.launchcraft/[domain]/design.md`)
-- The domain's story files (`.launchcraft/[domain]/stories/US-*.md`)
+- The domain's design docs (`.launchcraft/designs/US-NNN-[slug]/design.md` for each story in the domain)
+- The domain's story files (`.launchcraft/stories/[domain]/US-*.md`)
 - The test framework config and shared helpers (already committed)
 - Instructions to write executable failing tests with US-NNN + T-NNN references
 - **Must commit its work before finishing** (so the branch has the changes)
@@ -217,7 +217,7 @@ Save to `.launchcraft/test-plans/YYYY-MM-DD-[topic]-test-plan.md`:
 
 **Date:** YYYY-MM-DD
 **Related Design Docs:** [list all design doc paths]
-**Related User Stories:** .launchcraft/*/stories/US-*.md
+**Related User Stories:** .launchcraft/stories/*/US-*.md
 **Status:** Red (all tests failing)
 **Test Framework:** [framework name]
 **Total Test Cases:** [N]

@@ -53,7 +53,7 @@ All steps must complete. No story may be left without a design doc.
 ## Input Contract Validation
 
 On start, verify:
-- [ ] Domain story folders exist at `.launchcraft/*/stories/US-*.md` (at least one domain with stories)
+- [ ] Domain story folders exist at `.launchcraft/stories/*/US-*.md` (at least one domain with stories)
 - [ ] Global index exists at `.launchcraft/user-stories-index.md`
 - [ ] Each story file has frontmatter: id, title, priority, size, persona, features, domain
 - [ ] Each story file has Acceptance Criteria section
@@ -65,7 +65,7 @@ If validation fails, list specific violations and stop.
 
 ### 1. Story Inventory & Domain Verification
 
-Stories are already organized by domain folders (from user-story skill). Read ALL story files from `.launchcraft/*/stories/US-*.md` and the global index at `.launchcraft/user-stories-index.md`.
+Stories are already organized by domain folders (from user-story skill). Read ALL story files from `.launchcraft/stories/*/US-*.md` and the global index at `.launchcraft/user-stories-index.md`.
 
 Verify the domain structure:
 
@@ -79,8 +79,8 @@ Verify the domain structure:
 | Domain | Folder | Stories | Design Doc |
 |--------|--------|---------|------------|
 | system | .launchcraft/stories/system/ | US-001, US-002, ... | .launchcraft/designs/system/design.md |
-| [Domain A] | .launchcraft/[domain-a]/stories/ | US-010, US-011, ... | .launchcraft/[domain-a]/design.md |
-| [Domain B] | .launchcraft/[domain-b]/stories/ | US-020, US-021, ... | .launchcraft/[domain-b]/design.md |
+| [Domain A] | .launchcraft/stories/[domain-a]/ | US-010, US-011, ... | .launchcraft/designs/US-NNN-[slug]/design.md |
+| [Domain B] | .launchcraft/stories/[domain-b]/ | US-020, US-021, ... | .launchcraft/designs/US-NNN-[slug]/design.md |
 | ... | ... | ... | ... |
 
 ### Ungrouped Stories (MUST be zero)
@@ -225,7 +225,7 @@ purpose: [what this image is for in the design]
 search_terms: [comma-separated keywords]      (real only — web search terms)
 license: [e.g., free, CC0, commercial-ok]     (real only — acceptable license type)
 -->
-![Alt text](.launchcraft/[domain]/assets/[filename].png)
+![Alt text](.launchcraft/designs/US-NNN-[slug]/assets/[filename].png)
 ```
 
 **When to use `type: generated`:**
@@ -327,7 +327,7 @@ For EACH generated image:
     prompt: [description from IMAGE_REQUEST],
     model: [selected model],
     aspect_ratio: [from IMAGE_REQUEST],
-    output_dir: ".launchcraft/[domain]/assets",
+    output_dir: ".launchcraft/designs/US-NNN-[slug]/assets",
     filename: [id from IMAGE_REQUEST]
   )
 ```
@@ -349,9 +349,9 @@ For EACH real image request:
    - Does the resolution meet `min_resolution`? **This is a hard requirement.** If the image is smaller than the minimum, skip it.
    - Is the license compatible? (check the source site's license terms)
 
-3. **Download** — Use WebFetch or Bash (`curl`) to download the chosen image to `.launchcraft/[domain]/assets/[filename].[ext]`.
+3. **Download** — Use WebFetch or Bash (`curl`) to download the chosen image to `.launchcraft/designs/US-NNN-[slug]/assets/[filename].[ext]`.
 
-4. **Record attribution** — Save a `.launchcraft/[domain]/assets/ATTRIBUTION.md` file:
+4. **Record attribution** — Save a `.launchcraft/designs/US-NNN-[slug]/assets/ATTRIBUTION.md` file:
    ```markdown
    # Image Attribution
 
@@ -435,10 +435,10 @@ After all images are verified (or retried):
 
 | US-NNN | Story Title | Priority | Design Doc | Covered? |
 |--------|------------|----------|------------|----------|
-| US-001 | User registration | High | .launchcraft/designs/system/design.md | YES |
-| US-002 | OAuth login | High | .launchcraft/designs/auth/design.md | YES |
-| US-010 | Create dashboard | High | .launchcraft/designs/dashboard/design.md | YES |
-| US-025 | Export CSV | Medium | .launchcraft/designs/data/design.md | YES |
+| US-001 | User registration | High | .launchcraft/designs/US-001-user-registration/design.md | YES |
+| US-002 | OAuth login | High | .launchcraft/designs/US-002-oauth-login/design.md | YES |
+| US-010 | Create dashboard | High | .launchcraft/designs/US-010-create-dashboard/design.md | YES |
+| US-025 | Export CSV | Medium | .launchcraft/designs/US-025-export-csv/design.md | YES |
 | ... | ... | ... | ... | ... |
 
 ### Coverage Summary
@@ -452,9 +452,9 @@ After all images are verified (or retried):
 
 ### 5. Save — Co-located with Stories
 
-Save each domain's design doc directly into its domain folder:
+Save each story's design doc into the designs folder:
 
-- `.launchcraft/[domain]/design.md` — one design doc per domain, co-located with `stories/`
+- `.launchcraft/designs/US-NNN-[slug]/design.md` — one design doc per story
 
 Save the global Story Coverage Matrix:
 

@@ -122,7 +122,7 @@ Each stage has its own folder. Stories by domain, designs by story (1 story = 1 
 - **Worktree agents can't call MCP**: Design doc worktree agents insert `IMAGE_REQUEST` placeholders. After merge, the main agent handles all image sourcing (MCP + web search), then dispatches verification agents.
 - **Verification loop**: After generation/download, a subagent reads each image to check quality. FAIL_TEXT → retry without text (cheaper model). FAIL_RESOLUTION → re-search or fall back to generated. Max 2 retries per image.
 - **Real images need resolution minimums**: Hero/banner = 1920×1080, inline = 1200×800, card = 800×600, icon = 512×512. Low-res images on retina displays look terrible.
-- **Real images need attribution**: Every `.launchcraft/[domain]/assets/` folder with real images must have `ATTRIBUTION.md` tracking source, license, and original URL.
+- **Real images need attribution**: Every `.launchcraft/designs/US-NNN-[slug]/assets/` folder with real images must have `ATTRIBUTION.md` tracking source, license, and original URL.
 - **Use real for photos, generated for graphics**: AI-generated photos of people/places look uncanny. Use `type: real` for any real-world photography. Use `type: generated` for illustrations, icons, patterns, conceptual graphics.
 
 ### Contract System

@@ -25,7 +25,7 @@ Before producing the differentiation strategy:
 4. Define a positioning that's defensible, not just "we're better"
 5. Get user sign-off on the strategic direction
 
-Do NOT let scope-planning start without a differentiation strategy.
+Do NOT let user-story start without a differentiation strategy.
 </HARD-GATE>
 
 ## Input Contract Validation
@@ -111,7 +111,7 @@ Identify 2-3 strategic bets — the things you'll invest in disproportionately:
 | [bet 2] | [why this matters] | [what could go wrong] | [how we'll know it's working] |
 ```
 
-These bets should directly inform which requirements get prioritized in scope-planning.
+These bets should directly inform which requirements get prioritized in user-story.
 
 ### 5. Refine Requirements
 

@@ -5,12 +5,13 @@ A Claude Code plugin that turns ideas into launched, production-grade products t
 ## Pipeline
 
 ```
-/spark → /research → /differentiation → /enhance → /differentiation (re-run) → accountant (pre-planning)
-  → /user-story → /design-doc → /frontend-design → /tdd-testing → /impl
-  → /experience-review → /test-report → /launch → accountant (post-launch)
+/spark → PM review → /research → PM review → /differentiation → PM review → /enhance → PM review
+  → /user-story → PM review → /design-doc → PM review → /frontend-design → PM review
+  → /tdd-testing → PM review → /impl → PM review → /experience-review → PM review
+  → /test-report → PM review → /launch
 ```
 
-The entire pipeline auto-runs from `/spark` to launch. Each stage validates its input, produces verified output, and automatically invokes the next stage. The only time the pipeline stops is during spark (to ask you about your idea) and launch (to collect your real API keys).
+The entire pipeline auto-runs from `/spark` to launch. After each stage, a PM (product-manager) agent reviews the output and decides whether to PROCEED or ROLLBACK. Each stage validates its input, produces verified output, and automatically invokes the next stage. The only time the pipeline stops is during spark (to ask you about your idea) and launch (to collect your real API keys).
 
 ## Install
 

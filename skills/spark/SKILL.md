@@ -52,16 +52,19 @@ Plain text questions are invisible to the user in some UI modes. AskUserQuestion
 
 ```
 CORRECT:
-  .launchcraft/stories/auth/US-001-login.md      ← one story per file
+  .launchcraft/stories/auth/US-001-login.md               ← one story per file
   .launchcraft/stories/auth/US-002-register.md
-  .launchcraft/designs/auth/design.md                     ← domain design doc
+  .launchcraft/designs/US-001-login/design.md             ← one design doc per story
+  .launchcraft/designs/US-002-register/design.md
   .launchcraft/stories/dashboard/US-010-view.md
-  .launchcraft/designs/dashboard/design.md
+  .launchcraft/designs/US-010-view/design.md
+  .launchcraft/designs/system/design.md                   ← global architecture (special)
 
 WRONG:
   .launchcraft/user-stories/all-stories.md        ← all in one file
   .launchcraft/user-stories/domain-1-auth.md      ← flat folder, not domain-based
   .launchcraft/designs/auth-design.md             ← wrong folder
+  .launchcraft/designs/auth/design.md             ← domain-based, not per-story
 ```
 
 Each story is a SEPARATE .md file with frontmatter. Each domain has its own folder with `stories/` and `design.md`.

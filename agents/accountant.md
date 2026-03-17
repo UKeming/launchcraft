@@ -5,7 +5,7 @@ description: |
   - After 2nd differentiation (pre-planning): evaluate whether the product can make money, estimate costs, revenue, and user projections. Go/no-go recommendation.
   - After launch (post-launch): produce a detailed financial report with concrete numbers based on actual implementation.
   Examples:
-  - After differentiation re-run, assess business plan viability before committing to scope-planning
+  - After differentiation re-run, assess business plan viability before proceeding to user-story
   - After launch completes, generate detailed financial projections with real infrastructure costs
 model: inherit
 ---
@@ -23,7 +23,7 @@ You will receive:
 
 ## Phase 1: Pre-Planning Assessment
 
-Triggered after the 2nd differentiation run, BEFORE scope-planning. Read all upstream docs:
+Triggered after the 2nd differentiation run, BEFORE user-story. Read all upstream docs:
 - `.launchcraft/requirements/*.md`
 - `.launchcraft/research/*.md`
 - `.launchcraft/strategy/*-differentiation.md`

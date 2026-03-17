@@ -121,10 +121,10 @@ Walk through the feature inventory by domain. For each domain, create the folder
 **Workflow per domain:**
 
 ```
-1. mkdir -p .launchcraft/[domain]/stories/
+1. mkdir -p .launchcraft/stories/[domain]/
 2. For each story in this domain:
    a. Compose the story content
-   b. Write it to .launchcraft/[domain]/stories/US-NNN-[slug].md (using the Write tool)
+   b. Write it to .launchcraft/stories/[domain]/US-NNN-[slug].md (using the Write tool)
    c. Move to next story
 ```
 
@@ -241,7 +241,7 @@ After saving, dispatch the **contract-validator** agent to independently verify 
 ```
 Agent: contract-validator
 Skill: user-story
-Output path: .launchcraft/user-stories-index.md + .launchcraft/*/stories/US-*.md
+Output path: .launchcraft/user-stories-index.md + .launchcraft/stories/*/US-*.md
 ```
 
 Do NOT proceed to design-doc until the validator returns PASS. If it returns FAIL, fix the violations and re-validate.
@@ -258,9 +258,9 @@ Once validator returns PASS, dispatch **product-manager** agent to review this s
 | "Nice-to-Have features don't need stories" | They do. They're in the requirements for a reason. Write them. |
 | "Error paths are obvious" | Then writing Given/When/Then for them takes 10 seconds. Do it. |
 | "I need to ask the user more questions" | Upstream docs answered everything. Requirements + research + differentiation + enhance = complete context. |
-| "I'll save all stories in one big file" | **NO.** Each story MUST be its own file: `.launchcraft/[domain]/stories/US-NNN-[slug].md`. One file per story. This is the whole point of the domain structure. |
+| "I'll save all stories in one big file" | **NO.** Each story MUST be its own file: `.launchcraft/stories/[domain]/US-NNN-[slug].md`. One file per story. This is the whole point of the domain structure. |
 | "Saving 40 files is too many writes" | 40 stories = 40 files. Use the Write tool 40 times. This is not optional. |
-| "I'll create the domain folders later" | Create folders NOW as you write each story. `mkdir -p .launchcraft/[domain]/stories/` then write each file. |
+| "I'll create the domain folders later" | Create folders NOW as you write each story. `mkdir -p .launchcraft/stories/[domain]/` then write each file. |
 | "The index file is enough, stories can be inline" | The index is a TABLE OF CONTENTS — it links to individual files. Stories must be separate files. |
 
 ## Evidence Gate
@@ -273,9 +273,9 @@ Before claiming this skill is complete, you must have:
 - [ ] Should-Have coverage = 100% (show percentage)
 - [ ] Nice-to-Have coverage ≥ 90% (show percentage)
 - [ ] Verified journey coverage for all personas (show checklist)
-- [ ] **Saved INDIVIDUAL story files** — each story in its own `.launchcraft/[domain]/stories/US-NNN-[slug].md` (show file count matching story count)
+- [ ] **Saved INDIVIDUAL story files** — each story in its own `.launchcraft/stories/[domain]/US-NNN-[slug].md` (show file count matching story count)
 - [ ] Saved global index at `.launchcraft/user-stories-index.md` (show path)
-- [ ] Verified file count: `ls .launchcraft/*/stories/US-*.md | wc -l` matches total story count (show command output)
+- [ ] Verified file count: `ls .launchcraft/stories/*/US-*.md | wc -l` matches total story count (show command output)
 - [ ] Dispatched contract-validator and received PASS (show the result)
 
 No evidence = not complete. Period.
@@ -289,5 +289,5 @@ No evidence = not complete. Period.
 | "30 stories covers a 60-feature product" | "62 stories for 60 features, 100% Must-Have coverage, 100% Should-Have coverage" |
 | Writing stories without checking requirements | Feature inventory first, then stories, then coverage matrix |
 | "Coverage matrix shows 80%, good enough" | Must-Have and Should-Have = 100% or you're not done |
-| Saving all stories in one file | Each story is its own `.md` file in `.launchcraft/[domain]/stories/` |
+| Saving all stories in one file | Each story is its own `.md` file in `.launchcraft/stories/[domain]/` |
 | Flat file structure (no domain folders) | Stories grouped by domain: `.launchcraft/stories/auth/`, `.launchcraft/stories/dashboard/`, etc. |

@@ -65,7 +65,7 @@ has_enh=false;  has enhanced && has_enh=true
 has_biz=false;  [ -d "${PROJECT_DIR}/.launchcraft/financials" ] && ls "${PROJECT_DIR}/.launchcraft/financials/"*-business-assessment.md &>/dev/null && has_biz=true
 has_ust=false;  has_file user-stories-index.md && has_ust=true
 if [ "$has_ust" = false ]; then
-    sc=$(find "${PROJECT_DIR}/.launchcraft" -path "*/stories/US-*.md" 2>/dev/null | head -1)
+    sc=$(find "${PROJECT_DIR}/.launchcraft/stories" -name "US-*.md" 2>/dev/null | head -1)
     [ -n "$sc" ] && has_ust=true
 fi
 has_des=false;  dc=$(find "${PROJECT_DIR}/.launchcraft" -maxdepth 2 -name "design.md" 2>/dev/null | head -1); [ -n "$dc" ] && has_des=true

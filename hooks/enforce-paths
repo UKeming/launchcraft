@@ -50,10 +50,10 @@ case "$FILE_PATH" in
 esac
 
 # Block flat .launchcraft/designs/xxx.md (no domain subfolder)
-# Allow: .launchcraft/designs/auth/design.md (has domain subfolder)
+# Allow: .launchcraft/designs/US-001-login/design.md (has subfolder)
 # Block: .launchcraft/designs/auth-design.md (flat, no subfolder)
 if echo "$FILE_PATH" | grep -qE '\.launchcraft/designs/[^/]+\.md$'; then
-    echo "BLOCKED: Design docs must be in domain subfolders. Use .launchcraft/designs/[domain]/design.md, not flat .launchcraft/designs/" >&2
+    echo "BLOCKED: Design docs must be in subfolders. Use .launchcraft/designs/US-NNN-[slug]/design.md, not flat .launchcraft/designs/" >&2
     exit 2
 fi
 
