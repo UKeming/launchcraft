@@ -29,22 +29,27 @@ Each skill validates its input on start and self-validates its output before sav
 ### research
 
 **Input:** Requirements doc from spark (`.launchcraft/requirements/*.md`)
-**Output:** `.launchcraft/research/YYYY-MM-DD-[product-name]-research.md`
-**Output must contain:**
-- Assumptions table extracted from requirements (at least 3 assumptions)
-- Market research with cited sources (at least 3 real sources)
-- Expanded competitive analysis beyond spark's initial scan (pricing, reviews, gaps)
-- **Feature Benchmark table**: each competitor's total feature count, categorized. Industry average feature count vs our current count. Gap number.
-- **Competitor UI screenshots** saved to `.launchcraft/research/screenshots/[competitor-name]/` (at least 3 competitors, 3+ pages each)
-- **UI Benchmark table**: UI patterns across competitors (global search, dark mode, keyboard shortcuts, etc.) with "We Should Have" column
-- **Average competitor page count** with our target page count
-- Assumption validation table with verdict and evidence per assumption
-- Business model validation with competitor pricing data
-- Growth channel research with evidence
-- Regulatory & compliance landscape assessment
-- Product-market fit assessment with evidence
-- Requirement adjustments section (validated, added, deprioritized, or removed)
-- Risk factors (market, technical, adoption, business model, regulatory)
+**Output:** `.launchcraft/research/` folder with multiple files:
+- `index.md` — summary with links to all research files
+- `assumptions.md` — assumption extraction + validation with verdicts
+- `competitors/[name].md` — deep dive per competitor (>= 5 competitors, each >= 100 lines, every feature counted)
+- `screenshots/[name]/` — Playwright screenshots per competitor (>= 3 pages each)
+- `feature-benchmark.md` — feature count comparison + industry average + gap number
+- `ui-benchmark.md` — UI pattern comparison with "We Should Have" column + average page count
+- `market-landscape.md` — market size, trends, funding (cited sources)
+- `business-model.md` — competitor pricing, willingness to pay, revenue models
+- `user-behavior.md` — pain points, feature requests from forums/reviews
+- `growth-channels.md` — acquisition strategies, CAC, viral potential
+- `regulatory.md` — compliance requirements, data protection
+- `technical-landscape.md` — available APIs, open-source, tech stacks
+- `risk-factors.md` — market, technical, adoption, business model risks
+- `requirement-adjustments.md` — features to add/elevate/deprioritize based on research
+**Output must satisfy:**
+- >= 5 competitor files with >= 100 lines each and full feature lists
+- Competitor screenshots (3+ pages each)
+- Feature benchmark with quantified gap
+- Every claim cited with source URL
+- Total research files >= 12
 
 ### differentiation
 

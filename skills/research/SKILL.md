@@ -13,19 +13,40 @@ Skip ALL "Review with User" steps. This is a continuous pipeline — you do NOT 
 **ALL questions to user → `AskUserQuestion` tool. NEVER output questions as plain text.**
 </PIPELINE-AUTO-RUN>
 
+<CRITICAL-OUTPUT-RULES>
+## OUTPUT: Multiple files, NOT one big report
+
+Research produces a FOLDER of files, not a single report. Each research dimension and each competitor gets its OWN file:
+
+```
+.launchcraft/research/
+  index.md                           ← summary + links to all files
+  assumptions.md                     ← assumption extraction + validation
+  competitors/
+    [competitor-1].md                ← deep dive per competitor (features, pricing, reviews)
+    [competitor-2].md
+    [competitor-3].md
+  screenshots/
+    [competitor-1]/landing.png       ← Playwright screenshots
+    [competitor-1]/dashboard.png
+  feature-benchmark.md               ← feature count comparison table
+  ui-benchmark.md                    ← UI patterns comparison
+  market-landscape.md                ← market size, trends, funding
+  business-model.md                  ← pricing analysis, willingness to pay
+  user-behavior.md                   ← pain points, feature requests, forums
+  growth-channels.md                 ← acquisition strategies, CAC
+  regulatory.md                      ← compliance, data protection
+  technical-landscape.md             ← APIs, open-source, tech stacks
+  risk-factors.md                    ← market, technical, adoption risks
+  requirement-adjustments.md         ← what to add/change based on research
+```
+
+**Parallelization:** Dispatch `research-analyst` sub-agents — one per competitor + one per research topic.
+</CRITICAL-OUTPUT-RULES>
+
 ## Overview
 
-Validate spark's requirements against real-world data before committing to scope. Spark captures vision; research confirms (or challenges) it with evidence. Building without validation = building what you imagine users want, not what they actually need.
-
-<HARD-GATE>
-Before producing the research report:
-1. Read the requirements doc from spark thoroughly
-2. Conduct web-based market research (search for real data, not assumptions)
-3. Validate or challenge every key assumption in the requirements
-4. Present findings and get user sign-off on adjusted direction
-
-Do NOT let differentiation start without validated requirements.
-</HARD-GATE>
+Deeply validate and expand the requirements from spark. Research is the foundation for everything downstream — thin research = shallow product. Every competitor must be analyzed in detail (every feature counted), every market claim must be evidenced.
 
 ## Input Contract Validation
 
@@ -39,215 +60,130 @@ If validation fails, stop and run `/spark` first.
 
 ### 1. Extract Assumptions
 
-Read the requirements doc and list every assumption that needs validation:
+Read the requirements doc and list every assumption that needs validation. Save to `.launchcraft/research/assumptions.md`:
 
 ```markdown
-## Assumptions to Validate
+# Assumptions to Validate
 
-| # | Assumption | Source | Risk if Wrong |
-|---|-----------|--------|---------------|
-| 1 | [e.g., "Users prefer X over Y"] | [Requirements §section] | [Impact] |
-| 2 | [e.g., "No existing tool does Z"] | [Competitive Landscape] | [Impact] |
-| 3 | [e.g., "Target users are willing to pay"] | [Value Prop] | [Impact] |
+| # | Assumption | Source | Risk if Wrong | Status |
+|---|-----------|--------|---------------|--------|
+| 1 | [assumption] | [Requirements §section] | [Impact] | PENDING |
 ```
 
-Present to user. Use `AskUserQuestion` tool to ask: "Are there other assumptions you'd like me to research?" (Skip in pipeline auto-run.)
+### 2. Identify Research Targets
 
-### 2. Market Research
+From the requirements doc, identify:
+- **Competitors:** at least 5 (spark had 3 — find more via web search)
+- **Research dimensions:** market, business model, user behavior, growth, regulatory, technical
 
-Use web search to gather real data on:
+### 3. Dispatch Parallel Research Agents
 
-**Market landscape:**
-- Market size and growth trends for this problem space
-- Recent funding/acquisitions in the space (signals of demand)
-- Industry reports or analyst coverage
+Create `.launchcraft/research/` and dispatch `research-analyst` sub-agents in parallel:
 
-**Competitive deep-dive:**
-- Expand beyond spark's 3 competitors — find more
-- Analyze pricing models, feature sets, user reviews
-- Identify gaps no competitor addresses
-- Check Product Hunt, G2, Capterra, Reddit for user sentiment
+```
+# One agent per competitor (3-5 agents):
+Agent(subagent_type="research-analyst") for each competitor:
+  - prompt: "Ultrathink. Research type: competitor
+             Competitor: [name] ([url])
+             Requirements: .launchcraft/requirements/*.md
+             Output: .launchcraft/research/competitors/[name].md
+             Screenshots: .launchcraft/research/screenshots/[name]/
+             Count EVERY feature. Screenshot EVERY key page."
+  - run_in_background: true
 
-**User behavior:**
-- How do people currently solve this problem? (forums, Reddit, Stack Overflow, Twitter)
-- What do they complain about with existing solutions?
-- What feature requests appear repeatedly?
-
-For each finding, cite the source.
-
-### 2.5. Competitor UI Analysis (Playwright Screenshots)
-
-**Visit each top competitor's live product and take screenshots.** This is NOT optional — the visual reference is critical for frontend-design and experience-review stages later.
-
-For EACH of the top 3-5 competitors:
-
-1. **Navigate to their website/app** using `browser_navigate`
-2. **Screenshot key pages** at 1440×900 (desktop):
-   - Landing/marketing page
-   - Login/signup page (if accessible)
-   - Dashboard/main view (use demo or free trial if available)
-   - Settings/profile page
-   - Any unique UI that differentiates them
-3. **Save screenshots** to `.launchcraft/research/screenshots/[competitor-name]/`
-   - `mkdir -p .launchcraft/research/screenshots/[competitor-name]/`
-   - Use `browser_take_screenshot` for each page
-4. **Analyze UI patterns** — for each competitor, document:
-
-```markdown
-### [Competitor Name] — UI Analysis
-
-**Screenshots:** .launchcraft/research/screenshots/[name]/
-
-**Layout patterns:**
-- Navigation style: [sidebar / top bar / hamburger / tabs]
-- Content layout: [single column / multi-column / bento grid / masonry]
-- Information density: [minimal / balanced / dense]
-
-**Key UI elements:**
-- [list every notable UI element: search bar, filter panel, drag-and-drop, etc.]
-
-**Design language:**
-- Color scheme: [describe]
-- Typography: [fonts used]
-- Iconography: [style]
-- Whitespace usage: [generous / tight / balanced]
-
-**Standout UX patterns:**
-- [what makes their UX good/unique?]
-- [any patterns we should adopt?]
-- [any patterns we should avoid?]
-
-**Page count:** [total distinct pages/views observed]
+# One agent per research dimension (6 agents):
+Agent(subagent_type="research-analyst") for each topic:
+  - prompt: "Research type: market | business-model | user-behavior | growth | regulatory | technical
+             Topic: [specific questions]
+             Requirements: .launchcraft/requirements/*.md
+             Output: .launchcraft/research/[topic].md
+             Cite every claim. Minimum 100 lines."
+  - run_in_background: true
 ```
 
-5. **Compile a UI Benchmark** across all competitors:
+Total: 9-11 agents running in parallel. Each produces ONE deep file.
 
+### 4. After All Agents Complete — Synthesize
+
+Read all research files and produce synthesis files:
+
+**Feature Benchmark** (`.launchcraft/research/feature-benchmark.md`):
 ```markdown
-## UI Benchmark Summary
+# Feature Benchmark
 
-| Pattern | Competitor A | Competitor B | Competitor C | We Should Have |
-|---------|-------------|-------------|-------------|----------------|
-| Global search (Cmd+K) | ✓ | ✓ | ✗ | ✓ (standard) |
-| Dark mode | ✓ | ✓ | ✓ | ✓ (table stakes) |
-| Keyboard shortcuts | ✓ | ✗ | ✓ | ✓ |
-| Drag-and-drop | ✓ | ✓ | ✗ | ✓ |
-| Multiple view modes | ✓ (3) | ✓ (2) | ✗ | ✓ |
-| ... | ... | ... | ... | ... |
+| Competitor | Total Features | Categories | Key Strengths |
+|------------|---------------|------------|---------------|
+| [name] | [N] | [list] | [strengths] |
+
+**Industry average:** [N] features
+**Our current requirements:** [M] features
+**Gap:** [N - M] features → enhance must close this gap
+```
+
+**UI Benchmark** (`.launchcraft/research/ui-benchmark.md`):
+```markdown
+# UI Benchmark
+
+| Pattern | Comp A | Comp B | Comp C | We Should Have |
+|---------|--------|--------|--------|----------------|
+| Global search | ✓ | ✓ | ✗ | ✓ (standard) |
 
 **Average competitor page count:** [N]
-**Our target page count:** >= [N]
+**Our target:** >= [N]
 ```
 
-This UI benchmark flows directly to frontend-design as the visual reference.
+**Assumption Validation** — update `.launchcraft/research/assumptions.md` with verdicts from research findings.
 
-### 3. Business Model Validation
-
-Research the monetization landscape:
-
-- What revenue models do competitors use? (subscription tiers, freemium, ads, usage-based)
-- What do users actually pay? (search pricing pages, compare tiers)
-- Is there willingness to pay for this? (Reddit, forums — "I'd pay for X if it did Y")
-- What's the average revenue per user in this space? (analyst reports, funding data)
-- Are there successful open-source alternatives? (affects willingness to pay)
-
-### 4. Growth Channel Research
-
-Research how products in this space acquire users:
-
-- Where do target users hang out? (communities, forums, Slack/Discord groups, conferences)
-- What content/SEO strategies do competitors use? (blog, YouTube, social media)
-- Are there marketplace/platform distribution opportunities? (app stores, plugin ecosystems, integrations)
-- What's the typical customer acquisition cost in this space?
-- Is there evidence of organic/viral growth in competitor products?
-
-### 5. Regulatory & Compliance Landscape
-
-Research regulatory requirements:
-
-- What data protection regulations apply? (GDPR, CCPA, HIPAA)
-- Are there industry-specific compliance requirements?
-- What accessibility standards must be met? (WCAG 2.1, Section 508)
-- Are there content moderation or liability considerations?
-- How do competitors handle compliance? (privacy policies, data residency)
-
-### 6. Technical Landscape
-
-Research available tools, APIs, and infrastructure:
-
-- What APIs/services exist that could accelerate development?
-- Are there open-source solutions to build on?
-- What are the technical constraints or risks?
-- What tech stack choices do competitors make? (check job postings, tech blogs)
-
-### 7. Validate Assumptions
-
-For each assumption from Step 1, present evidence:
-
+**Requirement Adjustments** (`.launchcraft/research/requirement-adjustments.md`):
 ```markdown
-## Assumption Validation
+# Requirement Adjustments Based on Research
 
-| # | Assumption | Verdict | Evidence |
-|---|-----------|---------|----------|
-| 1 | [assumption] | ✅ Confirmed / ⚠️ Partially / ❌ Challenged | [what you found + source] |
+## Features to ADD (discovered from competitor analysis + user pain points)
+| # | Feature | Source | Priority | Rationale |
+|---|---------|--------|----------|-----------|
+
+## Features to ELEVATE (from Should/Nice to Must)
+## Features to DEPRIORITIZE (evidence shows low demand)
+## Risks Identified
 ```
 
-### 8. Synthesize Findings
+**Research Index** (`.launchcraft/research/index.md`):
+```markdown
+# Research Index
 
-Produce actionable insights:
+**Date:** YYYY-MM-DD
+**Requirements:** [path]
+**Competitors analyzed:** [N]
+**Total research files:** [N]
+**Feature benchmark gap:** [N] features
 
-**Market fit assessment:**
-- Is there real demand for this? (evidence-based answer)
-- What's the unique angle that existing solutions miss?
-- What's the realistic target audience size?
+## Files
+- [assumptions.md](assumptions.md)
+- [competitors/](competitors/) — [N] competitor deep-dives
+- [feature-benchmark.md](feature-benchmark.md)
+- [ui-benchmark.md](ui-benchmark.md)
+- [market-landscape.md](market-landscape.md)
+- [business-model.md](business-model.md)
+- [user-behavior.md](user-behavior.md)
+- [growth-channels.md](growth-channels.md)
+- [regulatory.md](regulatory.md)
+- [technical-landscape.md](technical-landscape.md)
+- [risk-factors.md](risk-factors.md)
+- [requirement-adjustments.md](requirement-adjustments.md)
+```
 
-**Business model assessment:**
-- Is the proposed revenue model validated? (evidence-based answer)
-- What pricing tier/structure makes sense based on competitor pricing?
-- Willingness to pay evidence (quotes, survey data, competitor pricing)
+### 5. Review (standalone only)
 
-**Growth strategy assessment:**
-- What acquisition channels have evidence of working in this space?
-- Is viral/organic growth realistic? (evidence)
-- What's the estimated cost of user acquisition?
-
-**Compliance assessment:**
-- What regulations apply and what's the compliance burden?
-- Are there compliance gaps competitors exploit?
-
-**Requirement adjustments:**
-- Which requirements are validated by research?
-- Which should be added based on user pain points discovered?
-- Which should be deprioritized or removed?
-- Any pivot suggestions?
-
-**Risk factors:**
-- Market risks (competitors, timing, demand)
-- Technical risks (complexity, dependencies, feasibility)
-- User adoption risks (switching costs, behavior change needed)
-- Regulatory risks (compliance burden, data protection)
-- Business model risks (pricing sensitivity, willingness to pay)
-
-### 9. Review with User
-
-Present the full research report. Use `AskUserQuestion` tool to ask: (Skip in pipeline auto-run — auto-approve and proceed.)
-- Do these findings change your vision?
-- Should we adjust requirements before scoping?
-- Any areas you want me to dig deeper?
-
-Iterate until the user approves the research and any requirement adjustments.
-
-### 10. Save
-
-Save to `.launchcraft/research/YYYY-MM-DD-[product-name]-research.md`.
+Use `AskUserQuestion` tool to ask: "Research complete — any areas to dig deeper?" (Skip in pipeline auto-run.)
 
 ## Output Validation
 
-After saving, dispatch the **contract-validator** agent to independently verify the output:
+After saving all files, dispatch the **contract-validator** agent:
 
 ```
 Agent: contract-validator
 Skill: research
-Output path: [the file you just saved]
+Output path: .launchcraft/research/
 ```
 
 Do NOT proceed to differentiation until the validator returns PASS.
@@ -257,38 +193,24 @@ Once the validator returns PASS, run `echo "differentiation" > .launchcraft/.pip
 
 | Thought | Reality |
 |---------|---------|
-| "The user already did competitive analysis in spark" | Spark's 3-competitor table is a starting point. Research goes deep — pricing, reviews, gaps, user sentiment. |
-| "Web search is unreliable" | Unreliable data > no data. Cite sources, let user judge. |
-| "This slows down the pipeline" | 1 hour of research saves weeks of building the wrong thing. |
-| "The market is obvious" | If it's obvious, research will confirm it quickly. If not, you just saved the project. |
-| "Technical research isn't needed yet" | Discovering a critical API doesn't exist AFTER designing = rework. Check now. |
-| "I can just summarize what I already know" | Use web search. Real data, not training data. Your knowledge has a cutoff date. |
+| "3 competitors is enough" | Find at least 5. The 4th and 5th often reveal the most interesting gaps. |
+| "I can summarize competitor features from memory" | Use web search. Visit their actual website. Count features from their pricing/features page. Training data is stale. |
+| "One big research report is fine" | Each dimension gets its own file = each agent goes DEEP. One big file = every section is thin. |
+| "Screenshots are optional" | Screenshots are MANDATORY for competitor research. Frontend-design needs visual reference. |
+| "100 lines per file is a lot" | A proper competitor analysis with feature list, pricing, reviews, and UI analysis is easily 150+ lines. |
+| "Market research doesn't need citations" | Uncited research is fiction. Every claim needs a source URL. |
+| "I already know this market" | You know training data. The market changed yesterday. Search the web. |
 
 ## Evidence Gate
 
 Before claiming this skill is complete, you must have:
-- [ ] Listed assumptions extracted from requirements (show table)
-- [ ] Conducted web searches and cited real sources (show search results/URLs)
-- [ ] Analyzed competitive landscape beyond spark's initial scan (show expanded analysis)
-- [ ] Validated each assumption with evidence (show validation table)
-- [ ] Assessed product-market fit with evidence (show assessment)
-- [ ] Identified requirement adjustments based on findings (show adjustments)
-- [ ] Validated business model with competitor pricing data (show analysis)
-- [ ] Researched growth channels with evidence (show findings)
-- [ ] Assessed regulatory/compliance landscape (show assessment)
-- [ ] Listed risk factors including business model and regulatory risks (show risks)
-- [ ] Received user sign-off on research findings (show confirmation) — **auto-approved in pipeline auto-run**
-- [ ] Saved the file (show path)
+- [ ] Assumptions extracted and saved (show file)
+- [ ] >= 5 competitor deep-dive files in `.launchcraft/research/competitors/` (show file list)
+- [ ] Competitor screenshots in `.launchcraft/research/screenshots/` (show file list)
+- [ ] Feature benchmark with competitor feature counts and gap number (show table)
+- [ ] UI benchmark with pattern comparison (show table)
+- [ ] All 6 research dimension files saved (show file list)
+- [ ] Requirement adjustments file with features to add (show table)
+- [ ] Research index file linking all files (show path)
 - [ ] Dispatched contract-validator and received PASS (show result)
-
-No evidence = not complete. Period.
-
-## Anti-Patterns
-
-| Bad | Good |
-|-----|------|
-| "The market is large and growing" (no numbers) | "Bookmark management SaaS market: $X.XB, growing Y% YoY (Source: [report])" |
-| "Users want this feature" (no evidence) | "Feature X requested in 47 Reddit threads, top complaint on G2 for competitor Y" |
-| "No real competitors" | "Direct: [A], [B]. Indirect: [C], [D]. DIY: spreadsheets, browser bookmarks" |
-| Skipping technical research | "Competitor uses [API]. Alternative: [open-source lib]. Risk: rate limits on free tier." |
-| Copy-pasting spark's competitive table | Deep-dive with pricing, reviews, feature matrix, user sentiment |
+- [ ] Received user sign-off on research findings (show confirmation) — **auto-approved in pipeline auto-run**

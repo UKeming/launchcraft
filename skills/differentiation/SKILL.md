@@ -32,7 +32,7 @@ Do NOT let scope-planning start without a differentiation strategy.
 
 On start, verify:
 - [ ] Requirements doc exists at `.launchcraft/requirements/*.md`
-- [ ] Research report exists at `.launchcraft/research/*.md`
+- [ ] Research folder exists at `.launchcraft/research/` with `index.md` and competitor files
 - [ ] Research report has: Competitive analysis, Assumption validation, Product-market fit assessment
 
 If validation fails, stop and run `/research` first.

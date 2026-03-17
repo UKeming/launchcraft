@@ -50,7 +50,7 @@ Convert enhanced requirements into comprehensive, traceable user stories. Every 
 
 On start, verify:
 - [ ] Requirements doc exists at `.launchcraft/requirements/*.md`
-- [ ] Research report exists at `.launchcraft/research/*.md`
+- [ ] Research folder exists at `.launchcraft/research/` with `index.md` and competitor files
 - [ ] Differentiation strategy exists at `.launchcraft/strategy/*-differentiation.md`
 - [ ] Enhancement record exists at `.launchcraft/enhanced/*.md`
 

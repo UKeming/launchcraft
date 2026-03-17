@@ -24,7 +24,7 @@ Do NOT let user-story or design-doc start without a scope plan.
 On start, verify:
 - [ ] Requirements doc exists at `.launchcraft/requirements/*.md`
 - [ ] Requirements doc has: Problem Statement, Target Users, Functional Requirements (Must/Should/Nice)
-- [ ] Research report exists at `.launchcraft/research/*.md`
+- [ ] Research folder exists at `.launchcraft/research/` with `index.md` and competitor files
 - [ ] Differentiation strategy exists at `.launchcraft/strategy/*-differentiation.md`
 
 If requirements missing, run `/spark` first.

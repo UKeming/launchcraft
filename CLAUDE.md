@@ -7,6 +7,7 @@ Claude Code plugin: end-to-end product development pipeline via skills, MCP, age
 spark → research → differentiation → enhance → differentiation (re-run) → accountant (pre-planning) → user-story → design-doc → frontend-design → tdd-testing → impl → experience-review → test-report → launch → accountant (post-launch)
 
 ### Agents dispatched during pipeline:
+- **research-analyst** — parallel per competitor + per research dimension, produces one deep file each (spawned by research skill)
 - **user-story-writer** — parallel per domain, writes individual story files (spawned by user-story skill)
 - **design-doc-writer** — parallel per feature domain, writes design.md + generates images via nano-banana MCP (spawned by design-doc skill)
 - **tdd-test-writer** — parallel per domain, writes failing test files (spawned by tdd-testing skill)
