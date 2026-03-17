@@ -138,6 +138,33 @@ Accepts any of:
 
 ## Process
 
+### 0. Project Type Selection (FIRST — before anything else)
+
+**Use `AskUserQuestion` to ask the user what kind of project this is:**
+
+```
+Question: "What type of project is this?"
+Options:
+  - Commercial SaaS — Full-scale product with monetization, billing, admin, 50+ features
+  - Open Source Tool — Community project, no monetization, focus on docs + contributor experience
+  - Internal Tool — Company-internal, no public launch, integration-focused
+  - Personal / Hobby — Smaller scope, faster iteration, learn or solve a personal problem
+```
+
+**Save the project type in the requirements doc header.** This choice affects the entire pipeline:
+
+| Aspect | Commercial SaaS | Open Source | Internal Tool | Personal/Hobby |
+|--------|----------------|-------------|---------------|----------------|
+| Feature target | 50-70+ | 20-40 | 15-30 | 10-20 |
+| Page target | 15-25 | 8-15 | 5-10 | 4-8 |
+| Research depth | Full (5+ competitors, UI screenshots) | Moderate (3 competitors, similar projects) | Light (existing internal tools) | Minimal (quick feasibility) |
+| Business model | Required (pricing, billing) | Optional (sponsors, donations) | N/A | N/A |
+| Accountant | Yes (pre-planning + post-launch) | Skip | Skip | Skip |
+| Enhance target | >= 50 features | >= 25 features | >= 15 features | >= 10 features |
+| Experience review passes | >= 2 | >= 2 | >= 1 | >= 1 |
+| Launch target | Cloudflare + custom domain | GitHub + npm/PyPI | Internal deploy | localhost / Vercel |
+| Real data audit | Full (all API keys) | Partial (core APIs only) | N/A | Optional |
+
 ### 1. Capture Raw Need
 
 Record exactly what the user said. Then ask probing questions **one at a time** using the **AskUserQuestion tool** (NEVER just output a question as text — always use the tool with structured options):
@@ -148,22 +175,22 @@ Record exactly what the user said. Then ask probing questions **one at a time** 
 - What existing solutions do people use? Why aren't they good enough?
 
 **Scope:**
-- What's the MVP — the smallest thing that delivers value?
+- What are the must-have features for v1?
 - What's explicitly OUT of scope for v1?
-- What's the dream v2 if v1 succeeds?
+- What would make this a best-in-class product?
 
 **Users:**
 - Who are the primary users? Secondary users?
 - What's their current workflow without this product?
 - What would make them switch to this product?
 
-**Business model:**
+**Business model (Commercial SaaS only — skip for other types):**
 - How will this make money? (subscription, freemium, ads, usage-based, one-time, open-core?)
 - Who is the paying customer? (end user, business, platform?)
 - What's the price sensitivity? Are alternatives free or paid?
 
-**Growth & distribution:**
-- How will users discover this product? (organic search, word-of-mouth, community, paid ads, partnerships?)
+**Growth & distribution (Commercial SaaS / Open Source only):**
+- How will users discover this product?
 - Is there a viral or network effect built into the product?
 - What's the switching cost from existing solutions?
 
@@ -171,7 +198,7 @@ Record exactly what the user said. Then ask probing questions **one at a time** 
 - What are the core data entities and their relationships?
 - Are there real-time requirements (live updates, collaboration, chat)?
 - What third-party integrations are needed?
-- Are there regulatory or compliance requirements (GDPR, HIPAA, SOC2)?
+- Are there regulatory or compliance requirements? (Commercial SaaS: GDPR, HIPAA, SOC2)
 
 **Success:**
 - How do you measure success? (users, revenue, engagement, other?)

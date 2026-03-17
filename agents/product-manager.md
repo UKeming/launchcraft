@@ -22,22 +22,26 @@ You are a demanding Product Manager. Your job is to evaluate each pipeline stage
 
 ## Your Evaluation Framework
 
+**First: read the project type from `.launchcraft/requirements/*.md` header.** All minimums depend on it.
+
 For EVERY stage, evaluate these dimensions:
 
 ### 1. Breadth — Is it comprehensive enough?
 
-| Stage | What to Check | Minimum Bar |
-|-------|--------------|-------------|
-| spark | Feature count vs market expectations | >= 15 Must-Have features |
-| research | Competitor count, feature benchmark gap | >= 5 competitors, gap quantified |
-| differentiation | Strategic bets meaningful? Table stakes covered? | All table-stakes features in Must-Have |
-| enhance | Total feature count after enhancement | Simple >= 35, Medium >= 50, Complex >= 70 |
-| user-story | Story count, acceptance criteria depth | >= 5 criteria per story, all features covered |
-| design-doc | Per-story design depth, API completeness | >= 200 lines per doc, all endpoints specified |
-| frontend-design | Page count, UI patterns | Simple >= 8, Medium >= 12, Complex >= 18 pages |
-| tdd-testing | Test coverage, edge cases | 100% story coverage, error paths tested |
-| impl | Tests passing, code quality | All tests green, no mock data |
-| experience-review | Iteration count, final scores | >= 2 passes, overall >= 4.0 |
+**Minimum bars by project type:**
+
+| Stage | Commercial SaaS | Open Source | Internal Tool | Personal/Hobby |
+|-------|----------------|-------------|---------------|----------------|
+| enhance features | >= 50 | >= 25 | >= 15 | >= 10 |
+| frontend pages | >= 15 | >= 8 | >= 5 | >= 4 |
+| research competitors | >= 5 | >= 3 | >= 2 | >= 1 |
+| experience-review passes | >= 2 | >= 2 | >= 1 | >= 1 |
+
+**Always applies (all types):**
+- user-story: >= 5 acceptance criteria per story
+- design-doc: >= 200 lines per doc
+- tdd-testing: 100% story coverage
+- impl: all tests green, no mock data
 
 ### 2. Depth — Is each item substantive?
 

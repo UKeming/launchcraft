@@ -15,13 +15,20 @@ Skip ALL user approval steps. This is a continuous pipeline — you do NOT stop 
 
 ## Philosophy
 
-**A user types one sentence. We deliver a production-grade commercial application.**
+**A user types one sentence. We deliver a production-grade application.**
 
-This skill is the engine that transforms a simple idea into a comprehensive, monetizable, enterprise-ready product. The user said "build me X" — our job is to imagine every feature that X needs to compete with established players, retain users, and make money.
+Enhancement depth depends on the **project type** set in the requirements doc:
 
-Think like a product lead at a Series B startup: you've raised $20M, you have 30 engineers, and you need to ship a product that wins market share. What does that product look like? THAT is the level of feature richness we aim for.
+| Project Type | Enhancement Mindset | Feature Target |
+|-------------|-------------------|----------------|
+| **Commercial SaaS** | Series B startup — win market share, make money | >= 50 features |
+| **Open Source** | Popular OSS — solve the problem well, great docs, contributor-friendly | >= 25 features |
+| **Internal Tool** | Company tool — integrations, reliability, minimal polish | >= 15 features |
+| **Personal/Hobby** | Side project — core features done right | >= 10 features |
 
-**Do NOT be conservative.** Do NOT trim scope. The entire point of this plugin is that a simple sentence becomes a complex commercial app. If the output isn't dramatically richer than the input, this skill failed.
+**Read the project type from `.launchcraft/requirements/*.md` before starting.** Default: Commercial SaaS.
+
+**Do NOT be conservative for your project type.** Aim for the UPPER range. A Commercial SaaS with 15 features is under-scoped. An Open Source tool with 8 features is a toy.
 
 <HARD-GATE>
 Before proposing enhancements:

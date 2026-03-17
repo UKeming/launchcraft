@@ -73,7 +73,7 @@ Each skill validates its input on start and self-validates its output before sav
 - User Story Opportunities Identified table with persona and journey stage
 - Competitor Deep-Dive section with 3+ competitors' feature analysis
 - Enhancement Metrics (features before/after, net additions)
-- **Minimum feature count after enhance: Simple >= 35, Medium >= 50, Complex >= 70**
+- **Minimum feature count by project type: Commercial SaaS >= 50, Open Source >= 25, Internal Tool >= 15, Personal/Hobby >= 10**
 - Updated requirements doc at `.launchcraft/requirements/*.md` with approved features added
 
 ### frontend-design
@@ -88,7 +88,7 @@ Each skill validates its input on start and self-validates its output before sav
 - Typography section with display + body font choices (NOT Inter, Roboto, or Arial)
 - Color Palette section with primary, secondary, accent, background, text colors
 - Page Inventory table matching design doc's UI/UX section
-- **Minimum page count: Simple >= 8, Medium >= 12, Complex >= 18** (includes standard pages: landing, auth pages, dashboard, settings sub-pages, error pages, onboarding)
+- **Minimum page count by project type: Commercial SaaS >= 15, Open Source >= 8, Internal Tool >= 5, Personal/Hobby >= 4**
 - Component Library listing reusable components
 - Responsive Strategy section
 - Pages Ready for Testing section with dev server command, base URL, and full page list
