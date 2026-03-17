@@ -78,11 +78,14 @@ Agent(subagent_type="experience-reviewer"):
   prompt: "App type: [type]
            Base URL: [url]
            Requirements: .launchcraft/requirements/*.md
-           User stories: .launchcraft/*/stories/US-*.md
-           Design docs: .launchcraft/*/design.md
+           User stories: .launchcraft/stories/*/US-*.md
+           Design docs: .launchcraft/designs/*/design.md
            API contract: .launchcraft/api-contract.yaml
            Frontend design: .launchcraft/frontend-design/*.md
-           Review, fix, and loop until APPROVED.
+           MINIMUM 2 review passes. Do NOT approve on first pass.
+           Generate P0/P1/P2 improvement suggestions after each pass.
+           Implement P0+P1 fixes, rebuild, re-review.
+           Score must be >= 4.0 overall, >= 3 per category.
            Save report to .launchcraft/experience-review/"
 ```
 

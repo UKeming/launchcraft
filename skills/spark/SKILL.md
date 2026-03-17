@@ -47,6 +47,36 @@ After each skill completes + contract-validator PASS → call the Skill tool for
 - Any "should we...?" or "which do you prefer...?" question
 
 Plain text questions are invisible to the user in some UI modes. AskUserQuestion renders as interactive buttons. If you write a question without AskUserQuestion, the user cannot answer it.
+
+### 5. User stories and design docs MUST use domain folder structure
+
+```
+CORRECT:
+  .launchcraft/stories/auth/US-001-login.md      ← one story per file
+  .launchcraft/stories/auth/US-002-register.md
+  .launchcraft/designs/auth/design.md                     ← domain design doc
+  .launchcraft/stories/dashboard/US-010-view.md
+  .launchcraft/designs/dashboard/design.md
+
+WRONG:
+  .launchcraft/user-stories/all-stories.md        ← all in one file
+  .launchcraft/user-stories/domain-1-auth.md      ← flat folder, not domain-based
+  .launchcraft/designs/auth-design.md             ← wrong folder
+```
+
+Each story is a SEPARATE .md file with frontmatter. Each domain has its own folder with `stories/` and `design.md`.
+
+### 6. REAL data only — NO fake data, NO placeholder API keys
+
+**NEVER use mock data, placeholder API keys, or example URLs in the product.** This includes:
+- No `sk-test-xxx`, `YOUR_API_KEY`, `placeholder`, `dummy`, `example.com`
+- No `jsonplaceholder.typicode.com`, `mockapi.io`, `localhost` as production endpoints
+- No lorem ipsum content, no "John Doe" sample users
+- No hardcoded demo data that isn't real
+
+**If the product needs an API key** (Stripe, OpenAI, database URL, etc.), use `AskUserQuestion` to ask the user for the REAL key immediately. Do NOT proceed with a fake key. Do NOT substitute your own value. Do NOT skip the integration.
+
+This applies to ALL stages: impl, frontend-design, experience-review, and launch. Not just launch.
 </MANDATORY-RULES>
 
 ## FULL PIPELINE AUTO-RUN

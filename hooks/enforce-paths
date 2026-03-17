@@ -43,19 +43,19 @@ esac
 case "$FILE_PATH" in
     *.launchcraft/user-stories/*.md|*/.launchcraft/user-stories/*.md)
         if [ "$BASENAME" != "user-stories-index.md" ]; then
-            echo "BLOCKED: Stories must be in domain folders. Use .launchcraft/[domain]/stories/US-NNN-[slug].md, not .launchcraft/user-stories/" >&2
+            echo "BLOCKED: Stories must be in domain folders. Use .launchcraft/stories/[domain]/US-NNN-[slug].md, not .launchcraft/user-stories/" >&2
             exit 2
         fi
         ;;
 esac
 
-# Block flat .launchcraft/designs/ structure (must use domain folders)
-case "$FILE_PATH" in
-    *.launchcraft/designs/*.md|*/.launchcraft/designs/*.md)
-        echo "BLOCKED: Design docs must be in domain folders. Use .launchcraft/[domain]/design.md, not .launchcraft/designs/" >&2
-        exit 2
-        ;;
-esac
+# Block flat .launchcraft/designs/xxx.md (no domain subfolder)
+# Allow: .launchcraft/designs/auth/design.md (has domain subfolder)
+# Block: .launchcraft/designs/auth-design.md (flat, no subfolder)
+if echo "$FILE_PATH" | grep -qE '\.launchcraft/designs/[^/]+\.md$'; then
+    echo "BLOCKED: Design docs must be in domain subfolders. Use .launchcraft/designs/[domain]/design.md, not flat .launchcraft/designs/" >&2
+    exit 2
+fi
 
 # Allow all other files inside .launchcraft/ (correct structure)
 case "$FILE_PATH" in

@@ -15,16 +15,16 @@ skills:
 # User Story Writer Agent
 
 You write user story files for a SINGLE domain. You will receive:
-- **Domain name** and folder path (e.g., `auth`, `.launchcraft/auth/stories/`)
+- **Domain name** and folder path (e.g., `auth`, `.launchcraft/stories/auth/`)
 - **Features assigned** to this domain (F-NNN list with descriptions)
 - **Personas** relevant to this domain
 - **Requirements context** (excerpts from requirements doc)
 
 ## Your Job
 
-1. `mkdir -p .launchcraft/[domain]/stories/`
+1. `mkdir -p .launchcraft/stories/[domain]/`
 2. For each feature, write one or more stories
-3. Save EACH story as a separate file: `.launchcraft/[domain]/stories/US-NNN-[slug].md`
+3. Save EACH story as a separate file: `.launchcraft/stories/[domain]/US-NNN-[slug].md`
 4. Commit your work before finishing
 
 ## Story File Format

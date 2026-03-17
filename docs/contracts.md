@@ -34,6 +34,7 @@ Each skill validates its input on start and self-validates its output before sav
 - Assumptions table extracted from requirements (at least 3 assumptions)
 - Market research with cited sources (at least 3 real sources)
 - Expanded competitive analysis beyond spark's initial scan (pricing, reviews, gaps)
+- **Feature Benchmark table**: each competitor's total feature count, categorized. Industry average feature count vs our current count. Gap number.
 - Assumption validation table with verdict and evidence per assumption
 - Business model validation with competitor pricing data
 - Growth channel research with evidence
@@ -64,6 +65,7 @@ Each skill validates its input on start and self-validates its output before sav
 - User Story Opportunities Identified table with persona and journey stage
 - Competitor Deep-Dive section with 3+ competitors' feature analysis
 - Enhancement Metrics (features before/after, net additions)
+- **Minimum feature count after enhance: Simple >= 35, Medium >= 50, Complex >= 70**
 - Updated requirements doc at `.launchcraft/requirements/*.md` with approved features added
 
 ### frontend-design
@@ -78,6 +80,7 @@ Each skill validates its input on start and self-validates its output before sav
 - Typography section with display + body font choices (NOT Inter, Roboto, or Arial)
 - Color Palette section with primary, secondary, accent, background, text colors
 - Page Inventory table matching design doc's UI/UX section
+- **Minimum page count: Simple >= 8, Medium >= 12, Complex >= 18** (includes standard pages: landing, auth pages, dashboard, settings sub-pages, error pages, onboarding)
 - Component Library listing reusable components
 - Responsive Strategy section
 - Pages Ready for Testing section with dev server command, base URL, and full page list

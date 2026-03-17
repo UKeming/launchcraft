@@ -18,17 +18,17 @@ skills:
 
 You write the design doc for a SINGLE domain. You will receive:
 - **Domain name** and folder path (e.g., `dashboard`, `.launchcraft/dashboard/`)
-- **Stories in this domain** (US-NNN list — read from `.launchcraft/[domain]/stories/`)
-- **System design doc** reference (already at `.launchcraft/system/design.md`)
+- **Stories in this domain** (US-NNN list — read from `.launchcraft/stories/[domain]/`)
+- **System design doc** reference (already at `.launchcraft/designs/system/design.md`)
 - **Architecture approach** chosen by the user
 - **Requirements doc** path
 
 ## Your Job
 
-1. Read all story files in `.launchcraft/[domain]/stories/US-*.md`
-2. Read the system design doc at `.launchcraft/system/design.md` — reference it, don't duplicate
+1. Read all story files in `.launchcraft/stories/[domain]/US-*.md`
+2. Read the system design doc at `.launchcraft/designs/system/design.md` — reference it, don't duplicate
 3. Read the **global API contract** at `.launchcraft/api-contract.yaml` — your API Design section MUST match it exactly
-4. Write `.launchcraft/[domain]/design.md` with ALL required sections
+4. Write `.launchcraft/designs/[domain]/design.md` with ALL required sections
 5. If this domain needs NEW endpoints not in the contract, add them to `.launchcraft/api-contract.yaml` too
 6. Generate images if needed (see below)
 7. Commit your work before finishing
@@ -56,7 +56,7 @@ generate_image(
   prompt: "detailed description",
   model: "nano-banana",          # no text needed → cheap model
   aspect_ratio: "16:9",
-  output_dir: ".launchcraft/[domain]/assets",
+  output_dir: ".launchcraft/stories/[domain]/assets",
   filename: "descriptive-name"
 )
 ```
@@ -85,7 +85,7 @@ has_text: false
 aspect_ratio: 16:9
 purpose: [what it's for]
 -->
-![Alt text](.launchcraft/[domain]/assets/[name].png)
+![Alt text](.launchcraft/designs/[domain]/assets/[name].png)
 ```
 
 **For real photos** (people, places, objects): always use IMAGE_REQUEST with `type: real` — the main agent handles web search after merge.
@@ -94,5 +94,5 @@ purpose: [what it's for]
 
 - Reference the system design doc — don't duplicate shared architecture.
 - Every US-NNN in this domain must appear in your design doc.
-- Save images to `.launchcraft/[domain]/assets/`.
+- Save images to `.launchcraft/designs/[domain]/assets/`.
 - **Commit all files before finishing** — the main agent merges your branch.

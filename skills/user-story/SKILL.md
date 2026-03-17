@@ -215,8 +215,8 @@ All individual story files were already saved in Step 4. Now save the global ind
 
 | Domain | Folder | Stories | Count |
 |--------|--------|---------|-------|
-| Auth | .launchcraft/auth/stories/ | US-001, US-002, ... | [N] |
-| Dashboard | .launchcraft/dashboard/stories/ | US-010, US-011, ... | [N] |
+| Auth | .launchcraft/stories/auth/ | US-001, US-002, ... | [N] |
+| Dashboard | .launchcraft/stories/dashboard/ | US-010, US-011, ... | [N] |
 | ... | ... | ... | ... |
 
 ---
@@ -282,4 +282,4 @@ No evidence = not complete. Period.
 | Writing stories without checking requirements | Feature inventory first, then stories, then coverage matrix |
 | "Coverage matrix shows 80%, good enough" | Must-Have and Should-Have = 100% or you're not done |
 | Saving all stories in one file | Each story is its own `.md` file in `.launchcraft/[domain]/stories/` |
-| Flat file structure (no domain folders) | Stories grouped by domain: `.launchcraft/auth/stories/`, `.launchcraft/dashboard/stories/`, etc. |
+| Flat file structure (no domain folders) | Stories grouped by domain: `.launchcraft/stories/auth/`, `.launchcraft/stories/dashboard/`, etc. |

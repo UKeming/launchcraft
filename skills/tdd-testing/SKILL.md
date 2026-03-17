@@ -50,9 +50,9 @@ Read ALL story files from `.launchcraft/*/stories/US-*.md` and the story coverag
 
 | US-NNN | Story Title | Priority | Test Type Needed | Domain | Design Doc |
 |--------|------------|----------|-----------------|--------|------------|
-| US-001 | User registration | High | Unit + Integration | system | .launchcraft/system/design.md |
-| US-002 | OAuth login | High | Unit + Integration + E2E | auth | .launchcraft/auth/design.md |
-| US-010 | Create dashboard | High | Unit + E2E | dashboard | .launchcraft/dashboard/design.md |
+| US-001 | User registration | High | Unit + Integration | system | .launchcraft/designs/system/design.md |
+| US-002 | OAuth login | High | Unit + Integration + E2E | auth | .launchcraft/designs/auth/design.md |
+| US-010 | Create dashboard | High | Unit + E2E | dashboard | .launchcraft/designs/dashboard/design.md |
 | ... | ... | ... | ... | ... | ... |
 
 **Total stories:** [N]
