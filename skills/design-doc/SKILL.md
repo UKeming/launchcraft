@@ -7,7 +7,7 @@ description: "Use when creating technical design documents from user stories. Tr
 
 <PIPELINE-AUTO-RUN>
 **MANDATORY: Do NOT ask user questions. Do NOT wait for approval. Do NOT stop after saving.**
-Choose the best architecture approach YOURSELF. Write design docs (parallel by domain) → save → dispatch contract-validator → on PASS call Skill tool: Skill(skill='frontend-design').
+Choose the best architecture approach YOURSELF. Write system design → dispatch one `design-doc-writer` per story (parallel) → dispatch validators → on PASS call Skill tool: Skill(skill='frontend-design').
 Skip ALL user approval steps. This is a continuous pipeline — you do NOT stop between stages.
 **ALL .md files → `.launchcraft/` directory. NEVER save to `docs/` or project root.**
 **ALL questions to user → `AskUserQuestion` tool. NEVER output questions as plain text.**
@@ -16,16 +16,23 @@ Skip ALL user approval steps. This is a continuous pipeline — you do NOT stop 
 <CRITICAL-OUTPUT-RULES>
 ## OUTPUT FORMAT & PARALLELIZATION — READ THIS FIRST
 
-**Each domain gets its own `design.md` co-located with its stories:**
-- `.launchcraft/[domain]/design.md` — one file per domain
-- `.launchcraft/story-coverage.md` — global coverage matrix
+**1 story = 1 design doc.** Each user story gets its own design doc file.
 
-**Parallelization is MANDATORY when there are 2+ feature domains:**
-1. Write `system` domain design doc FIRST (in main context) → commit
-2. Dispatch ALL feature domain design docs as **parallel worktree agents** (`isolation: "worktree"`)
-3. Merge branches after all complete
+```
+.launchcraft/designs/
+  system/design.md                        ← global architecture (written first)
+  US-001-user-login/design.md             ← design for US-001 only
+  US-002-user-register/design.md          ← design for US-002 only
+  US-010-dashboard-view/design.md         ← design for US-010 only
+```
 
-**Do NOT write all design docs sequentially.** If you have auth, dashboard, and settings domains, dispatch 3 parallel agents — one per domain. Sequential writing when parallel is possible is a bug.
+**Parallelization: one `design-doc-writer` agent per story (batches of 8-10):**
+1. Write system design doc FIRST (in main context) → generate API contract → commit
+2. Dispatch `design-doc-writer` sub-agents — one per story, all in parallel (batches of 8-10 agents)
+3. Merge branches after each batch → continue until all stories have design docs
+4. Dispatch depth-validator + contract-validator
+
+This eliminates laziness — each agent focuses on EXACTLY ONE story with full attention.
 </CRITICAL-OUTPUT-RULES>
 
 ## Overview
@@ -173,25 +180,29 @@ After user approves an approach, write all design docs in parallel using worktre
 
 **Commit both** (system design + API contract) — this is the base for all worktree agents.
 
-**Feature domains in parallel:** Dispatch one **`design-doc-writer`** sub-agent per feature domain:
+**Per-story design docs in parallel (batches of 8-10):** Dispatch one **`design-doc-writer`** sub-agent per user story:
 
 ```
-Agent(subagent_type="design-doc-writer") per feature domain, ALL in one message:
-  - prompt: "Domain: [domain], Stories: US-NNN to US-NNN,
-             System design: .launchcraft/designs/system/design.md,
-             API contract: .launchcraft/api-contract.yaml,
-             Architecture: [chosen approach]"
-  - run_in_background: true (except the last one)
+Agent(subagent_type="design-doc-writer") per story, batches of 8-10, ALL in one message:
+  - prompt: "Ultrathink. Story: US-007-password-reset
+             Story file: .launchcraft/stories/auth/US-007-password-reset.md
+             System design: .launchcraft/designs/system/design.md
+             API contract: .launchcraft/api-contract.yaml
+             Architecture: [chosen approach]
+             Write to: .launchcraft/designs/US-007-password-reset/design.md
+             Read examples/gold-standard-design-doc-section.md first.
+             This is the ONLY story you're designing. Go deep."
+  - run_in_background: true (except the last one in each batch)
 ```
 
-**Each worktree agent receives:**
+**Each agent receives:**
+- ONE story file to design for
 - The system design doc (already committed)
-- The domain's story files (`.launchcraft/[domain]/stories/US-*.md`)
+- The API contract
 - The requirements doc
-- The architecture approach chosen by the user
-- Instructions to write `.launchcraft/[domain]/design.md` with all required sections
-- **Must insert IMAGE_REQUEST placeholders** where visual assets are needed
-- **Must commit its work before finishing**
+- **Must commit before finishing**
+
+**If there are > 10 stories:** dispatch in batches of 8-10 agents. Merge after each batch, then dispatch next batch.
 
 **If there is only ONE feature domain**, write directly — no worktree overhead.
 
@@ -256,7 +267,7 @@ license: [e.g., free, CC0, commercial-ok]     (real only — acceptable license 
 
 #### a. Collect & Classify Image Requests
 
-Scan ALL design docs (`.launchcraft/*/design.md`) for `<!-- IMAGE_REQUEST ... -->` blocks. Split into two lists:
+Scan ALL design docs (`.launchcraft/designs/*/design.md`) for `<!-- IMAGE_REQUEST ... -->` blocks. Split into two lists:
 
 ```markdown
 ## Image Manifest

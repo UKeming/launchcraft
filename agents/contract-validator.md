@@ -101,7 +101,7 @@ If ANY violation is found → **FAIL immediately** with message: "Pipeline .md f
 - [ ] No implementation details in stories
 
 ### design-doc
-- [ ] Domain design docs exist at `.launchcraft/*/design.md` (at least system + 1 feature domain)
+- [ ] Domain design docs exist at `.launchcraft/designs/*/design.md` (at least system + 1 feature domain)
 - [ ] Each doc has file header: Title, Date, Domain, Related User Stories (US-NNN list), Status
 - [ ] Each doc's Overview references specific US-NNN numbers
 - [ ] Each doc has sections: Architecture, Components

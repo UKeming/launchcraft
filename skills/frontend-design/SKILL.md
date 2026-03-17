@@ -159,7 +159,7 @@ Save to `.launchcraft/frontend-design/YYYY-MM-DD-[product-name]-frontend-design.
 # Frontend Design: [Product Name]
 
 **Date:** YYYY-MM-DD
-**Related Design Docs:** .launchcraft/*/design.md
+**Related Design Docs:** .launchcraft/designs/*/design.md
 **Aesthetic Direction:** [chosen direction]
 **Status:** Draft | Tested | Approved
 

@@ -20,7 +20,7 @@ This skill orchestrates the experience review. The heavy lifting (browser intera
 ## Input Contract Validation
 
 On start, verify:
-- [ ] Domain design docs exist at `.launchcraft/*/design.md`
+- [ ] Domain design docs exist at `.launchcraft/designs/*/design.md`
 - [ ] Domain story files exist at `.launchcraft/*/stories/US-*.md`
 - [ ] Requirements doc exists at `.launchcraft/requirements/*.md`
 - [ ] All tests pass (run the test suite and show output)

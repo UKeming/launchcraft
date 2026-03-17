@@ -73,7 +73,7 @@ Each skill validates its input on start and self-validates its output before sav
 
 ### frontend-design
 
-**Input:** Domain design docs (`.launchcraft/*/design.md`) + Story files (`.launchcraft/*/stories/US-*.md`) + Index (`.launchcraft/user-stories-index.md`)
+**Input:** Domain design docs (`.launchcraft/designs/*/design.md`) + Story files (`.launchcraft/*/stories/US-*.md`) + Index (`.launchcraft/user-stories-index.md`)
 **Output:**
 - Frontend code files (HTML/CSS/JS or framework components)
 - `.launchcraft/frontend-design/YYYY-MM-DD-[product-name]-frontend-design.md`
@@ -111,18 +111,21 @@ Each skill validates its input on start and self-validates its output before sav
 
 ### design-doc
 
-**Input:** `.launchcraft/*/stories/US-*.md` (story files by domain) + `.launchcraft/user-stories-index.md` + `.launchcraft/requirements/*.md`
+**Input:** `.launchcraft/stories/*/US-*.md` (story files by domain) + `.launchcraft/user-stories-index.md` + `.launchcraft/requirements/*.md`
 **Output:**
-- `.launchcraft/[domain]/design.md` — one design doc per domain, co-located with its stories
-- `.launchcraft/[domain]/assets/*` — generated image assets (if any IMAGE_REQUESTs)
+- `.launchcraft/designs/system/design.md` — global system architecture (1 file)
+- `.launchcraft/designs/US-NNN-[slug]/design.md` — one design doc PER STORY (N files)
+- `.launchcraft/designs/US-NNN-[slug]/assets/*` — generated image assets (if any)
 - `.launchcraft/api-contract.yaml` — global OpenAPI 3.0 spec (single source of truth for all endpoints)
 - `src/shared/api-types.ts` — shared TypeScript types for request/response (if TypeScript project)
 - `.launchcraft/story-coverage.md` — global Story Coverage Matrix
 **Output must contain:**
-- Each design doc has file header: Title, Date, Domain, Related User Stories (US-NNN list), Status
-- Each design doc has sections: Overview (>= 3 paragraphs), Architecture, Components (>= 5 lines per component)
-- Each design doc has at least one of: Data Model (>= 4 fields per entity), API Design (every endpoint has request + response + error examples)
-- Each design doc has sections: Error Handling (>= 3 categories), Security (>= 3 specific measures), Testing Strategy (>= 1 test per component)
+- System design doc: global architecture, tech stack, deployment, shared concerns
+- Each per-story design doc has: Title, Date, Related Story (US-NNN), Status
+- Each per-story design doc has sections: Overview (>= 3 paragraphs), Components (>= 5 lines per component)
+- Each per-story design doc has at least one of: Data Model (>= 4 fields per entity), API Design (every endpoint has request + response + error examples)
+- Each per-story design doc has sections: Error Handling (>= 3 categories), Security (>= 3 specific measures), Testing Strategy (>= 1 test per component)
+- Each per-story design doc is >= 200 lines
 - **API contract** (`.launchcraft/api-contract.yaml`) with all endpoints from all domains, OpenAPI 3.0 format
 - Each domain's API Design section MUST be consistent with the global contract (same paths, same shapes)
 - Story Coverage Matrix mapping every US-NNN to its domain's design doc
@@ -134,7 +137,7 @@ Each skill validates its input on start and self-validates its output before sav
 
 ### tdd-testing
 
-**Input:** `.launchcraft/*/design.md` (domain design docs) + `.launchcraft/*/stories/US-*.md` (story files) + `.launchcraft/story-coverage.md`
+**Input:** `.launchcraft/designs/*/design.md` (domain design docs) + `.launchcraft/*/stories/US-*.md` (story files) + `.launchcraft/story-coverage.md`
 **Output:**
 - Test files in `tests/`
 - `.launchcraft/test-plans/YYYY-MM-DD-[topic]-test-plan.md`
@@ -150,7 +153,7 @@ Each skill validates its input on start and self-validates its output before sav
 ### impl
 
 **Input:**
-- `.launchcraft/*/design.md` (domain design docs)
+- `.launchcraft/designs/*/design.md` (domain design docs)
 - `.launchcraft/api-contract.yaml` (API contract — single source of truth)
 - `src/shared/api-types.ts` (shared types, if TypeScript)
 - Test files in `tests/` (from tdd-testing)
@@ -165,7 +168,7 @@ Each skill validates its input on start and self-validates its output before sav
 ### experience-review
 
 **Input:**
-- All upstream docs: requirements (`.launchcraft/requirements/*.md`), domain stories (`.launchcraft/*/stories/US-*.md`), domain designs (`.launchcraft/*/design.md`), frontend design (`.launchcraft/frontend-design/*.md`)
+- All upstream docs: requirements (`.launchcraft/requirements/*.md`), domain stories (`.launchcraft/*/stories/US-*.md`), domain designs (`.launchcraft/designs/*/design.md`), frontend design (`.launchcraft/frontend-design/*.md`)
 - Locally deployed application (production build, NOT dev server — all tests must pass)
 - Pipeline context log (`.launchcraft/pipeline-context.md`)
 **Output:** `.launchcraft/experience-review/YYYY-MM-DD-[product-name]-experience-review.md`
@@ -183,7 +186,7 @@ Each skill validates its input on start and self-validates its output before sav
 
 ### test-report
 
-**Input:** Test execution results (after experience-review) + domain stories (`.launchcraft/*/stories/US-*.md`) + domain designs (`.launchcraft/*/design.md`) + test plan
+**Input:** Test execution results (after experience-review) + domain stories (`.launchcraft/*/stories/US-*.md`) + domain designs (`.launchcraft/designs/*/design.md`) + test plan
 **Output:** `.launchcraft/test-reports/YYYY-MM-DD-[topic]-test-report.md`
 **Output must contain:**
 - File header with Title, Date, Related Test Plan, Status

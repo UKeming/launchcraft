@@ -31,7 +31,7 @@ All tests must FAIL after this skill completes. If any test passes, something is
 ## Input Contract Validation
 
 On start, verify:
-- [ ] Domain design docs exist at `.launchcraft/*/design.md` (at least one domain)
+- [ ] Domain design docs exist at `.launchcraft/designs/*/design.md` (at least one domain)
 - [ ] Each design doc has: Overview, Architecture, Components sections
 - [ ] Each design doc references user stories (US-NNN)
 - [ ] Domain story files exist at `.launchcraft/*/stories/US-*.md`
@@ -254,7 +254,7 @@ Output path: [test plan file and test directory]
 Agent: code-reviewer (run_in_background: true)
 Skill: tdd-testing
 Code paths: tests/
-Design doc: .launchcraft/*/design.md
+Design doc: .launchcraft/designs/*/design.md
 ```
 
 Wait for both to complete. If code-reviewer made fixes, re-run tests to verify they still FAIL (no accidental implementation).

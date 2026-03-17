@@ -177,7 +177,7 @@ Triggered after launch completes. Read ALL project docs including implementation
 - Everything from Phase 1
 - `.launchcraft/launches/*.md` (actual deployment details)
 - `.launchcraft/test-reports/*.md` (quality metrics)
-- `.launchcraft/*/design.md` (actual architecture — what services are actually used)
+- `.launchcraft/designs/*/design.md` (actual architecture — what services are actually used)
 - `.launchcraft/frontend-design/*.md`
 - Actual `package.json`, `wrangler.toml`, etc. (real dependencies and services)
 

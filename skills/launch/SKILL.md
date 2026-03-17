@@ -193,7 +193,7 @@ Save to `.launchcraft/launches/YYYY-MM-DD-[topic]-launch.md`:
 ## Related Artifacts
 
 - User Stories: .launchcraft/*/stories/US-*.md
-- Design Docs: .launchcraft/*/design.md
+- Design Docs: .launchcraft/designs/*/design.md
 - Test Report: .launchcraft/test-reports/[file].md
 
 ## Rollback Instructions

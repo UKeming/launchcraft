@@ -33,24 +33,41 @@ spark → research → differentiation → enhance → differentiation (re-run) 
 - `docs/contracts.md` — input/output contracts for all skills
 - `.mcp.json` — MCP server declarations for the plugin
 
-## Domain-Based Doc Structure
+## Pipeline Doc Structure
 
-User stories and design docs are organized by domain folders. Each domain co-locates its stories and design:
+Each stage has its own folder. Stories by domain, designs by story (1 story = 1 design doc):
 
 ```
 .launchcraft/
-  [domain]/                    # e.g., auth/, dashboard/, system/
-    stories/
-      US-NNN-[slug].md         # individual story file with frontmatter
-    design.md                  # domain's design doc
-  user-stories-index.md        # global feature inventory + coverage matrix
-  story-coverage.md            # global story → design doc mapping
+  requirements/                          # spark output
+  research/                              # research output + competitor screenshots
+    screenshots/[competitor]/
+  strategy/                              # differentiation output
+  enhanced/                              # enhance output
+  stories/                               # user-story output
+    auth/US-001-login.md                 # one file per story
+    auth/US-002-register.md
+    dashboard/US-010-view.md
+  designs/                               # design-doc output
+    system/design.md                     # global architecture
+    US-001-user-login/design.md          # 1 story = 1 design doc
+    US-002-user-register/design.md
+    US-010-dashboard-view/design.md
+  api-contract.yaml                      # global API contract
+  user-stories-index.md
+  story-coverage.md
+  frontend-design/
+  test-plans/
+  test-reports/
+  experience-review/
+  launches/
+  financials/
+  pipeline-context.md
 ```
 
-- **user-story skill** creates domain folders + individual story files + global index
-- **design-doc skill** reads stories from domain folders, writes `design.md` into each domain folder
-- **tdd-testing** and **impl** read `.launchcraft/*/design.md` + `.launchcraft/*/stories/US-*.md`
-- Hooks detect both new (`.launchcraft/*/stories/`) and legacy (`.launchcraft/user-stories/`) paths
+- **user-story**: stories by domain (`stories/[domain]/US-NNN.md`), max 8-10 per agent
+- **design-doc**: 1 design doc per story (`designs/US-NNN-[slug]/design.md`), 1 agent per story
+- **tdd-testing** and **impl**: read per-story design docs
 
 ## MCP Servers
 
