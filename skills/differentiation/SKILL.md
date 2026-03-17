@@ -39,6 +39,14 @@ If validation fails, stop and run `/research` first.
 
 ## Process
 
+### 0. Scope Confirmation + Task Update
+
+**Before doing any work:**
+1. `TaskUpdate`: set this stage's task to `in_progress`
+2. Output a brief scope summary: "This stage will [X]. Input: [Y]. Output: [Z]. Estimated: [N] files."
+3. In standalone mode: use `AskUserQuestion` to confirm scope before proceeding.
+4. In pipeline auto-run: output the summary and proceed immediately.
+
 ### 1. Map the Competitive Landscape
 
 From the research report, build a feature matrix:
@@ -146,6 +154,9 @@ Iterate until the user approves.
 ### 7. Save
 
 Save to `.launchcraft/strategy/YYYY-MM-DD-[product-name]-differentiation.md`.
+
+
+`TaskUpdate`: set this stage's task to `completed`.
 
 ## Output Validation
 

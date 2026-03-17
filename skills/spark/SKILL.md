@@ -294,7 +294,27 @@ Present the structured requirements. Then use **AskUserQuestion** to ask:
 
 Iterate until the user approves. All questions MUST use the AskUserQuestion tool.
 
-### 5. Save
+### 5. Create Pipeline Task List
+
+After user approves requirements, create the full pipeline task list so progress is visible:
+
+```
+TaskCreate: "Research — market validation, competitor analysis, UI screenshots"
+TaskCreate: "Differentiation — positioning, strategic bets, feature matrix"
+TaskCreate: "Enhance — expand to [target] features based on project type"
+TaskCreate: "User Stories — individual story files per domain"
+TaskCreate: "Design Docs — 1 design doc per story, API contract"
+TaskCreate: "Frontend Design — [target] pages, responsive, bold aesthetic"
+TaskCreate: "TDD Testing — failing tests for every story"
+TaskCreate: "Implementation — make all tests pass"
+TaskCreate: "Experience Review — Playwright QA, 2+ passes"
+TaskCreate: "Test Report — coverage and traceability"
+TaskCreate: "Launch — real data audit, deploy"
+```
+
+This gives the user a visible checklist of what's coming. Each downstream skill updates its task to `in_progress` when starting and `completed` when done.
+
+### 6. Save
 
 Save to `.launchcraft/requirements/YYYY-MM-DD-[product-name]-requirements.md`.
 

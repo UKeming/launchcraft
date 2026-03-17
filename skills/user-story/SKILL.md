@@ -60,6 +60,14 @@ Read ALL upstream docs. The requirements doc (with enhanced features) is the pri
 
 ## Process
 
+### 0. Scope Confirmation + Task Update
+
+**Before doing any work:**
+1. `TaskUpdate`: set this stage's task to `in_progress`
+2. Output a brief scope summary: "This stage will [X]. Input: [Y]. Output: [Z]. Estimated: [N] files."
+3. In standalone mode: use `AskUserQuestion` to confirm scope before proceeding.
+4. In pipeline auto-run: output the summary and proceed immediately.
+
 ### 1. Extract Feature Inventory
 
 **This is the critical step that guarantees completeness.**
@@ -233,6 +241,9 @@ All individual story files were already saved in Step 4. Now save the global ind
 
 [Coverage matrix from Step 5]
 ```
+
+
+`TaskUpdate`: set this stage's task to `completed`.
 
 ## Output Validation
 

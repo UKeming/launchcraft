@@ -40,6 +40,14 @@ If validation fails, list specific violations and stop.
 
 ## Process
 
+### 0. Scope Confirmation + Task Update
+
+**Before doing any work:**
+1. `TaskUpdate`: set this stage's task to `in_progress`
+2. Output a brief scope summary: "This stage will [X]. Input: [Y]. Output: [Z]. Estimated: [N] files."
+3. In standalone mode: use `AskUserQuestion` to confirm scope before proceeding.
+4. In pipeline auto-run: output the summary and proceed immediately.
+
 ### 1. Build Execution Plan — Dependency Graph with Parallelism
 
 Read the test plan and design docs. Build a **layered dependency graph** to maximize parallel execution:
@@ -213,6 +221,9 @@ If the code works but could be cleaner:
 - Refactor only with user approval
 - Run tests after each refactor to ensure nothing breaks
 - Keep refactoring commits separate from feature commits
+
+
+`TaskUpdate`: set this stage's task to `completed`.
 
 ## Output Validation — Dispatch Agents in PARALLEL
 

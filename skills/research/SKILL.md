@@ -58,6 +58,14 @@ If validation fails, stop and run `/spark` first.
 
 ## Process
 
+### 0. Scope Confirmation + Task Update
+
+**Before doing any work:**
+1. `TaskUpdate`: set this stage's task to `in_progress`
+2. Output a brief scope summary: "This stage will [X]. Input: [Y]. Output: [Z]. Estimated: [N] files."
+3. In standalone mode: use `AskUserQuestion` to confirm scope before proceeding.
+4. In pipeline auto-run: output the summary and proceed immediately.
+
 ### 1. Extract Assumptions
 
 Read the requirements doc and list every assumption that needs validation. Save to `.launchcraft/research/assumptions.md`:
@@ -175,6 +183,9 @@ Read all research files and produce synthesis files:
 ### 5. Review (standalone only)
 
 Use `AskUserQuestion` tool to ask: "Research complete — any areas to dig deeper?" (Skip in pipeline auto-run.)
+
+
+`TaskUpdate`: set this stage's task to `completed`.
 
 ## Output Validation
 

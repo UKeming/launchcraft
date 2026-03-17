@@ -63,6 +63,14 @@ If validation fails, list specific violations and stop.
 
 ## Process
 
+### 0. Scope Confirmation + Task Update
+
+**Before doing any work:**
+1. `TaskUpdate`: set this stage's task to `in_progress`
+2. Output a brief scope summary: "This stage will [X]. Input: [Y]. Output: [Z]. Estimated: [N] files."
+3. In standalone mode: use `AskUserQuestion` to confirm scope before proceeding.
+4. In pipeline auto-run: output the summary and proceed immediately.
+
 ### 1. Story Inventory & Domain Verification
 
 Stories are already organized by domain folders (from user-story skill). Read ALL story files from `.launchcraft/stories/*/US-*.md` and the global index at `.launchcraft/user-stories-index.md`.
@@ -459,6 +467,9 @@ Save each story's design doc into the designs folder:
 Save the global Story Coverage Matrix:
 
 - `.launchcraft/story-coverage.md` — maps every US-NNN to its domain's design doc
+
+
+`TaskUpdate`: set this stage's task to `completed`.
 
 ## Output Validation
 

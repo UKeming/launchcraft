@@ -38,6 +38,14 @@ If validation fails, list specific violations and stop.
 
 ## Process
 
+### 0. Scope Confirmation + Task Update
+
+**Before doing any work:**
+1. `TaskUpdate`: set this stage's task to `in_progress`
+2. Output a brief scope summary: "This stage will [X]. Input: [Y]. Output: [Z]. Estimated: [N] files."
+3. In standalone mode: use `AskUserQuestion` to confirm scope before proceeding.
+4. In pipeline auto-run: output the summary and proceed immediately.
+
 ### 1. Pre-Launch Checklist
 
 Verify with user:
@@ -205,6 +213,9 @@ If issues are found after launch:
 3. Update this document Status to "Rolled Back"
 4. Create issue in .launchcraft/issues/ describing the problem
 ```
+
+
+`TaskUpdate`: set this stage's task to `completed`.
 
 ## Output Validation
 
