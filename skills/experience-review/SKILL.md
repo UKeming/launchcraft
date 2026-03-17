@@ -7,7 +7,7 @@ description: "Use after impl to experience the actual running application via re
 
 <PIPELINE-AUTO-RUN>
 **MANDATORY: Do NOT ask user questions. Do NOT wait for approval. Do NOT stop after saving.**
-Build + serve → dispatch experience-reviewer agent → on APPROVED dispatch contract-validator → on PASS immediately invoke `/test-report`.
+Build + serve → dispatch experience-reviewer agent → on APPROVED dispatch contract-validator → on PASS call Skill tool: Skill(skill='test-report').
 This is a continuous pipeline — you do NOT stop between stages.
 **ALL .md files → `.launchcraft/` directory. NEVER save to `docs/` or project root.**
 **ALL questions to user → `AskUserQuestion` tool. NEVER output questions as plain text.**
@@ -99,7 +99,7 @@ The agent returns one of:
    Skill: experience-review
    Output path: .launchcraft/experience-review/*.md
    ```
-2. On PASS: run `echo "test-report" > .launchcraft/.pipeline-next` then **immediately invoke `/test-report`**
+2. On PASS: run `echo "test-report" > .launchcraft/.pipeline-next` then **call the Skill tool: `Skill(skill='test-report')`**
 
 **If BACK-TO-[stage]:**
 1. Append reasoning to `.launchcraft/pipeline-context.md`

@@ -7,7 +7,7 @@ description: "Use when writing tests before implementation based on a design doc
 
 <PIPELINE-AUTO-RUN>
 **MANDATORY: Do NOT ask user questions. Do NOT wait for approval. Do NOT stop after saving.**
-Write tests (parallel by domain) → save test plan → dispatch contract-validator + code-reviewer → on PASS immediately invoke `/impl`.
+Write tests (parallel by domain) → save test plan → dispatch contract-validator + code-reviewer → on PASS call Skill tool: Skill(skill='impl').
 This is a continuous pipeline — you do NOT stop between stages.
 **ALL .md files → `.launchcraft/` directory. NEVER save to `docs/` or project root.**
 **ALL questions to user → `AskUserQuestion` tool. NEVER output questions as plain text.**
@@ -259,7 +259,7 @@ Design doc: .launchcraft/*/design.md
 
 Wait for both to complete. If code-reviewer made fixes, re-run tests to verify they still FAIL (no accidental implementation).
 
-Once both complete, run `echo "impl" > .launchcraft/.pipeline-next` then **immediately invoke `/impl`** — do NOT ask the user whether to continue.
+Once both complete, run `echo "impl" > .launchcraft/.pipeline-next` then **call the Skill tool: `Skill(skill='impl')`** — do NOT ask the user whether to continue.
 
 ## Rationalization Prevention
 

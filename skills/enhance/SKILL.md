@@ -7,7 +7,7 @@ description: "Use after differentiation to expand requirements with additional f
 
 <PIPELINE-AUTO-RUN>
 **MANDATORY: Do NOT ask user questions. Do NOT wait for approval. Do NOT stop after saving.**
-Auto-approve ALL proposed enhancements. Complete the analysis → save output → dispatch contract-validator → on PASS immediately invoke `/differentiation`.
+Auto-approve ALL proposed enhancements. Complete the analysis → save output → dispatch contract-validator → on PASS call Skill tool: Skill(skill='differentiation').
 Skip ALL user approval steps. This is a continuous pipeline — you do NOT stop between stages.
 **ALL .md files → `.launchcraft/` directory. NEVER save to `docs/` or project root.**
 **ALL questions to user → `AskUserQuestion` tool. NEVER output questions as plain text.**
@@ -343,7 +343,7 @@ Output path: [the enhancement record file]
 ```
 
 Do NOT proceed until the validator returns PASS.
-Once the validator returns PASS, run `echo "differentiation" > .launchcraft/.pipeline-next` then **immediately invoke `/differentiation`** — the differentiation strategy must be re-run. Do NOT ask the user whether to continue.
+Once the validator returns PASS, run `echo "differentiation" > .launchcraft/.pipeline-next` then **call the Skill tool: `Skill(skill='differentiation')`** — the differentiation strategy must be re-run. Do NOT ask the user whether to continue.
 
 ## Rationalization Prevention
 

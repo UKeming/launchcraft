@@ -35,7 +35,7 @@ Do NOT write everything sequentially when parallel is possible. Use `Agent(subag
 
 ### 3. Auto-run: do NOT stop between stages
 
-After each skill completes + contract-validator PASS → immediately invoke the next skill. No asking, no waiting, no summarizing.
+After each skill completes + contract-validator PASS → call the Skill tool for the next skill. No asking, no waiting, no summarizing.
 
 ### 4. ALL questions to the user MUST use the AskUserQuestion tool
 
@@ -59,7 +59,7 @@ spark → research → differentiation → enhance → differentiation (re-run) 
 
 Each stage invokes the next via its `/skill-name` command. Do NOT pause between stages. Do NOT ask "should we continue?" Do NOT summarize and wait. The pipeline runs as one continuous flow from spark to launch.
 
-**CRITICAL OVERRIDE:** Downstream skills (research, differentiation, enhance, etc.) contain "Review with User" and "Iterate until the user approves" steps. **SKIP ALL OF THEM.** These steps exist for standalone skill invocation — during a full pipeline run they do NOT apply. Instead: complete the analysis, save the output, dispatch contract-validator, and immediately invoke the next skill upon PASS.
+**CRITICAL OVERRIDE:** Downstream skills (research, differentiation, enhance, etc.) contain "Review with User" and "Iterate until the user approves" steps. **SKIP ALL OF THEM.** These steps exist for standalone skill invocation — during a full pipeline run they do NOT apply. Instead: complete the analysis, save the output, dispatch contract-validator, and call the Skill tool for the next skill upon PASS.
 
 The ONLY time you stop is:
 1. During spark itself — to ask the user clarifying questions and get sign-off on requirements
@@ -237,7 +237,7 @@ Output path: [the file you just saved]
 ```
 
 Do NOT proceed to research until the validator returns PASS.
-Once the validator returns PASS, run `echo "research" > .launchcraft/.pipeline-next` then **immediately invoke `/research`** — do NOT ask the user whether to continue.
+Once the validator returns PASS, run `echo "research" > .launchcraft/.pipeline-next` then **call the Skill tool: `Skill(skill='research')`** — do NOT ask the user whether to continue.
 
 ## Rationalization Prevention
 

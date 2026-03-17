@@ -32,7 +32,7 @@ if [ -f "$STATE_FILE" ]; then
         cat <<EOF
 {
   "decision": "block",
-  "reason": "/${next_skill}"
+  "reason": "PIPELINE CONTINUES. You MUST call the Skill tool NOW with skill='${next_skill}'. Do NOT output text. Do NOT say 'next step'. CALL THE TOOL."
 }
 EOF
         exit 0
@@ -121,6 +121,6 @@ echo "$next" > "$COOLDOWN_FILE"
 cat <<EOF
 {
   "decision": "block",
-  "reason": "/${next}"
+  "reason": "PIPELINE CONTINUES. You MUST call the Skill tool NOW with skill='${next}'. Do NOT output text. Do NOT say 'next step'. CALL THE TOOL."
 }
 EOF

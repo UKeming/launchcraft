@@ -7,7 +7,7 @@ description: "Use when creating technical design documents from user stories. Tr
 
 <PIPELINE-AUTO-RUN>
 **MANDATORY: Do NOT ask user questions. Do NOT wait for approval. Do NOT stop after saving.**
-Choose the best architecture approach YOURSELF. Write design docs (parallel by domain) → save → dispatch contract-validator → on PASS immediately invoke `/frontend-design`.
+Choose the best architecture approach YOURSELF. Write design docs (parallel by domain) → save → dispatch contract-validator → on PASS call Skill tool: Skill(skill='frontend-design').
 Skip ALL user approval steps. This is a continuous pipeline — you do NOT stop between stages.
 **ALL .md files → `.launchcraft/` directory. NEVER save to `docs/` or project root.**
 **ALL questions to user → `AskUserQuestion` tool. NEVER output questions as plain text.**
@@ -462,7 +462,7 @@ Output path: [all design doc files + story coverage matrix]
 The validator will cross-check: read the user stories file, extract all US-NNN, and verify each one appears in the Story Coverage Matrix with a design doc assigned.
 
 Do NOT proceed to frontend-design until the validator returns PASS. If it returns FAIL, fix the violations and re-validate.
-Once the validator returns PASS, run `echo "frontend-design" > .launchcraft/.pipeline-next` then **immediately invoke `/frontend-design`** — do NOT ask the user whether to continue.
+Once the validator returns PASS, run `echo "frontend-design" > .launchcraft/.pipeline-next` then **call the Skill tool: `Skill(skill='frontend-design')`** — do NOT ask the user whether to continue.
 
 ## Rationalization Prevention
 

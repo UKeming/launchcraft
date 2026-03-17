@@ -159,7 +159,7 @@ Output path: [the file you just saved]
 
 Do NOT proceed until the validator returns PASS.
 Once the validator returns PASS:
-- If NO enhance record exists in `.launchcraft/enhanced/`, **immediately invoke `/enhance`** — requirements need expansion.
+- If NO enhance record exists in `.launchcraft/enhanced/`, **call the Skill tool: `Skill(skill='enhance')`** — requirements need expansion.
 - If an enhance record ALREADY exists in `.launchcraft/enhanced/`, dispatch the **accountant** agent for a pre-planning business assessment:
 
 ```
@@ -171,7 +171,7 @@ Project root: [project root]
 
 The accountant will evaluate commercial viability — costs, revenue projections, break-even, go/no-go.
 
-- If the accountant returns **GO** or **CONDITIONAL GO**: **immediately invoke `/user-story`**.
+- If the accountant returns **GO** or **CONDITIONAL GO**: **call the Skill tool: `Skill(skill='user-story')`**.
 - If the accountant returns **NO-GO**: present the accountant's findings to the user and ask how they want to proceed (adjust pricing, reduce scope, or continue anyway).
 
 Do NOT ask the user whether to continue unless it's a NO-GO.

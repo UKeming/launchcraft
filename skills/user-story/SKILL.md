@@ -7,7 +7,7 @@ description: "Use when converting raw needs, feature ideas, or pain points into 
 
 <PIPELINE-AUTO-RUN>
 **MANDATORY: Do NOT ask user questions. Do NOT wait for approval. Do NOT stop after saving.**
-Complete the analysis → save individual story files + index → dispatch contract-validator → on PASS immediately invoke `/design-doc`.
+Complete the analysis → save individual story files + index → dispatch contract-validator → on PASS call Skill tool: Skill(skill='design-doc').
 Skip ALL user review steps. This is a continuous pipeline — you do NOT stop between stages.
 **ALL .md files → `.launchcraft/` directory. NEVER save to `docs/` or project root.**
 **ALL questions to user → `AskUserQuestion` tool. NEVER output questions as plain text.**
@@ -237,7 +237,7 @@ Output path: .launchcraft/user-stories-index.md + .launchcraft/*/stories/US-*.md
 ```
 
 Do NOT proceed to design-doc until the validator returns PASS. If it returns FAIL, fix the violations and re-validate.
-Once the validator returns PASS, run `echo "design-doc" > .launchcraft/.pipeline-next` then **immediately invoke `/design-doc`** — do NOT ask the user whether to continue.
+Once the validator returns PASS, run `echo "design-doc" > .launchcraft/.pipeline-next` then **call the Skill tool: `Skill(skill='design-doc')`** — do NOT ask the user whether to continue.
 
 ## Rationalization Prevention
 

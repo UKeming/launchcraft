@@ -7,7 +7,7 @@ description: "Use after spark to validate requirements against real market data.
 
 <PIPELINE-AUTO-RUN>
 **MANDATORY: Do NOT ask user questions. Do NOT wait for approval. Do NOT stop after saving.**
-Complete the analysis → save output → dispatch contract-validator → on PASS immediately invoke `/differentiation`.
+Complete the analysis → save output → dispatch contract-validator → on PASS call Skill tool: Skill(skill='differentiation').
 Skip ALL "Review with User" steps. This is a continuous pipeline — you do NOT stop between stages.
 **ALL .md files → `.launchcraft/` directory. NEVER save to `docs/` or project root.**
 **ALL questions to user → `AskUserQuestion` tool. NEVER output questions as plain text.**
@@ -186,7 +186,7 @@ Output path: [the file you just saved]
 ```
 
 Do NOT proceed to differentiation until the validator returns PASS.
-Once the validator returns PASS, run `echo "differentiation" > .launchcraft/.pipeline-next` then **immediately invoke `/differentiation`** — do NOT ask the user whether to continue.
+Once the validator returns PASS, run `echo "differentiation" > .launchcraft/.pipeline-next` then **call the Skill tool: `Skill(skill='differentiation')`** — do NOT ask the user whether to continue.
 
 ## Rationalization Prevention
 

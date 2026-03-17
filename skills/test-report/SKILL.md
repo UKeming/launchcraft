@@ -7,7 +7,7 @@ description: "Use when generating a test report after implementation is complete
 
 <PIPELINE-AUTO-RUN>
 **MANDATORY: Do NOT ask user questions. Do NOT wait for approval. Do NOT stop after saving.**
-Generate report → save → dispatch contract-validator → on PASS immediately invoke `/launch`.
+Generate report → save → dispatch contract-validator → on PASS call Skill tool: Skill(skill='launch').
 This is a continuous pipeline — you do NOT stop between stages.
 **ALL .md files → `.launchcraft/` directory. NEVER save to `docs/` or project root.**
 **ALL questions to user → `AskUserQuestion` tool. NEVER output questions as plain text.**
@@ -159,7 +159,7 @@ Output path: [the file you just saved]
 ```
 
 The validator will check for actual metrics, proper US-NNN mapping, and justified recommendations. Do NOT proceed to launch until the validator returns PASS. If it returns FAIL, fix the violations and re-validate.
-Once the validator returns PASS, run `echo "launch" > .launchcraft/.pipeline-next` then **immediately invoke `/launch`** — do NOT ask the user whether to continue.
+Once the validator returns PASS, run `echo "launch" > .launchcraft/.pipeline-next` then **call the Skill tool: `Skill(skill='launch')`** — do NOT ask the user whether to continue.
 
 ## Rationalization Prevention
 
