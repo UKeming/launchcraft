@@ -17,19 +17,27 @@ Skip ALL user review steps. This is a continuous pipeline — you do NOT stop be
 ## OUTPUT FORMAT & PARALLELIZATION — READ THIS FIRST
 
 **Each user story is saved as a SEPARATE .md file.** The output of this skill is NOT one big file. It is:
-- N individual story files: `.launchcraft/[domain]/stories/US-NNN-[slug].md`
+- N individual story files: `.launchcraft/stories/[domain]/US-NNN-[slug].md`
 - 1 index file: `.launchcraft/user-stories-index.md`
 
-**PARALLELIZATION:** After determining domains and assigning features + US-NNN ranges to each:
-1. Dispatch one **`user-story-writer`** sub-agent per domain (all in parallel, `run_in_background: true` except last)
-2. Each sub-agent writes its domain's story files and commits
-3. After all complete → merge branches → build global index + coverage matrix
+**PARALLELIZATION (max 8-10 stories per agent):** Split features into batches. Each batch becomes one `user-story-writer` sub-agent. This prevents context fatigue — an agent writing 25 stories produces thin stories by #15.
 
 ```
-Agent(subagent_type="user-story-writer") per domain:
-  - prompt: "Domain: auth, US range: US-001 to US-010, Features: F-001, F-002..."
-  - run_in_background: true
+Example: auth domain has 18 features → 2 agents
+  Agent A: Features F-001 to F-009, US range US-001 to US-009
+  Agent B: Features F-010 to F-018, US range US-010 to US-018
+
+Agent(subagent_type="user-story-writer") per batch (max 8-10), ALL in one message:
+  - prompt: "Ultrathink. Domain: auth, US range: US-001 to US-008,
+             Features: F-001 description, F-002 description...
+             Each story MUST have >= 5 acceptance criteria.
+             Read examples/gold-standard-user-story.md first.
+             Write each story as if it's the ONLY story you're writing today."
+  - run_in_background: true (except last)
 ```
+
+After all agents complete → merge branches → build global index + coverage matrix.
+Then dispatch **depth-validator** + **contract-validator** in parallel. Both must PASS.
 
 **If only 1 domain:** write stories directly, no sub-agent overhead.
 </CRITICAL-OUTPUT-RULES>

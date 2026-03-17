@@ -98,6 +98,9 @@ Each skill validates its input on start and self-validates its output before sav
 **Output must contain:**
 - Each story file has frontmatter: US-NNN, Title, Priority, Size, Persona, Features (F-NNN), Domain
 - Each story file has: "As a..." statement, `## Acceptance Criteria` with Given/When/Then items
+- **Each story has >= 5 acceptance criteria** (happy path + error path + edge cases)
+- **Each acceptance criterion is >= 1 full sentence** (not abbreviated)
+- **Notes section has >= 2 items** (edge cases, technical considerations, or dependencies)
 - Index file has: Feature Inventory (F-NNN numbered), Feature Coverage Matrix, Domain Listing with story counts
 - Feature Coverage Matrix mapping every F-NNN to its US-NNN stories
 - Must-Have feature coverage = 100% (every Must-Have feature mapped to ≥1 story)
@@ -117,9 +120,9 @@ Each skill validates its input on start and self-validates its output before sav
 - `.launchcraft/story-coverage.md` — global Story Coverage Matrix
 **Output must contain:**
 - Each design doc has file header: Title, Date, Domain, Related User Stories (US-NNN list), Status
-- Each design doc has sections: Overview, Architecture, Components
-- Each design doc has at least one of: Data Model, API Design
-- Each design doc has sections: Error Handling, Security Considerations, Testing Strategy
+- Each design doc has sections: Overview (>= 3 paragraphs), Architecture, Components (>= 5 lines per component)
+- Each design doc has at least one of: Data Model (>= 4 fields per entity), API Design (every endpoint has request + response + error examples)
+- Each design doc has sections: Error Handling (>= 3 categories), Security (>= 3 specific measures), Testing Strategy (>= 1 test per component)
 - **API contract** (`.launchcraft/api-contract.yaml`) with all endpoints from all domains, OpenAPI 3.0 format
 - Each domain's API Design section MUST be consistent with the global contract (same paths, same shapes)
 - Story Coverage Matrix mapping every US-NNN to its domain's design doc
