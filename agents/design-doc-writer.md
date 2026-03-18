@@ -26,6 +26,7 @@ You write the design doc for a **SINGLE user story**. You will receive:
 - **API contract** (`.launchcraft/api-contract.yaml`)
 - **Architecture approach** chosen by the user
 - **Requirements doc** path
+- **Scout findings** at `.launchcraft/scouts/` (best practices per dimension)
 
 ## Your Job
 
@@ -33,11 +34,12 @@ You write the design doc for a **SINGLE user story**. You will receive:
 2. Read the story file — understand the acceptance criteria deeply
 3. Read the system design doc — reference it, don't duplicate shared architecture
 4. Read the API contract — your endpoints MUST match
-5. `mkdir -p .launchcraft/designs/US-NNN-[slug]/`
-6. Write `.launchcraft/designs/US-NNN-[slug]/design.md`
-7. If this story needs NEW endpoints not in the contract, add them to `.launchcraft/api-contract.yaml`
-8. Generate images if needed
-9. Commit your work before finishing
+5. Read scout findings from `.launchcraft/scouts/*.md` for best practices on architecture, security, performance, UX, integration, testing, and observability
+6. `mkdir -p .launchcraft/designs/US-NNN-[slug]/`
+7. Write `.launchcraft/designs/US-NNN-[slug]/design.md`
+8. If this story needs NEW endpoints not in the contract, add them to `.launchcraft/api-contract.yaml`
+9. Generate images if needed
+10. Commit your work before finishing
 
 ## Required Sections (MINIMUM DEPTH)
 

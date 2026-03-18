@@ -138,6 +138,31 @@ Accepts any of:
 
 ## Process
 
+### -1. Prompt Expansion (Automatic)
+
+Before asking ANY questions, take the user's raw input and expand it into a rich specification. This is a thinking step — do NOT ask the user, just expand.
+
+**Input:** The user's raw idea (e.g., "build me a bookmark manager")
+
+**Expand to ~500 words covering:**
+- What this product IS (category, target audience, core value)
+- What SIMILAR products exist (name 5+) and their key features
+- What a COMPLETE version of this product would include:
+  - Core features (CRUD, search, organize, etc.)
+  - Auth features (login, register, OAuth, password reset, sessions)
+  - Collaboration features (sharing, permissions, teams)
+  - Data features (import, export, backup, sync)
+  - UX features (keyboard shortcuts, dark mode, multiple views, drag-and-drop)
+  - Integration features (browser extension, API, webhooks, third-party apps)
+  - Admin features (analytics, user management, billing)
+  - Growth features (onboarding, referrals, notifications)
+- Suggested tech stack
+- Suggested page count (15-25 for a full SaaS)
+
+**Output the expanded spec to the user** and THEN proceed to Step 0 (project type selection).
+
+This ensures the conversation starts from a RICH baseline, not a one-liner. The user can modify or approve the expanded spec before probing questions begin.
+
 ### 0. Project Type Selection (FIRST — before anything else)
 
 **Use `AskUserQuestion` to ask the user what kind of project this is:**

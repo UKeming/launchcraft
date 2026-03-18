@@ -81,7 +81,23 @@ Call Agent(subagent_type='product-manager', prompt='Stage: [stage-name], Output:
 
 **user-story:** Dispatches parallel user-story-writer agents. Followed by depth-validator.
 
+**user-story → scouts → design-doc:** After user-story completes, dispatch 5-7 parallel `scout` agents:
+- architecture-scout: system design patterns, infrastructure decisions
+- security-scout: auth patterns, data protection, OWASP top 10
+- performance-scout: caching, lazy loading, bundle optimization
+- ux-scout: interaction patterns, accessibility, responsive design
+- integration-scout: third-party APIs, webhooks, browser extensions
+- testing-scout: test strategy, fixtures, CI/CD pipeline
+- observability-scout: logging, monitoring, error tracking
+
+All run in parallel. Results saved to `.launchcraft/scouts/`. Design-doc agents read scout findings.
+
 **design-doc:** Dispatches parallel design-doc-writer agents. Followed by depth-validator.
+
+**impl → SHIP gate:** After impl completes and contract-validator passes, dispatch `ship-reviewer` agent.
+- If SHIP: proceed to experience-review
+- If NEEDS_WORK: the agent lists specific issues. Fix them (call Skill(skill='impl') again or edit directly). Re-dispatch ship-reviewer. Max 3 retries.
+- This prevents "declaring done" on incomplete implementations.
 
 **experience-review:** Dispatches experience-reviewer agent. If NEEDS-FIXES: use AskUserQuestion to show user the issues and proposed rollback. Execute rollback to the target stage.
 

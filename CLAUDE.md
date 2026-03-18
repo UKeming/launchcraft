@@ -20,6 +20,8 @@ The `product-manager` agent reviews after EVERY stage. PM decides PROCEED or ROL
 - **tdd-test-writer** — parallel per domain, writes failing test files (spawned by tdd-testing skill)
 - **impl-worker** — parallel per component layer, implements code to pass tests (spawned by impl skill)
 - **experience-reviewer** — foreground agent, uses Playwright to interact with running app, fixes issues, loops until APPROVED. Has project memory.
+- **scout** — parallel per dimension (architecture, security, performance, ux, integration, testing, observability), investigates best practices before design phase
+- **ship-reviewer** — after impl + contract-validator, independent SHIP/NEEDS_WORK gate (max 3 retries if NEEDS_WORK)
 - **depth-validator** — after user-story and design-doc, checks EVERY file for minimum depth (>= 5 criteria per story, >= 200 lines per design doc)
 - **contract-validator** — after every skill, validates output against contracts
 - **accountant** — after 2nd differentiation (pre-planning: go/no-go) and after launch (post-launch: detailed financial report)
