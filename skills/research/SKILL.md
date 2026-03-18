@@ -184,6 +184,22 @@ Read all research files and produce synthesis files:
 Use `AskUserQuestion` tool to ask: "Research complete — any areas to dig deeper?" (Skip in pipeline auto-run.)
 
 
+### Checkpoint Output (for orchestrator)
+
+Before completing, output a **User Checkpoint Summary** that the orchestrator will show to the user:
+
+```markdown
+## Checkpoint: Research Complete
+
+**Competitors analyzed:** [N] ([names])
+**Average competitor features:** [N]
+**Our current features:** [N]  
+**Gap:** [N] features to close
+**Recommended scope:** [N] features, [N] pages
+**Key insight:** [1-sentence — what's the biggest opportunity?]
+```
+
+
 `TaskUpdate`: set this stage's task to `completed`.
 
 ## Output Validation

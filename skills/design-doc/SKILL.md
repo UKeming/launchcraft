@@ -468,6 +468,21 @@ Save the global Story Coverage Matrix:
 - `.launchcraft/story-coverage.md` — maps every US-NNN to its domain's design doc
 
 
+### Checkpoint Output (for orchestrator)
+
+Before completing, output a **User Checkpoint Summary** with architecture decisions:
+
+```markdown
+## Checkpoint: Design Complete
+
+**Architecture:** [approach name]
+**Tech stack:** [key technologies]
+**Key decisions:** [2-3 bullet points]
+**API endpoints:** [N] total
+**Any architectural concerns?**
+```
+
+
 `TaskUpdate`: set this stage's task to `completed`.
 
 ## Output Validation

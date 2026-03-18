@@ -155,6 +155,20 @@ Iterate until the user approves.
 Save to `.launchcraft/strategy/YYYY-MM-DD-[product-name]-differentiation.md`.
 
 
+### Checkpoint Output (for orchestrator)
+
+Before completing, output a **User Checkpoint Summary** with the positioning options:
+
+```markdown
+## Checkpoint: Differentiation Complete
+
+**Option A:** [positioning name] — [1-sentence description]
+**Option B:** [positioning name] — [1-sentence description]  
+**Option C:** [positioning name] — [1-sentence description]
+**Recommended:** [which and why]
+```
+
+
 `TaskUpdate`: set this stage's task to `completed`.
 
 ## Output Validation

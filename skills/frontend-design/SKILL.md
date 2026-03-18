@@ -202,6 +202,21 @@ Save to `.launchcraft/frontend-design/YYYY-MM-DD-[product-name]-frontend-design.
 ```
 
 
+### Checkpoint Output (for orchestrator)
+
+Before completing, output a **User Checkpoint Summary** with the visual direction:
+
+```markdown
+## Checkpoint: Frontend Design Complete
+
+**Aesthetic:** [direction name]
+**Pages built:** [N] ([list])
+**Typography:** [display font] + [body font]
+**Color palette:** [primary] / [secondary] / [accent]
+**Preview:** [path to first page screenshot]
+```
+
+
 `TaskUpdate`: set this stage's task to `completed`.
 
 ## Output Validation

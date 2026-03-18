@@ -347,6 +347,23 @@ Save the enhancement record to `.launchcraft/enhanced/YYYY-MM-DD-[product-name]-
 ```
 
 
+### Checkpoint Output (for orchestrator)
+
+Before completing, output a **User Checkpoint Summary** with the feature expansion:
+
+```markdown
+## Checkpoint: Enhancement Complete
+
+**Features before:** [N]
+**Features after:** [N] (+[N] added)
+**Top 10 additions:**
+1. [feature] — [why]
+2. [feature] — [why]
+...
+**Any features you'd like to add or remove?**
+```
+
+
 `TaskUpdate`: set this stage's task to `completed`.
 
 ## Output Validation

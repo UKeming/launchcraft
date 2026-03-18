@@ -242,6 +242,20 @@ All individual story files were already saved in Step 4. Now save the global ind
 ```
 
 
+### Checkpoint Output (for orchestrator)
+
+Before completing, output a **User Checkpoint Summary** with the story coverage:
+
+```markdown
+## Checkpoint: User Stories Complete
+
+**Total stories:** [N] across [M] domains
+**Domains:** [list with story counts]
+**Coverage:** [N]% Must-Have, [N]% Should-Have
+**Any missing user flows?**
+```
+
+
 `TaskUpdate`: set this stage's task to `completed`.
 
 ## Output Validation

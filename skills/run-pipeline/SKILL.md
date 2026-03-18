@@ -66,12 +66,32 @@ Call Skill(skill='[stage-name]')
 Call Agent(subagent_type='contract-validator', prompt='Skill: [stage-name], Output: [paths]')
   ↓ if FAIL: read violations, fix, re-validate (max 3 retries)
   ↓ if PASS: continue
+USER CHECKPOINT (if this stage has one — see table below)
+  ↓ present key decisions to user via AskUserQuestion
+  ↓ user confirms or redirects
 Call Agent(subagent_type='product-manager', prompt='Stage: [stage-name], Output: [paths]')
   ↓ if ROLLBACK(target): jump back to target stage in the loop
   ↓ if PROCEED: continue to next stage
 ```
 
-**IMPORTANT:** After each Skill() call returns, IMMEDIATELY make the next Agent/Skill call. Do NOT output a summary. Do NOT ask the user anything. Do NOT stop.
+### 2.5 User Checkpoints
+
+**Do NOT ask procedural questions** ("should I continue?", "ready for next stage?"). **DO ask substantive decisions** that affect what the product looks like. Use `AskUserQuestion` with structured options for every checkpoint.
+
+| After Stage | Checkpoint Question | Why |
+|------------|-------------------|-----|
+| **research** | "Here's the competitive landscape: [top 3 competitors + feature gaps]. Our product should target [N] features and [N] pages. Does this match your ambition?" Options: Looks right / I want MORE / I want LESS / Other | Sets the scope baseline — everything downstream follows this |
+| **differentiation** | "Here are 3 positioning strategies: [A], [B], [C]. Which direction resonates with your vision?" Options: [A] / [B] / [C] | Product direction — wrong choice = wrong product |
+| **enhance** | "We expanded to [N] features. Here are the top 10 additions: [list]. Any features you want to ADD or REMOVE?" Options: Approve all / Let me review the full list / Add more / Remove some | Feature set — this is what gets built |
+| **user-story** | "Here are [N] stories across [M] domains: [domain list with counts]. Missing anything?" Options: Looks complete / Add stories for [X] / Too many, trim | Story coverage — gaps here = missing features |
+| **design-doc** | "Architecture approach: [chosen approach]. Key tech decisions: [list]. Any concerns?" Options: Approve / Change approach / Other | Architecture — expensive to change later |
+| **frontend-design** | "Aesthetic direction: [chosen style]. Here's a preview: [screenshot of first page]. Does this match your vision?" Options: Love it / Try bolder / Try more minimal / Different style entirely | Visual direction — subjective, user MUST approve |
+| **experience-review** | (Already has checkpoint — NEEDS-FIXES rollback decision) | — |
+| **launch** | (Already has checkpoint — API keys) | — |
+
+**Stages with NO checkpoint** (auto-proceed): tdd-testing, impl, test-report. These are execution stages where the spec is already set — no subjective decisions.
+
+**IMPORTANT:** Checkpoints are for DECISIONS, not approvals. Don't ask "does this look ok?" — ask "which of these 3 options do you prefer?" Give the user concrete choices, not open-ended questions.
 
 ### 3. Stage-Specific Notes
 
