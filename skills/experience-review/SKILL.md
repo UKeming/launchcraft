@@ -90,31 +90,37 @@ Agent(subagent_type="experience-reviewer"):
            Design docs: .launchcraft/designs/*/design.md
            API contract: .launchcraft/api-contract.yaml
            Frontend design: .launchcraft/frontend-design/*.md
-           MINIMUM 2 review passes. Do NOT approve on first pass.
-           Generate P0/P1/P2 improvement suggestions after each pass.
-           Implement P0+P1 fixes, rebuild, re-review.
-           Score must be >= 4.0 overall, >= 3 per category.
+           Competitor screenshots: .launchcraft/research/screenshots/
+           You are a REVIEWER only — do NOT fix code.
+           Report every issue with severity, screenshot, and rollback target.
+           Score must be >= 4.0 overall, >= 3 per category to APPROVE.
            Save report to .launchcraft/experience-review/"
 ```
 
 The agent returns one of:
-- **APPROVED** — proceed to validation
-- **BACK-TO-[stage]** — invoke that stage's skill
+- **APPROVED** — all scores pass, no P0 issues
+- **NEEDS-FIXES** — issues found with rollback targets per issue
 
 ### 5. Handle Result
 
 **If APPROVED:**
-1. Dispatch **contract-validator** agent:
-   ```
-   Agent: contract-validator
-   Skill: experience-review
-   Output path: .launchcraft/experience-review/*.md
-   ```
-2. On PASS: dispatch **product-manager** agent. If PM PROCEED: run `echo "test-report" > .launchcraft/.pipeline-next` then **call `Skill(skill='test-report')`**. If PM ROLLBACK(target): call `Skill(skill=target)`
+1. Dispatch **contract-validator** agent
+2. On PASS: dispatch **product-manager** agent. If PM PROCEED: call `Skill(skill='test-report')`. If PM ROLLBACK(target): call `Skill(skill=target)`
 
-**If BACK-TO-[stage]:**
-1. Append reasoning to `.launchcraft/pipeline-context.md`
-2. Invoke the target skill (e.g., `/impl`, `/frontend-design`)
+**If NEEDS-FIXES:**
+1. Read the review report — find the **earliest rollback target** across all issues
+2. Append the review findings to `.launchcraft/pipeline-context.md` so the target stage knows what to fix
+3. Use `AskUserQuestion` to show the user the issues and proposed rollback:
+   ```
+   "Experience review found [N] issues:
+    - [N] issues → rollback to impl
+    - [N] issues → rollback to frontend-design
+    - [N] issues → rollback to enhance (missing features)
+    Recommended: rollback to [earliest stage]. Proceed?"
+   Options: Accept rollback / Rollback to different stage / Approve anyway
+   ```
+4. Execute the rollback: call `Skill(skill=[target])` — the pipeline re-runs from that stage
+5. Experience review will run again automatically after impl completes
 
 ## Evidence Gate
 
