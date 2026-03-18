@@ -6,9 +6,8 @@ description: "Use when writing tests before implementation based on a design doc
 # TDD Test Writer
 
 <PIPELINE-AUTO-RUN>
-**MANDATORY: Do NOT ask user questions. Do NOT wait for approval. Do NOT stop after saving.**
-Write tests (parallel by domain) → save test plan → dispatch contract-validator + code-reviewer → on PASS call Skill tool: Skill(skill='impl').
-This is a continuous pipeline — you do NOT stop between stages.
+**MANDATORY: Do NOT ask user questions. Do NOT wait for approval. Complete your work and return.**
+The pipeline orchestrator (`run-pipeline`) handles stage sequencing. Your job is to do THIS stage's work, save output, and return. Do NOT call the next skill yourself.
 **ALL .md files → `.launchcraft/` directory. NEVER save to `docs/` or project root.**
 **ALL questions to user → `AskUserQuestion` tool. NEVER output questions as plain text.**
 </PIPELINE-AUTO-RUN>
@@ -270,7 +269,7 @@ Design doc: .launchcraft/designs/*/design.md
 
 Wait for both to complete. If code-reviewer made fixes, re-run tests to verify they still FAIL (no accidental implementation).
 
-Once both complete, dispatch **product-manager** agent. If PM PROCEED: run `echo "impl" > .launchcraft/.pipeline-next` then **call `Skill(skill='impl')`**. If PM ROLLBACK(target): call `Skill(skill=target)`. Save review to `.launchcraft/pm-reviews/`.
+Once both validators return PASS, this skill is complete. Return to the pipeline orchestrator.
 
 ## Rationalization Prevention
 

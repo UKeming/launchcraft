@@ -6,9 +6,8 @@ description: "Use after impl to experience the actual running application via re
 # Experience Review — Product Quality Gate
 
 <PIPELINE-AUTO-RUN>
-**MANDATORY: Do NOT ask user questions. Do NOT wait for approval. Do NOT stop after saving.**
-Build + serve → dispatch experience-reviewer agent → on APPROVED dispatch contract-validator → on PASS call Skill tool: Skill(skill='test-report').
-This is a continuous pipeline — you do NOT stop between stages.
+**MANDATORY: Do NOT ask user questions. Do NOT wait for approval. Complete your work and return.**
+The pipeline orchestrator (`run-pipeline`) handles stage sequencing. Your job is to do THIS stage's work, save output, and return. Do NOT call the next skill yourself.
 **ALL .md files → `.launchcraft/` directory. NEVER save to `docs/` or project root.**
 **ALL questions to user → `AskUserQuestion` tool. NEVER output questions as plain text.**
 </PIPELINE-AUTO-RUN>

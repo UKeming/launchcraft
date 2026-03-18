@@ -6,9 +6,8 @@ description: "Use after spark to validate requirements against real market data.
 # Research — Market & User Validation
 
 <PIPELINE-AUTO-RUN>
-**MANDATORY: Do NOT ask user questions. Do NOT wait for approval. Do NOT stop after saving.**
-Complete the analysis → save output → dispatch contract-validator → on PASS call Skill tool: Skill(skill='differentiation').
-Skip ALL "Review with User" steps. This is a continuous pipeline — you do NOT stop between stages.
+**MANDATORY: Do NOT ask user questions. Do NOT wait for approval. Complete your work and return.**
+The pipeline orchestrator (`run-pipeline`) handles stage sequencing. Your job is to do THIS stage's work, save output, and return. Do NOT call the next skill yourself.
 **ALL .md files → `.launchcraft/` directory. NEVER save to `docs/` or project root.**
 **ALL questions to user → `AskUserQuestion` tool. NEVER output questions as plain text.**
 </PIPELINE-AUTO-RUN>
@@ -198,7 +197,7 @@ Output path: .launchcraft/research/
 ```
 
 Do NOT proceed to differentiation until the validator returns PASS.
-Once validator returns PASS, dispatch **product-manager** agent to review this stage's output. If PM says PROCEED: run `echo "differentiation" > .launchcraft/.pipeline-next` then **call the Skill tool: `Skill(skill='differentiation')`**. If PM says ROLLBACK(target): run `echo "target" > .launchcraft/.pipeline-next` then call `Skill(skill=target)`. Save PM review to `.launchcraft/pm-reviews/`.
+Once validator returns PASS, this skill is complete. Return to the pipeline orchestrator.
 
 ## Rationalization Prevention
 

@@ -6,9 +6,8 @@ description: "Use when creating technical design documents from user stories. Tr
 # Design Doc Writer
 
 <PIPELINE-AUTO-RUN>
-**MANDATORY: Do NOT ask user questions. Do NOT wait for approval. Do NOT stop after saving.**
-Choose the best architecture approach YOURSELF. Write system design → dispatch one `design-doc-writer` per story (parallel) → dispatch validators → on PASS call Skill tool: Skill(skill='frontend-design').
-Skip ALL user approval steps. This is a continuous pipeline — you do NOT stop between stages.
+**MANDATORY: Do NOT ask user questions. Do NOT wait for approval. Complete your work and return.**
+The pipeline orchestrator (`run-pipeline`) handles stage sequencing. Your job is to do THIS stage's work, save output, and return. Do NOT call the next skill yourself.
 **ALL .md files → `.launchcraft/` directory. NEVER save to `docs/` or project root.**
 **ALL questions to user → `AskUserQuestion` tool. NEVER output questions as plain text.**
 </PIPELINE-AUTO-RUN>
@@ -484,7 +483,7 @@ Output path: [all design doc files + story coverage matrix]
 The validator will cross-check: read the user stories file, extract all US-NNN, and verify each one appears in the Story Coverage Matrix with a design doc assigned.
 
 Do NOT proceed to frontend-design until the validator returns PASS. If it returns FAIL, fix the violations and re-validate.
-Once validator returns PASS, dispatch **product-manager** agent to review this stage's output. If PM says PROCEED: run `echo "frontend-design" > .launchcraft/.pipeline-next` then **call the Skill tool: `Skill(skill='frontend-design')`**. If PM says ROLLBACK(target): run `echo "target" > .launchcraft/.pipeline-next` then call `Skill(skill=target)`. Save PM review to `.launchcraft/pm-reviews/`.
+Once validator returns PASS, this skill is complete. Return to the pipeline orchestrator.
 
 ## Rationalization Prevention
 

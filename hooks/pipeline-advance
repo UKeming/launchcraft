@@ -1,126 +1,49 @@
 #!/usr/bin/env bash
-# Stop hook: auto-advance the LaunchCraft pipeline.
+# Stop hook: nudge the agent to continue the pipeline if it stops mid-run.
 #
-# Two-tier approach:
-# 1. FAST PATH: Read .launchcraft/.pipeline-next state file (written by skills)
-# 2. FALLBACK: Detect pipeline state from existing artifacts
-#
-# If a next stage is found: block the stop and feed the next skill command.
+# This is a FALLBACK safety net. The primary mechanism is the run-pipeline
+# orchestrator skill which runs all stages in one continuous turn.
+# This hook catches cases where the agent stops unexpectedly.
 
 set -euo pipefail
 
-PROJECT_DIR="${PWD}"
-STATE_FILE="${PROJECT_DIR}/.launchcraft/.pipeline-next"
-COOLDOWN_FILE="${PROJECT_DIR}/.launchcraft/.advance-cooldown"
+# Read stdin for stop_hook_active flag (prevent infinite loops)
+INPUT=$(cat)
+STOP_ACTIVE=$(echo "$INPUT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('stop_hook_active', False))" 2>/dev/null || echo "false")
 
-# -------------------------------------------------------------------
-# FAST PATH: state file written by the completing skill
-# -------------------------------------------------------------------
-if [ -f "$STATE_FILE" ]; then
-    next_skill=$(head -1 "$STATE_FILE" 2>/dev/null | tr -d '[:space:]')
-    if [ -n "$next_skill" ]; then
-        # Cooldown: don't re-fire same directive within 3 minutes
-        if [ -f "$COOLDOWN_FILE" ]; then
-            last=$(head -1 "$COOLDOWN_FILE" 2>/dev/null || echo "")
-            if [ "$last" = "$next_skill" ] && [ "$(find "$COOLDOWN_FILE" -mmin -3 2>/dev/null)" ]; then
-                rm -f "$STATE_FILE"
-                exit 0
-            fi
-        fi
-        rm -f "$STATE_FILE"
-        echo "$next_skill" > "$COOLDOWN_FILE"
-        cat <<EOF
-{
-  "decision": "block",
-  "reason": "PIPELINE CONTINUES. You MUST call the Skill tool NOW with skill='${next_skill}'. Do NOT output text. Do NOT say 'next step'. CALL THE TOOL."
-}
-EOF
-        exit 0
-    fi
+if [ "$STOP_ACTIVE" = "True" ] || [ "$STOP_ACTIVE" = "true" ]; then
+    # Already continuing from a previous stop hook — don't block again
+    exit 0
 fi
 
-# -------------------------------------------------------------------
-# FALLBACK: detect pipeline state from file existence
-# -------------------------------------------------------------------
+PROJECT_DIR="${PWD}"
 
-# Quick exit: no .launchcraft/ directory means no pipeline
+# Quick exit: no .launchcraft/ directory means no pipeline in progress
 if [ ! -d "${PROJECT_DIR}/.launchcraft" ]; then
     exit 0
 fi
 
-# Only auto-advance if something changed recently (within 10 min)
-recent=$(find "${PROJECT_DIR}/.launchcraft" -name "*.md" -mmin -10 2>/dev/null | head -1)
-if [ -z "$recent" ]; then
-    exit 0
+# Check if pipeline artifacts suggest work in progress
+# (requirements exist but no launch record = pipeline incomplete)
+has_requirements=false
+has_launch=false
+
+if [ -d "${PROJECT_DIR}/.launchcraft/requirements" ] && ls "${PROJECT_DIR}/.launchcraft/requirements/"*.md &>/dev/null; then
+    has_requirements=true
 fi
 
-# Detect what exists
-has() { [ -d "${PROJECT_DIR}/.launchcraft/$1" ] && ls "${PROJECT_DIR}/.launchcraft/$1/"*.md &>/dev/null; }
-has_file() { [ -f "${PROJECT_DIR}/.launchcraft/$1" ]; }
-
-has_req=false;  has requirements && has_req=true
-has_res=false;  has research && has_res=true
-has_dif=false;  [ -d "${PROJECT_DIR}/.launchcraft/strategy" ] && ls "${PROJECT_DIR}/.launchcraft/strategy/"*-differentiation.md &>/dev/null && has_dif=true
-has_enh=false;  has enhanced && has_enh=true
-has_biz=false;  [ -d "${PROJECT_DIR}/.launchcraft/financials" ] && ls "${PROJECT_DIR}/.launchcraft/financials/"*-business-assessment.md &>/dev/null && has_biz=true
-has_ust=false;  has_file user-stories-index.md && has_ust=true
-if [ "$has_ust" = false ]; then
-    sc=$(find "${PROJECT_DIR}/.launchcraft/stories" -name "US-*.md" 2>/dev/null | head -1)
-    [ -n "$sc" ] && has_ust=true
-fi
-has_des=false;  dc=$(find "${PROJECT_DIR}/.launchcraft" -maxdepth 2 -name "design.md" 2>/dev/null | head -1); [ -n "$dc" ] && has_des=true
-has_frd=false;  has frontend-design && has_frd=true
-has_tst=false
-if [ -d "${PROJECT_DIR}/tests" ]; then
-    tc=$(find "${PROJECT_DIR}/tests" -type f \( -name "*.test.*" -o -name "*.spec.*" -o -name "test_*" \) 2>/dev/null | head -1)
-    [ -n "$tc" ] && has_tst=true
-fi
-tst_pass=false
-if [ "$has_tst" = true ] && [ -f "${PROJECT_DIR}/package.json" ]; then
-    cd "${PROJECT_DIR}" && npm test --silent &>/dev/null 2>&1 && tst_pass=true
-fi
-has_expr=false; [ -d "${PROJECT_DIR}/.launchcraft/experience-review" ] && grep -rqli "APPROVED" "${PROJECT_DIR}/.launchcraft/experience-review/" &>/dev/null && has_expr=true
-has_trpt=false; trt_ready=false
-if has test-reports; then
-    has_trpt=true
-    grep -rqli "ready to launch" "${PROJECT_DIR}/.launchcraft/test-reports/" &>/dev/null && trt_ready=true
-fi
-has_lnch=false; has launches && has_lnch=true
-
-# Determine next skill
-next=""
-if   [ "$has_lnch" = true ];    then next=""
-elif [ "$trt_ready" = true ];   then next="launch"
-elif [ "$has_expr" = true ];    then next="test-report"
-elif [ "$tst_pass" = true ];    then next="experience-review"
-elif [ "$has_tst" = true ];     then next="impl"
-elif [ "$has_des" = true ] && [ "$has_frd" = true ]; then next="tdd-testing"
-elif [ "$has_des" = true ];     then next="frontend-design"
-elif [ "$has_ust" = true ];     then next="design-doc"
-elif [ "$has_biz" = true ];     then next="user-story"
-elif [ "$has_dif" = true ] && [ "$has_enh" = true ]; then next="differentiation"
-elif [ "$has_dif" = true ];     then next="enhance"
-elif [ "$has_res" = true ];     then next="differentiation"
-elif [ "$has_req" = true ];     then next="research"
+if [ -d "${PROJECT_DIR}/.launchcraft/launches" ] && ls "${PROJECT_DIR}/.launchcraft/launches/"*.md &>/dev/null; then
+    has_launch=true
 fi
 
-if [ -z "$next" ]; then
-    rm -f "$COOLDOWN_FILE"
-    exit 0
-fi
-
-# Cooldown check
-if [ -f "$COOLDOWN_FILE" ]; then
-    last=$(head -1 "$COOLDOWN_FILE" 2>/dev/null || echo "")
-    if [ "$last" = "$next" ] && [ "$(find "$COOLDOWN_FILE" -mmin -3 2>/dev/null)" ]; then
-        exit 0
-    fi
-fi
-
-echo "$next" > "$COOLDOWN_FILE"
-cat <<EOF
+# If requirements exist but launch doesn't, pipeline is incomplete
+if [ "$has_requirements" = true ] && [ "$has_launch" = false ]; then
+    cat <<EOF
 {
   "decision": "block",
-  "reason": "PIPELINE CONTINUES. You MUST call the Skill tool NOW with skill='${next}'. Do NOT output text. Do NOT say 'next step'. CALL THE TOOL."
+  "reason": "Pipeline is incomplete. Call the Skill tool: Skill(skill='run-pipeline') to continue the pipeline from where it left off. Do NOT output text — CALL THE TOOL."
 }
 EOF
+else
+    exit 0
+fi

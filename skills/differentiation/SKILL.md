@@ -6,9 +6,8 @@ description: "Use after research to define product differentiation strategy. Tri
 # Differentiation — Strategic Positioning
 
 <PIPELINE-AUTO-RUN>
-**MANDATORY: Do NOT ask user questions. Do NOT wait for approval. Do NOT stop after saving.**
-Complete the analysis → save output → dispatch contract-validator → on PASS invoke next stage (see Output Validation for which).
-Skip ALL "Review with User" steps. This is a continuous pipeline — you do NOT stop between stages.
+**MANDATORY: Do NOT ask user questions. Do NOT wait for approval. Complete your work and return.**
+The pipeline orchestrator (`run-pipeline`) handles stage sequencing. Your job is to do THIS stage's work, save output, and return. Do NOT call the next skill yourself.
 **ALL .md files → `.launchcraft/` directory. NEVER save to `docs/` or project root.**
 **ALL questions to user → `AskUserQuestion` tool. NEVER output questions as plain text.**
 </PIPELINE-AUTO-RUN>
@@ -170,21 +169,7 @@ Output path: [the file you just saved]
 
 Do NOT proceed until the validator returns PASS.
 
-Once validator returns PASS, dispatch **product-manager** agent to review. The PM decides:
-
-- **PROCEED to enhance** (if no enhance record exists yet)
-- **PROCEED to user-story** (if enhance already done — PM judges product is ready)
-- **ROLLBACK** to research or spark (if PM thinks direction is wrong)
-
-If PM says PROCEED to user-story, also dispatch the **accountant** agent for pre-planning:
-```
-Agent: accountant
-Phase: pre-planning
-```
-- If accountant returns **GO** or **CONDITIONAL GO**: call `Skill(skill='user-story')`.
-- If accountant returns **NO-GO**: use `AskUserQuestion` to ask user how to proceed.
-
-Save PM review to `.launchcraft/pm-reviews/`.
+Once validator returns PASS, this skill is complete. Return to the pipeline orchestrator.
 
 ## Rationalization Prevention
 

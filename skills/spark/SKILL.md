@@ -329,7 +329,7 @@ Output path: [the file you just saved]
 ```
 
 Do NOT proceed to research until the validator returns PASS.
-Once validator returns PASS, dispatch **product-manager** agent to review this stage's output. If PM says PROCEED: run `echo "research" > .launchcraft/.pipeline-next` then **call the Skill tool: `Skill(skill='research')`**. If PM says ROLLBACK(target): run `echo "target" > .launchcraft/.pipeline-next` then call `Skill(skill=target)`. Save PM review to `.launchcraft/pm-reviews/`.
+Once validator returns PASS, **call the Skill tool: `Skill(skill='run-pipeline')`** — this runs the entire remaining pipeline automatically from research through launch. Do NOT call `/research` directly.
 
 ## Rationalization Prevention
 

@@ -6,8 +6,8 @@ description: "Use when deploying a completed and tested application to Cloudflar
 # Launch to Cloudflare
 
 <PIPELINE-AUTO-RUN>
-**MANDATORY: Do NOT stop after saving. Auto-proceed after deploy.**
-**EXCEPTION: You MUST ask the user for API keys and secrets.** This is the ONE stage where stopping to ask is required — real keys cannot be guessed or skipped. Use `AskUserQuestion` for each key needed.
+**MANDATORY: Do NOT ask user questions. Do NOT wait for approval. Complete your work and return.**
+The pipeline orchestrator (`run-pipeline`) handles stage sequencing. Your job is to do THIS stage's work, save output, and return. Do NOT call the next skill yourself.
 **ALL .md files → `.launchcraft/` directory. NEVER save to `docs/` or project root.**
 **ALL questions to user → `AskUserQuestion` tool. NEVER output questions as plain text.**
 </PIPELINE-AUTO-RUN>

@@ -6,9 +6,8 @@ description: "Use when generating a test report after implementation is complete
 # Test Report Generator
 
 <PIPELINE-AUTO-RUN>
-**MANDATORY: Do NOT ask user questions. Do NOT wait for approval. Do NOT stop after saving.**
-Generate report → save → dispatch contract-validator → on PASS call Skill tool: Skill(skill='launch').
-This is a continuous pipeline — you do NOT stop between stages.
+**MANDATORY: Do NOT ask user questions. Do NOT wait for approval. Complete your work and return.**
+The pipeline orchestrator (`run-pipeline`) handles stage sequencing. Your job is to do THIS stage's work, save output, and return. Do NOT call the next skill yourself.
 **ALL .md files → `.launchcraft/` directory. NEVER save to `docs/` or project root.**
 **ALL questions to user → `AskUserQuestion` tool. NEVER output questions as plain text.**
 </PIPELINE-AUTO-RUN>
@@ -170,7 +169,7 @@ Output path: [the file you just saved]
 ```
 
 The validator will check for actual metrics, proper US-NNN mapping, and justified recommendations. Do NOT proceed to launch until the validator returns PASS. If it returns FAIL, fix the violations and re-validate.
-Once validator returns PASS, dispatch **product-manager** agent to review this stage's output. If PM says PROCEED: run `echo "launch" > .launchcraft/.pipeline-next` then **call the Skill tool: `Skill(skill='launch')`**. If PM says ROLLBACK(target): run `echo "target" > .launchcraft/.pipeline-next` then call `Skill(skill=target)`. Save PM review to `.launchcraft/pm-reviews/`.
+Once validator returns PASS, this skill is complete. Return to the pipeline orchestrator.
 
 ## Rationalization Prevention
 

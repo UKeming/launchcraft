@@ -129,10 +129,13 @@ Each stage has its own folder. Stories by domain, designs by story (1 story = 1 
 - **Contracts are the single source of truth**: Validation rules live in `docs/contracts.md`, not scattered across skills. The contract-validator agent reads from there.
 - **Upstream failures cascade**: If user-story output is bad, every downstream skill fails. The contract-validator catches this at the boundary, but fixing means re-running upstream — not patching downstream.
 
+### Pipeline Architecture
+- **Orchestrator pattern**: `/run-pipeline` skill runs the entire pipeline in one continuous turn. Each stage is a `Skill()` call — the agent never "decides to stop" between stages.
+- **Spark is the entry point**: spark collects requirements, then calls `Skill(skill='run-pipeline')` which handles everything from research through launch.
+- **Individual skills are self-contained**: each skill does its work and returns. It does NOT call the next skill — the orchestrator handles sequencing.
+
 ### Hooks
-- **Three hooks registered**: SessionStart (context injection), PreToolUse on Write|Edit (path enforcement), Stop (auto-advance).
-- **PreToolUse enforce-paths**: Blocks any Write/Edit of pipeline .md files outside `.launchcraft/`. Exit code 2 = deny with error message. Allows CLAUDE.md, README.md, code files, test files.
-- **Stop pipeline-advance (two-tier)**: 1) Fast path: reads `.launchcraft/.pipeline-next` state file written by completing skill. 2) Fallback: detects pipeline state from file existence. Blocks stop and feeds next skill command as `"reason"`.
-- **State file pattern**: Each skill writes `echo "next-skill" > .launchcraft/.pipeline-next` before invoking the next skill. Stop hook reads it as safety net if agent ignores the invoke instruction.
-- **Cooldown**: Same directive within 3 minutes is suppressed (`.launchcraft/.advance-cooldown`).
+- **SessionStart** (`session-start`): context injection, pipeline stage detection.
+- **PreToolUse** (`enforce-paths`): blocks Write/Edit of pipeline .md files outside `.launchcraft/`. Blocks flat structures.
+- **Stop** (`pipeline-advance`): safety net — if agent stops mid-pipeline, nudges it to call `run-pipeline`. Checks `stop_hook_active` to prevent infinite loops.
 - **Cross-platform wrapper**: `run-hook.cmd` polyglot ensures hooks work on Windows (batch) and Unix (bash).

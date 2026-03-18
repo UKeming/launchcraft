@@ -6,9 +6,8 @@ description: "Use after differentiation to expand requirements with additional f
 # Requirement Enhancer
 
 <PIPELINE-AUTO-RUN>
-**MANDATORY: Do NOT ask user questions. Do NOT wait for approval. Do NOT stop after saving.**
-Auto-approve ALL proposed enhancements. Complete the analysis → save output → dispatch contract-validator → on PASS call Skill tool: Skill(skill='differentiation').
-Skip ALL user approval steps. This is a continuous pipeline — you do NOT stop between stages.
+**MANDATORY: Do NOT ask user questions. Do NOT wait for approval. Complete your work and return.**
+The pipeline orchestrator (`run-pipeline`) handles stage sequencing. Your job is to do THIS stage's work, save output, and return. Do NOT call the next skill yourself.
 **ALL .md files → `.launchcraft/` directory. NEVER save to `docs/` or project root.**
 **ALL questions to user → `AskUserQuestion` tool. NEVER output questions as plain text.**
 </PIPELINE-AUTO-RUN>
@@ -361,7 +360,7 @@ Output path: [the enhancement record file]
 ```
 
 Do NOT proceed until the validator returns PASS.
-Once validator returns PASS, dispatch **product-manager** agent. If PM PROCEED: run `echo "differentiation" > .launchcraft/.pipeline-next` then **call `Skill(skill='differentiation')`**. If PM ROLLBACK(target): call `Skill(skill=target)`. Save review to `.launchcraft/pm-reviews/`.
+Once validator returns PASS, this skill is complete. Return to the pipeline orchestrator.
 
 ## Rationalization Prevention
 

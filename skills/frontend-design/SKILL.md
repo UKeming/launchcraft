@@ -6,9 +6,8 @@ description: "Use after design-doc to create distinctive, production-grade front
 # Frontend Design
 
 <PIPELINE-AUTO-RUN>
-**MANDATORY: Do NOT ask user questions. Do NOT wait for approval. Do NOT stop after saving.**
-Choose aesthetic direction YOURSELF. Build all pages → save → dispatch agents → on PASS call Skill tool: Skill(skill='tdd-testing').
-Skip ALL user approval steps including aesthetic direction. This is a continuous pipeline — you do NOT stop between stages.
+**MANDATORY: Do NOT ask user questions. Do NOT wait for approval. Complete your work and return.**
+The pipeline orchestrator (`run-pipeline`) handles stage sequencing. Your job is to do THIS stage's work, save output, and return. Do NOT call the next skill yourself.
 **ALL .md files → `.launchcraft/` directory. NEVER save to `docs/` or project root.**
 **ALL questions to user → `AskUserQuestion` tool. NEVER output questions as plain text.**
 </PIPELINE-AUTO-RUN>
@@ -228,7 +227,7 @@ Output path: [the frontend design doc + code files]
 ```
 
 Do NOT proceed to tdd-testing until BOTH the frontend-tester and contract-validator return PASS.
-Once both return PASS, dispatch **product-manager** agent. If PM PROCEED: run `echo "tdd-testing" > .launchcraft/.pipeline-next` then **call `Skill(skill='tdd-testing')`**. If PM ROLLBACK(target): call `Skill(skill=target)`. Save review to `.launchcraft/pm-reviews/`.
+Once both validators return PASS, this skill is complete. Return to the pipeline orchestrator.
 
 ## Rationalization Prevention
 
